@@ -1,0 +1,66 @@
++++
+title = "Generics"
+weight = 7
++++
+
+## Generics overview
+
+Generics enable writing of code abstractions which can be applied to different types at compile time. List<T>, for example, is a basic list abstraction which allows for type-safe storage of values. Using a "List<int32>" type reference creates a specialized int32 list type. 
+
+Methods can also be have generic parameters, allowing for them to be specialized either explicitly or implicitly based on callsite argument types.
+
+```C#
+public static T GetFirst<T>(List<T> list)
+{
+	return list[0];	
+}
+...
+let intList = new List<int32>();
+intList.Add(123);
+let firstVal = GetFirst(intList);
+```
+
+Generic constraints can be specified, which describe the 'shape' of the type which the generic code is intended to work with. 
+
+- Interface type - any number of interfaces can be specified for a generic parameter. The incoming type must declare implementations for all these interfaces.
+- Class/struct type - a single concrete type can be specified, which the incoming type must derive from.
+- Delegate type - the incoming type can either be an instance of this delegate type, or it can be a method reference whose signature conforms to the delegate (see Method References)
+- "class" - The incoming type must be class
+- "struct" - The incoming type must be a value type
+- "struct* - The incoming type must be a pointer to a value type
+- "new" - The incoming type must define an accessible default constructor
+- "delete" - The incoming type must define an accessible destructor
+- "const" - The incoming type must be a constant value - see "Const Generics"
+- "var" - The incoming type is unconstrained. This can be useful for certain kinds of "duck typing", and can generate patterns similar to C++ templates, but in general produces less useful errors and a less pleasant development experience 
+
+```C#
+public static T Abs<T>(T value) where T : IOpComparable, IOpNegatable
+{
+    if (value < default)
+        return -value;
+    else
+		return value;
+} 
+```
+
+```C#
+/* This method can eliminate runtime branching by specializing at compile time by incoming array size */
+public static float GetSum<TCount>(float[TCount] vals) where TCount : const int
+{
+	if (vals.Count == 0)
+	{
+		return 0;
+	}
+	else if (vals.Count == 1)
+	{
+		return vals[0];
+	}
+	else
+	{
+		float total = 0;
+		for (let val in vals)
+			total += val;
+		return total;
+	}
+}
+```
