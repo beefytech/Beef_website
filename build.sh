@@ -1,1 +1,3 @@
 #!/bin/bash
+echo Building...
+hugo --gc --minify --confg=beef-lang.org/config.toml
