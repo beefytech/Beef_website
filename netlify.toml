@@ -1,6 +1,6 @@
 [build]
 publish = "public"
-command = "hugo  --gc --minify --enableGitInfo --config=beef-lang.org\config.toml"
+command = "hugo  --gc --minify --enableGitInfo --config=beef-lang.org/config.toml"
 
 [context.production.environment]
 HUGO_VERSION = "0.52"
