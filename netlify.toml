@@ -1,6 +1,6 @@
 [build]
 publish = "public"
-command = "cd beef-lang.org && hugo --gc --minify --enableGitInfo && cd ../www.beef-lang.org && hugo --gc --minify --enableGitInfo"
+command = "cd www.beef-lang.org && hugo --gc --minify --enableGitInfo && cd ../beef-lang.org && hugo --gc --minify --enableGitInfo"
 
 [context.production.environment]
 HUGO_VERSION = "0.52"
