@@ -1,7 +1,8 @@
-baseURL = "http://beef-lang.org/"
+baseURL = "http://beef-lang.org/docs/"
 languageCode = "en-us"
 title = "Beef Language"
 theme = "docdock"
+publishDir = "../public/docs"
 
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir= false
