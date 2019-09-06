@@ -9,8 +9,8 @@ The Beef IDE is a GUI application that does not require any arguments, but it do
 |Argument    |Description      |
 |----|------|
 |-config=&lt;config>|Sets the config|
-|-minidump=&lt;path>|Opens windows minidup file|
 |-new|Creates a new workspace and project|
+|-path&lt;Path>|Sets target file (action depends on filetype)|
 |-platform=&lt;platform>|Sets the platform|
 |-test=&lt;path>|Executes test script|
 |-verbosity=&lt;verbosity>|Set verbosity level to: quiet/minimal/normal/detailed/diagnostics|
