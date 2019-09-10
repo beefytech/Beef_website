@@ -1,0 +1,50 @@
+FileVersion = 1
+
+[Project]
+Name = "Elevated"
+TargetType = "BeefWindowsApplication"
+StartupObject = "BiElevated.Program"
+DefaultNamespace = "BiElevated"
+
+[Platform.Windows]
+ManifestFile = "elevated.manifest"
+Description = "Beef Installer"
+Company = "BeefyTech"
+Product = "Beef Installer"
+Copyright = "Copyright 2019 BeefyTech"
+FileVersion = "0.42.0"
+ProductVersion = "0.42.0"
+
+[Configs.Debug.Win32]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+
+[Configs.Debug.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+TargetName = "BeefInstallElevated_d"
+OtherLinkFlags = "$(LinkFlags) user32.lib"
+DebugCommandArguments = "\"C:\\Program Files\\BeefLang\" -path=\"C:\\Program Files\\BeefLang\\bin\" -allUsers -addToPath"
+
+[Configs.Release.Win32]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+
+[Configs.Release.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+TargetName = "BeefInstallElevated"
+
+[Configs.Paranoid.Win32]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+
+[Configs.Paranoid.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+
+[Configs.Test.Win32]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+
+[Configs.Test.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+
+[ProjectFolder]
+
+[[ProjectFolder.Items]]
+Type = "Source"
+Path = "../StubUI/src/Utils.bf"

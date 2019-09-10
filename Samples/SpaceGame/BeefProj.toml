@@ -1,0 +1,13 @@
+FileVersion = 1
+Dependencies = {corlib = "*", SDL2 = "*"}
+
+[Project]
+Name = "SpaceGame"
+TargetType = "BeefWindowsApplication"
+StartupObject = "SpaceGame.Program"
+
+[Configs.Debug.Win64]
+TargetDirectory = "$(WorkspaceDir)/dist"
+TargetName = "$(ProjectName)_d"
+OtherLinkFlags = "$(LinkFlags) $(WorkspaceDir)/dist/SDL2.lib $(WorkspaceDir)/dist/SDL2_image.lib $(WorkspaceDir)/dist/SDL2_mixer.lib $(WorkspaceDir)/dist/SDL2_ttf.lib"
+BeefLibType = "DynamicDebug"

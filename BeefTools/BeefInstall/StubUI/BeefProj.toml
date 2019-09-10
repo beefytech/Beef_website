@@ -1,0 +1,26 @@
+FileVersion = 1
+Dependencies = {corlib = "*", Beefy2D = "*", SDL2 = "*"}
+
+[Project]
+Name = "StubUI"
+TargetType = "BeefDynLib"
+StartupObject = "Program"
+DefaultNamespace = "BIStubUI"
+
+[Configs.Debug.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+TargetName = "BeefInstallUI_d"
+OtherLinkFlags = "$(LinkFlags) BeefySysLib64_d.lib"
+BeefLibType = "DynamicDebug"
+DebugCommand = "$(WorkspaceDir)\\..\\dist\\Stub_d.exe"
+DebugCommandArguments = "-file=\"C:\\Beef_website\\BeefTools\\BeefInstall\\InstallData.zip\" -ui=.\\BeefInstallUI_d.dll"
+
+[Configs.Release.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+TargetName = "BeefInstallUI"
+
+[Configs.Paranoid.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+
+[Configs.Test.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"

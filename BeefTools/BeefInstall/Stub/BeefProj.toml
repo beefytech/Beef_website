@@ -1,0 +1,36 @@
+FileVersion = 1
+Dependencies = {corlib = "*", MiniZ = "*"}
+
+[Project]
+Name = "Stub"
+TargetType = "BeefWindowsApplication"
+StartupObject = "BIStub.Program"
+
+[Platform.Windows]
+IconFile = "Setup.ico"
+ManifestFile = "stub.manifest"
+Description = "Beef Installer"
+Company = "BeefyTech LLC"
+Product = "Beef Development Tools"
+Copyright = "Copyright 2019 BeefyTech LLC"
+
+[Configs.Debug.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+TargetName = "$(ProjectName)_d"
+BeefLibType = "Static"
+DebugCommandArguments = "-self=C:\\Beef_website\\BeefTools\\BeefInstall\\BeefSetup.exe"
+
+[Configs.Release.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+
+[Configs.Paranoid.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+
+[Configs.Test.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+
+[ProjectFolder]
+
+[[ProjectFolder.Items]]
+Type = "Source"
+Path = "../StubUI/src/Utils.bf"

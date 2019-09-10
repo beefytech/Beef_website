@@ -1,0 +1,30 @@
+FileVersion = 1
+
+[Project]
+Name = "Uninstall"
+TargetType = "BeefWindowsApplication"
+StartupObject = "BiUninstall.Program"
+DefaultNamespace = "BiUninstall"
+
+[Platform.Windows]
+IconFile = "..\\Stub\\Setup.ico"
+Description = "Beef Uninstall"
+Company = "BeefyTech LLC"
+
+[Configs.Debug.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+TargetName = "BeefUninstall_d"
+OtherLinkFlags = "$(LinkFlags) user32.lib"
+DebugCommandArguments = "\"c:\\Program Files\\BeefLang\""
+DebugWorkingDirectory = ""
+
+[Configs.Release.Win64]
+TargetDirectory = "$(WorkspaceDir)/../dist"
+TargetName = "BeefUninstall"
+OtherLinkFlags = "$(LinkFlags) user32.lib"
+
+[ProjectFolder]
+
+[[ProjectFolder.Items]]
+Type = "Source"
+Path = "../StubUI/src/Utils.bf"

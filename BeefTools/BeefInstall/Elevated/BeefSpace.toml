@@ -1,0 +1,6 @@
+FileVersion = 1
+Projects = {Elevated = {Path = "."}}
+Unlocked = ["corlib"]
+
+[Workspace]
+StartupProject = "Elevated"
