@@ -1,9 +1,5 @@
 FileVersion = 1
-Projects = {SpaceGame = {Path = "."}, SDL2 = {Path = "../BeefLibs/SDL2"}}
+Projects = {SpaceGame = {Path = "."}, SDL2 = {Ver = "*"}}
 
 [Workspace]
 StartupProject = "SpaceGame"
-
-[Configs.Debug.Win64]
-EnableRealtimeLeakCheck = false
-IntermediateType = "ObjectAndIRCode"

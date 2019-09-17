@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Threading;
 using BiUtils;
+using System.Collections.Generic;
 
 namespace BIStubUI
 {
@@ -225,6 +226,7 @@ namespace BIStubUI
 		State mState;
 		String mInstallPath ~ delete _;
 		bool mWantsOptionsSetting;
+		bool mElevateFailed;
 
 		public float mPhysInstallPct;
 		public float mInstallPct;
@@ -326,7 +328,11 @@ namespace BIStubUI
 
 		void InstallProc()
 		{
-			bool needsElevation = false;
+			Stopwatch sw = scope .();
+			sw.Start();
+
+			Thread.CurrentThread.SetName("InstallProc");
+
 			bool allUsers = mInstallForAllCheckbox.Checked;
 			bool addToPath = mAddToPathCheckbox.Checked;
 
@@ -342,82 +348,219 @@ namespace BIStubUI
 			if (!programsPath.IsEmpty)
 				beefProgramsPath.Concat(programsPath, @"\Beef Development Tools");
 
-			if ((allUsers) && (addToPath))
+			NamedPipe pipe = scope .();
+			String curPipeInBuffer = scope .();
+
+			SpawnedProcess process = null;
+			defer { delete process; }
+
+			bool elevateFailed = false;
+
+			// We can't put a time limit on this because the Elevated app may sit for QUITE a long time
+			// with the UAC prompt up
+			void ReadPipeString(String str)
 			{
-				if (BiUtils.Utils.ModifyPath(allUsers, pathPath, .Check) case .Err)
-					needsElevation = true;
-			}
-
-			if (Directory.CreateDirectory(beefProgramsPath) case .Err)
-				needsElevation = true;
-
-			if (Directory.CreateDirectory(mInstallPath) case .Err)
-				needsElevation = true;
-
-			if (needsElevation)
-			{
-				String exeFilePath = scope .();
-				Environment.GetExecutableFilePath(exeFilePath);
-
-				String elevatePath = scope String();
-				Path.GetDirectoryPath(exeFilePath, elevatePath);
-				if (exeFilePath.EndsWith("_d.exe", .OrdinalIgnoreCase))
-					elevatePath.AppendF(@"\BeefInstallElevated_d.exe");
-				else
-					elevatePath.AppendF(@"\BeefInstallElevated.exe");
-
-				String args = scope String();
-				args.AppendF("\"{}\" -path=\"{}\"", mInstallPath, pathPath);
-				if (allUsers)
-					args.Append(" -allUsers");
-				if (addToPath)
-					args.Append(" -addToPath");
-				if (!beefProgramsPath.IsEmpty)
-					args.AppendF(" -mkdir=\"{}\"", beefProgramsPath);
-
-				ProcessStartInfo procInfo = scope ProcessStartInfo();
-				procInfo.UseShellExecute = true;
-				procInfo.SetFileName(elevatePath);
-				procInfo.CreateNoWindow = true;
-				procInfo.SetArguments(args);
-
-				bool elevateFailed = false;
-
-				SpawnedProcess process = scope SpawnedProcess();
-				if (process.Start(procInfo) case .Err)
+				while (true)
 				{
-					elevateFailed = true;
-				}
-				else
-				{
-					process.WaitFor();
-					if (process.ExitCode != 0)
-						elevateFailed = true;
-				}
-
-				if (elevateFailed)
-				{
-					mWantsOptionsSetting = true;
-					if (Windows.MessageBoxA(mWidgetWindow.HWND, "Failed to install for all users. Change options to just install for the current user?", "ELEVATION FAILED",
-						Windows.MB_ICONQUESTION | Windows.MB_YESNO) == Windows.IDYES)
+					uint8[4096] data;
+					switch (pipe.TryRead(Span<uint8>(&data, 4096), 20))
 					{
-						mInstallForAllCheckbox.[Friend]mState = .Unchecked;
-
-						mInstallPath.Clear();
-						Platform.GetStrHelper(mInstallPath, scope (outPtr, outSize, outResult) =>
-							{
-								Platform.BfpDirectory_GetSysDirectory(.AppData_Local, outPtr, outSize, (Platform.BfpFileResult*)outResult);
-							});
-						mInstallPath.Append(@"\BeefLang");
+					case .Ok(int len):
+						curPipeInBuffer.Append((char8*)&data, len);
+					case .Err:
 					}
+
+					int crPos = curPipeInBuffer.IndexOf('\n');
+					if (crPos == -1)
+					{
+						if (process == null)
+							return;
+						if (gApp.WantsShutdown)
+							return;
+						if (process.WaitFor(0))
+							return; // Oops - why did that go away?
+						continue;
+					}
+
+					str.Append(curPipeInBuffer, 0, crPos);
+					curPipeInBuffer.Remove(0, crPos + 1);
 					return;
 				}
 			}
 
+			void ElevateFailed()
+			{
+				if (elevateFailed)
+					return;
+
+				elevateFailed = true;
+				mWantsOptionsSetting = true;
+				mElevateFailed = true;
+			}
+
+			void Elevate(StringView cmd)
+			{
+				if (process == null)
+				{
+					// Give a bit of time for the user to process the "Installing..." part before
+					// hitting them with the elevation prompt
+					int32 sleepTime = 500 - (.)sw.ElapsedMilliseconds;
+					if (sleepTime > 0)
+						Thread.Sleep(sleepTime);
+
+					String pipeName = scope String()..AppendF("BeefInstall{}", Process.CurrentId);
+
+					if (pipe.Create(".", pipeName, .AllowTimeouts) case .Err)
+						gApp.Fail("Failed to create named pipe");
+
+					String exeFilePath = scope .();
+					Environment.GetModuleFilePath(exeFilePath);
+
+					String elevatePath = scope String();
+					Path.GetDirectoryPath(exeFilePath, elevatePath);
+					if (exeFilePath.EndsWith("_d.dll", .OrdinalIgnoreCase))
+						elevatePath.AppendF(@"\BeefInstallElevated_d.exe");
+					else
+						elevatePath.AppendF(@"\BeefInstallElevated.exe");
+
+					String args = scope String();
+					args.AppendF("{}", Process.CurrentId);
+
+					ProcessStartInfo procInfo = scope ProcessStartInfo();
+					procInfo.UseShellExecute = true;
+					procInfo.SetFileName(elevatePath);
+					procInfo.SetArguments(args);
+
+					process = new SpawnedProcess();
+					if (process.Start(procInfo) case .Err)
+					{
+						ElevateFailed();
+						return;
+					}
+
+					String resultStr = scope .();
+					ReadPipeString(resultStr);
+					if (resultStr != "ready 0")
+					{
+						ElevateFailed();
+						return;
+					}
+				}
+
+				if (elevateFailed)
+					return;
+
+				if (pipe.WriteStrUnsized(scope String()..AppendF("{}\n", cmd)) case .Err)
+					gApp.Fail("Failed to send pipe command");
+				String response = scope .();
+				ReadPipeString(response);
+				if (response != "ok")
+				{
+					/*if (response.StartsWith("error "))
+					{
+						gApp.Fail(.(response, "error ".Length));
+					}*/
+
+					ElevateFailed();
+				}
+			}
+
+			/*if ((allUsers) && (addToPath))
+			{
+				if (BiUtils.Utils.ModifyPath(allUsers, pathPath, .Check) case .Err)
+					needsElevation = true;
+			}*/
+
+			if (Directory.CreateDirectory(beefProgramsPath) case .Err)
+			{
+				Elevate(scope String()..AppendF("mkdir {}", beefProgramsPath));
+			}
+
+			if (Directory.CreateDirectory(mInstallPath) case .Err)
+			{
+				Elevate(scope String()..AppendF("mkdir {}", mInstallPath));
+			}
+
+			if (elevateFailed)
+			{
+				return;
+			}
+
+			String pathInstallStr = null;
+			if (addToPath)
+			{
+				if (allUsers)
+					pathInstallStr = scope:: String()..AppendF("PATH:{}", pathPath);
+				else
+					pathInstallStr = scope:: String()..AppendF("USERPATH:{}", pathPath);
+			}
+
+			String uninstallHKeyName = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\BeefLang";
+			String uinstallHKeyInstallStr = scope String();
+			String beefPathEnvInstallStr = allUsers ? "ENV:BeefPath" : "USERENV:BeefPath";
+
+			if (allUsers)
+				uinstallHKeyInstallStr.Concat("HKLM:", uninstallHKeyName);
+			else
+				uinstallHKeyInstallStr.Concat("HKCU:", uninstallHKeyName);
+
+			List<String> exceptionList = scope .();
+			exceptionList.Add(scope:: String()..Concat(beefProgramsPath, @"\"));
+			if (pathInstallStr != null)
+				exceptionList.Add(scope:: String()..AppendF(pathInstallStr));
+			exceptionList.Add(uinstallHKeyInstallStr);
+			exceptionList.Add(beefPathEnvInstallStr);
+			using (var result = Utils.RemovedInstalledFiles(mInstallPath, exceptionList, false))
+			{
+				if (result case .Err)
+				{
+					String cmdString = scope .();
+					cmdString.AppendF("removeInstalledFiles {}", mInstallPath);
+					for (let exception in exceptionList)
+						cmdString.Concat("\t", exception);
+					Elevate(cmdString);
+				}
+			}
+
+			InstalledFiles installedFiles = scope .();
+
+			if (addToPath)
+			{
+				installedFiles.Add(pathInstallStr);
+				using (var result = BiUtils.Utils.ModifyPath(allUsers, pathPath, .Check))
+				{
+					if (result case .Err)
+					{
+						if (allUsers)
+						{
+							Elevate(scope String()..AppendF("addToPath {}", pathPath));
+						}
+						else
+						{
+							using (Utils.ModifyPath(false, pathPath, .Add))
+							{
+							}
+						}
+					}
+				}
+			}
+
+			installedFiles.Add(beefPathEnvInstallStr);
+			if (BiUtils.Utils.ModifyEnv(allUsers, "BeefPath", mInstallPath, .Check) case .Err)
+			{
+				if (allUsers)
+				{
+					Elevate(scope String()..AppendF("setEnv BeefPath\t{}", mInstallPath));
+				}
+				else
+				{
+					Utils.ModifyEnv(false, "BeefPath", mInstallPath, .Add).IgnoreError();
+				}
+			}
+
+			// Important- we must start the RehupEnvironment AFTER we modify the environment
 			Thread rehupThread = scope Thread(new => Utils.RehupEnvironment);
 			rehupThread.Start(false);
-
-			Utils.RemovedInstalledFiles(mInstallPath, false);
 
 			int handledSize = 0;
 			int totalSize = 0;
@@ -425,8 +568,6 @@ namespace BIStubUI
 			{
 				totalSize += entry.mSize;
 			}
-
-			InstalledFiles installedFiles = scope .();
 
 			for (let entry in gApp.mFileList)
 			{
@@ -465,39 +606,128 @@ namespace BIStubUI
 
 				void CreateShortcut(StringView linkPath, StringView targetPath, StringView arguments, StringView workingDirectory, StringView description)
 				{
-					if (Shell.CreateShortcut(linkPath, targetPath, arguments, workingDirectory, description) case .Err)
+					installedFiles.Add(linkPath);
+					if (File.Exists(linkPath))
+						return;
+
+					if (Shell.CreateShortcut(linkPath, targetPath, arguments, workingDirectory, description) case .Err(let err))
 					{
-						gApp.Fail(scope String()..AppendF("Failed to create shortcut '{}'", linkPath));
+						if (err == .AccessDenied)
+						{
+							Elevate(scope String()..AppendF("link {}\t{}\t{}\t{}\t{}", linkPath, targetPath, arguments, workingDirectory, description));
+						}
+						else
+							gApp.Fail(scope String()..AppendF("Failed to create shortcut '{}'", linkPath));
 					}
-					else
-						installedFiles.Add(linkPath);
 				}
-				
+
+				installedFiles.Add(scope String()..Concat(beefProgramsPath, @"\"));
 				CreateShortcut(scope String()..Concat(beefProgramsPath, @"\Beef IDE.lnk"), scope String()..Concat(mInstallPath, @"\bin\BeefIDE.exe"), "", mInstallPath, "Beef IDE");
-				CreateShortcut(scope String()..Concat(beefProgramsPath, @"\Beef IDE (Debug).lnk"), scope String()..Concat(mInstallPath, @"\bin\BeefIDE (Debug).exe"), "", mInstallPath, "Beef IDE (Debug)");
+				CreateShortcut(scope String()..Concat(beefProgramsPath, @"\Beef IDE (Debug).lnk"), scope String()..Concat(mInstallPath, @"\bin\BeefIDE_d.exe"), "", mInstallPath, "Beef IDE (Debug)");
 				CreateShortcut(scope String()..Concat(beefProgramsPath, @"\Documentation.lnk"), "http://beeflang.org/docs/", "", mInstallPath, "Beef IDE (Debug)");
 				CreateShortcut(scope String()..Concat(beefProgramsPath, @"\LICENSE.lnk"), scope String()..Concat(mInstallPath, @"\LICENSE.TXT"), "", mInstallPath, "Beef License");
 				CreateShortcut(scope String()..Concat(beefProgramsPath, @"\README.lnk"), scope String()..Concat(mInstallPath, @"\bin\readme.txt"), "", mInstallPath, "Beef ReadMe");
-				installedFiles.Add(scope String()..Concat(beefProgramsPath, @"\"));
+
+				if (mAddToDesktopCheckbox.Checked)
+				{
+					String desktopPath = scope String();
+					Platform.GetStrHelper(desktopPath, scope (outPtr, outSize, outResult) =>
+						{
+							Platform.BfpDirectory_GetSysDirectory(allUsers ? .Desktop_Common : .Desktop, outPtr, outSize, (Platform.BfpFileResult*)outResult);
+						});
+					CreateShortcut(scope String()..Concat(desktopPath, @"\Beef IDE.lnk"), scope String()..Concat(mInstallPath, @"\bin\BeefIDE.exe"), "", mInstallPath, "Beef IDE");
+				}
+			}
+
+			uint32 disposition = 0;
+			installedFiles.Add(uinstallHKeyInstallStr);
+
+			Windows.HKey rootInstallKey = allUsers ? Windows.HKEY_LOCAL_MACHINE : Windows.HKEY_CURRENT_USER;
+			if (Windows.RegOpenKeyExA(rootInstallKey, uninstallHKeyName, 0, Windows.KEY_QUERY_VALUE, var uninstallKey) == 0)
+			{
+				// Already exists - good to go
+				Windows.RegCloseKey(uninstallKey);
+			}
+			else
+			{
+				Windows.HKey uninstallKey = default;
+
+				void RegSet(StringView name, StringView value)
+				{
+					if (allUsers)
+						Elevate(scope String()..AppendF("hkeyString {}\t{}", name, value));
+					else
+						uninstallKey.SetValue(name, value).IgnoreError();
+				}
+
+				void RegSet(StringView name, uint32 value)
+				{
+					if (allUsers)
+						Elevate(scope String()..AppendF("hkeyInt {}\t{}", name, value));
+					else
+						uninstallKey.SetValue(name, value).IgnoreError();
+				}
+
+				if (allUsers)
+				{
+					Elevate(scope String()..Concat("createHKLM ", uninstallHKeyName));
+				}
+				else
+				{
+					Windows.RegCreateKeyExW(rootInstallKey, uninstallHKeyName.ToScopedNativeWChar!(), 0, null, Windows.REG_OPTION_NON_VOLATILE, Windows.KEY_ALL_ACCESS, null, out uninstallKey, &disposition);
+				}
+
+				DateTime curDateTime = .Now;
+
+				RegSet("DisplayName", "Beef Development Tools");
+				RegSet("DisplayIcon", scope String()..AppendF(@"{}\bin\BeefUninstall.exe", mInstallPath));
+				RegSet("InstallLocation", mInstallPath);
+				RegSet("InstallDate", scope String()..AppendF("{:0000}{:00}{:00}", (int32)curDateTime.Year, (int32)curDateTime.Month, (int32)curDateTime.Day));
+				RegSet("Publisher", "BeefyTech LLC");
+				RegSet("EstimatedSize", (uint32)(totalSize / 1024));
+				RegSet("NoRepair", 1);
+				RegSet("NoModify", 1);
+				RegSet("UninstallString", scope String()..AppendF(@"{}\bin\BeefUninstall.exe", mInstallPath));
+
+				if (allUsers)
+					Elevate("hkeyClose");
 			}
 
 			installedFiles.Serialize(scope String()..Concat(mInstallPath, @"\install.lst")).IgnoreError();
 
+			if (elevateFailed)
+			{
+				return;
+			}
+
 			if (gApp.WantsShutdown)
 			{
-				if (addToPath)
+				if (allUsers)
 				{
-					rehupThread.Join();
-
+					Elevate(scope String("removeFromPath {}", pathPath));
+					Elevate("rmEnv BeefPath");
+					Elevate(scope String("cleanupDir {}", mInstallPath));
+					Elevate(scope String("cleanupDir {}", beefProgramsPath));
+				}
+				else
+				{
 					Utils.ModifyPath(allUsers, pathPath, .Remove).IgnoreError();
-
-					// Rehup AGAIN...
-					rehupThread = scope:: Thread(new => Utils.RehupEnvironment);
-					rehupThread.Start(false);
+					using (Utils.ModifyEnv(false, "BeefPath", .(), .Remove))
+					{
+					}
+					using (Utils.CleanupDir(mInstallPath))
+					{
+					}
+					using (Utils.CleanupDir(beefProgramsPath))
+					{
+					}
 				}
 
-				Utils.CleanupDir(mInstallPath);
-				Utils.CleanupDir(beefProgramsPath);
+
+				// Rehup environment again
+				rehupThread.Join();
+				rehupThread = scope:: Thread(new => Utils.RehupEnvironment);
+				rehupThread.Start(false);
 			}
 
 			rehupThread.Join();
@@ -669,9 +899,27 @@ namespace BIStubUI
 					DeleteAndNullify!(mInstallThread);
 					if (mWantsOptionsSetting)
 					{
-						mInstallPathBox.mInstallPath.Set(mInstallPath);
 						mWantsOptionsSetting = false;
 						mState = .Options;
+
+						if (mElevateFailed)
+						{
+							if (Windows.MessageBoxA(mWidgetWindow.HWND, "Failed to install for all users. Change options to just install for the current user?", "ELEVATION FAILED",
+								Windows.MB_ICONQUESTION | Windows.MB_YESNO) == Windows.IDYES)
+							{
+								mInstallForAllCheckbox.[Friend]mState = .Unchecked;
+
+								mInstallPath.Clear();
+								Platform.GetStrHelper(mInstallPath, scope (outPtr, outSize, outResult) =>
+									{
+										Platform.BfpDirectory_GetSysDirectory(.AppData_Local, outPtr, outSize, (Platform.BfpFileResult*)outResult);
+									});
+								mInstallPath.Append(@"\BeefLang");
+							}
+							mElevateFailed = false;
+						}
+
+						mInstallPathBox.mInstallPath.Set(mInstallPath);
 						mInstallButton.mDisabled = false;
 						mInstallButton.mMouseVisible = true;
 					}
@@ -727,8 +975,20 @@ namespace BIStubUI
 					mScale = 0.0f;
 				}
 
+				if ((mCloseTicks == 20) && (mState == .Done) && (mStartAfterCheckbox.Checked))
+				{
+					ProcessStartInfo procInfo = scope ProcessStartInfo();
+					procInfo.UseShellExecute = true;
+					procInfo.SetFileName(scope String()..Concat(mInstallPath, @"\bin\BeefIDE.exe"));
+					
+					var process = scope SpawnedProcess();
+					process.Start(procInfo).IgnoreError();
+				}
+
 				if (mCloseTicks == 60)
+				{
 					mIsClosed = true;
+				}
 
 				return;
 			}

@@ -142,6 +142,8 @@ namespace BIStub
 				uiDllPath.Append(@"\BeefInstallUI.dll");
 			}
 
+			Windows.SetDllDirectoryW(mTempPath.ToScopedNativeWChar!());
+
 			var lib = Windows.LoadLibraryW(uiDllPath.ToScopedNativeWChar!());
 			if (lib.IsInvalid)
 			{
@@ -228,7 +230,7 @@ namespace BIStub
 				FileStream fileStream = new FileStream();
 				defer { delete fileStream; }
 
-				if (fileStream.Open(exePath, .Read) case .Err)
+				if (fileStream.Open(exePath, .Read, .Read) case .Err)
 				{
 					Fail(scope String()..AppendF("Failed to open archive: {}", exePath));
 					return;

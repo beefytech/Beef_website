@@ -7,6 +7,7 @@ StartupObject = "BiElevated.Program"
 DefaultNamespace = "BiElevated"
 
 [Platform.Windows]
+IconFile = "../Stub/Setup.ico"
 ManifestFile = "elevated.manifest"
 Description = "Beef Installer"
 Company = "BeefyTech"
@@ -22,7 +23,7 @@ TargetDirectory = "$(WorkspaceDir)/../dist"
 TargetDirectory = "$(WorkspaceDir)/../dist"
 TargetName = "BeefInstallElevated_d"
 OtherLinkFlags = "$(LinkFlags) user32.lib"
-DebugCommandArguments = "\"C:\\Program Files\\BeefLang\" -path=\"C:\\Program Files\\BeefLang\\bin\" -allUsers -addToPath"
+DebugCommandArguments = "-uninstall=\"C:\\Program Files\\BeefLang\""
 
 [Configs.Release.Win32]
 TargetDirectory = "$(WorkspaceDir)/../dist"

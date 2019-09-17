@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace BiUtils
 {
@@ -60,16 +61,35 @@ namespace BiUtils
 
 	static class Utils
 	{
-		public enum Error
+		public enum Error : IDisposable
 		{
-			case CreateDirectoryFailed;
+			case None;
+			case CreateDirectoryFailed(String filePath);
+			case UninstallPermissionError;
 			case SetPermissionFailed;
 			case SetPathFailed;
-			case DeleteFileFailed;
+			case DeleteFileFailed(String filePath);
+			case RemoveDirectoryFailed(String filePath);
+			case RemoveRegKeyFailed(String keyPath);
 
-			public void Dispose()
+			public void Dispose() mut
 			{
-
+				switch (this)
+				{
+				case .None:
+				case .UninstallPermissionError:
+				case .CreateDirectoryFailed(let filePath):
+					delete filePath;
+				case .SetPermissionFailed:
+				case .SetPathFailed:
+				case .DeleteFileFailed(let filePath):
+					delete filePath;
+				case .RemoveDirectoryFailed(let filePath):
+					delete filePath;
+				case .RemoveRegKeyFailed(let keyPath):
+					delete keyPath;
+				}
+				this = .None;
 			}
 		}
 
@@ -80,7 +100,7 @@ namespace BiUtils
 			Check
 		}
 
-		public static Result<bool, Error> ModifyPath(bool allUsers, String binPath, PathAction action)
+		public static Result<bool, Error> ModifyPath(bool allUsers, StringView binPath, PathAction action)
 		{
 			Windows.HKey key = 0;
 			bool writeAsExpand = false;
@@ -132,9 +152,12 @@ namespace BiUtils
 			if ((!found) && (action == .Remove))
 				return .Ok(false);
 
-			if (!path.EndsWith(";"))
-				path.Append(";");
-			path.Append(binPath);
+			if (action == .Add)
+			{
+				if (!path.EndsWith(";"))
+					path.Append(";");
+				path.Append(binPath);
+			}
 
 			if (writeAsExpand)
 			{
@@ -147,6 +170,46 @@ namespace BiUtils
 					return .Err(.SetPathFailed);
 			}
 
+			return .Ok(true);
+		}
+
+		public static Result<bool, Error> ModifyEnv(bool allUsers, StringView name, StringView value, PathAction action)
+		{
+			Windows.HKey key = 0;
+			uint32 regAccess = (action == .Check) ? Windows.KEY_QUERY_VALUE : Windows.KEY_QUERY_VALUE | Windows.KEY_SET_VALUE;
+
+			if (allUsers)
+			{
+				Windows.RegOpenKeyExA(Windows.HKEY_LOCAL_MACHINE, @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment", 0, regAccess, out key);
+			}
+			else
+			{
+				Windows.RegOpenKeyExA(Windows.HKEY_CURRENT_USER, @"Environment", 0, regAccess, out key);
+			}
+			
+			if (key.IsInvalid)
+				return .Err(.SetPathFailed);
+
+			if (action == .Check)
+			{
+				String curValue = scope .();
+				if (key.GetValue(name, curValue) case .Err)
+					return .Err(.SetPathFailed);
+				if (curValue != value)
+					return .Err(.SetPathFailed);
+				return .Ok(false);
+			}
+
+			if (action == .Remove)
+			{
+				int result = Windows.RegDeleteValueA(key, name.ToScopeCStr!());
+				if ((result != 0) && (result != Windows.ERROR_FILE_NOT_FOUND))
+					return .Err(.SetPathFailed);
+				return .Ok(true);
+			}
+
+			if (key.SetValue(name, value) case .Err)
+				return .Err(.SetPathFailed);
 			return .Ok(true);
 		}
 
@@ -165,7 +228,7 @@ namespace BiUtils
 				return .Ok;
 
 			if (Directory.CreateDirectory(dir) case .Err)
-				return .Err(.CreateDirectoryFailed);
+				return .Err(.CreateDirectoryFailed(new String(dir)));
 
 			char16* dirWC = dir.ToScopedNativeWChar!();
 
@@ -220,43 +283,157 @@ namespace BiUtils
 				Directory.Delete(dir).IgnoreError();
 		}
 
-		public static Result<void, Error> RemovedInstalledFiles(StringView dir, bool removeDirectories)
+		static Result<void, Platform.BfpFileResult> PatientDirectoryDelete(StringView filePath)
+		{
+			// This will wait up to 5 seconds before failing
+			for (int pass = 0; true; pass++)
+			{
+				let result = Directory.Delete(filePath);
+				switch (result)
+				{
+				case .Ok:
+					return .Ok;
+				case .Err(let err):
+					if ((err == .NotFound) ||
+						(err == .NotEmpty) ||
+						(pass == 100))
+						return .Err(err);
+				}
+				Thread.Sleep(50);
+			}
+		}
+
+		static Result<void, Platform.BfpFileResult> PatientFileDelete(StringView filePath)
+		{
+			// This will wait up to 5 seconds before failing
+			for (int pass = 0; true; pass++)
+			{
+				let result = File.Delete(filePath);
+				switch (result)
+				{
+				case .Ok:
+					return .Ok;
+				case .Err(let err):
+					if ((err == .NotFound) ||
+						(pass == 100))
+						return .Err(err);
+				}
+				Thread.Sleep(50);
+			}
+		}
+
+		public static Result<void, Error> RemovedInstalledFiles(StringView dir, List<String> exceptionList, bool checkPermissions)
 		{
 			String listName = scope .();
 			listName.Concat(dir, @"\install.lst");
+
+			bool changedEnv = false;
 
 			InstalledFiles installedFiles = scope .();
 			if (installedFiles.Deserialize(listName) case .Err)
 				return .Ok; // Nothing installed
 
-			for (let relPath in installedFiles.mFileList)
+			for (int fileIdx = installedFiles.mFileList.Count - 1; fileIdx >= 0; fileIdx--)
 			{
+				let relPath = installedFiles.mFileList[fileIdx];
+
+				if ((exceptionList != null) && (exceptionList.Contains(relPath)))
+					continue;
+
+				if (relPath.StartsWith("PATH:"))
+				{
+					switch (ModifyPath(true, .(relPath, "PATH:".Length), .Remove))
+					{
+					case .Ok(let changed):
+						if (changed)
+							changedEnv = true;
+					case .Err(let err):
+						return .Err(err);
+					}
+					continue;
+				}
+				else if (relPath.StartsWith("USERPATH:"))
+				{
+					switch (ModifyPath(false, .(relPath, "USERPATH:".Length), .Remove))
+					{
+					case .Ok(let changed):
+						if (changed)
+							changedEnv = true;
+					case .Err(let err):
+						return .Err(err);
+					}
+					continue;
+				}
+				else if ((relPath.StartsWith("HKLM:")) || (relPath.StartsWith("HKCU:")))
+				{
+					bool isLocalMachine = relPath.StartsWith("HKLM:");
+					String keyName = scope String(relPath, "HKLM:".Length);
+					int result = Windows.RegDeleteKeyA(isLocalMachine ? Windows.HKEY_LOCAL_MACHINE : Windows.HKEY_CURRENT_USER, keyName);
+					if ((checkPermissions) && (result == Windows.ERROR_ACCESS_DENIED))
+						return .Err(.UninstallPermissionError);
+					if ((result != 0) && (result != Windows.ERROR_FILE_NOT_FOUND))
+					{
+						if (isLocalMachine)
+							return .Err(.RemoveRegKeyFailed(new String()..Concat(@"HKEY_LOCAL_MACHINE\", keyName)));
+						else
+							return .Err(.RemoveRegKeyFailed(new String()..Concat(@"HKEY_CURRENT_USER\", keyName)));
+					}
+					continue;
+				}
+				else if (relPath.StartsWith("ENV:"))
+				{
+					switch (ModifyEnv(true, .(relPath, "ENV:".Length), .(), .Remove))
+					{
+					case .Ok(let changed):
+						if (changed)
+							changedEnv = true;
+					case .Err(let err):
+						return .Err(err);
+					}
+					continue;
+				}
+				else if (relPath.StartsWith("USERENV:"))
+				{
+					switch (ModifyEnv(false, .(relPath, "USERENV:".Length), .(), .Remove))
+					{
+					case .Ok(let changed):
+						if (changed)
+							changedEnv = true;
+					case .Err(let err):
+						return .Err(err);
+					}
+					continue;
+				}
+
 				String filePath = scope .();
 				Path.GetAbsolutePath(relPath, dir, filePath);
 
 				if (filePath.EndsWith(Path.DirectorySeparatorChar))
 				{
-					if (!removeDirectories)
-						continue;
-
-					switch (Directory.Delete(filePath))
+					switch (PatientDirectoryDelete(filePath))
 					{
 					case .Ok:
 					case .Err(let error):
-						if (error != .NotFound)
-							return .Err(.DeleteFileFailed);
+						if ((error != .NotFound) && (error != .NotEmpty))
+							return .Err(.DeleteFileFailed(new String(filePath)));
 					}
 					continue;
 				}
 
-				switch (File.Delete(filePath))
+				switch (PatientFileDelete(filePath))
 				{
 				case .Ok:
 				case .Err(let error):
 					if (error != .NotFound)
-						return .Err(.DeleteFileFailed);
+						return .Err(.DeleteFileFailed(new String(filePath)));
 				}
 			}
+
+			if (checkPermissions)
+				return .Ok;
+
+			if (changedEnv)
+				RehupEnvironment();
 
 			File.Delete(listName).IgnoreError();
 			RemoveEmptyDirs(dir, false);
@@ -265,7 +442,7 @@ namespace BiUtils
 
 		public static Result<void, Error> CleanupDir(StringView dir)
 		{
-			Try!(RemovedInstalledFiles(dir, true));
+			Try!(RemovedInstalledFiles(dir, null, false));
 
 			// If there are other files added then just leave them alone
 			if (DirectoryHasContent(dir))
@@ -276,9 +453,9 @@ namespace BiUtils
 			return .Ok;
 		}
 
-		public static Result<void, Error> PrepareInstall(StringView beefPath, bool allUsers, bool addToPath)
+		/*public static Result<void, Error> PrepareInstall(StringView beefPath, bool allUsers, bool addToPath)
 		{
-			CleanupDir(beefPath);
+			Try!(CleanupDir(beefPath));
 
 			String binPath = scope String()..Concat(beefPath, @"\bin");
 
@@ -286,11 +463,36 @@ namespace BiUtils
 			if (addToPath)
 				Try!(ModifyPath(allUsers, binPath, .Add));
 			return .Ok;
-		}
+		}*/
 
 		public static Result<void, Error> Uninstall(StringView beefPath)
 		{
 			Try!(CleanupDir(beefPath));
+
+			return .Ok;
+		}
+
+		public static Result<void> UninstallWithUI(StringView beefPath)
+		{
+			using (var result = Uninstall(beefPath))
+			{
+				if (result case .Err(let err))
+				{
+					String errorStr = scope .();
+
+					switch (err)
+					{
+					case .DeleteFileFailed(let filePath):
+						errorStr.AppendF("Failed to delete file '{}'", filePath);
+					case .RemoveDirectoryFailed(let filePath):
+						errorStr.AppendF("Failed to remove directory '{}'", filePath);
+					default:
+						errorStr.Append("Failed to uninstall Beef Development Tools");
+					}
+					Windows.MessageBoxW(default, errorStr.ToScopedNativeWChar!(), "UNINSTALL FAILED".ToScopedNativeWChar!(), Windows.MB_ICONHAND);
+					return .Err;
+				}
+			}
 
 			return .Ok;
 		}

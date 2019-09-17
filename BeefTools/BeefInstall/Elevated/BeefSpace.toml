@@ -4,3 +4,6 @@ Unlocked = ["corlib"]
 
 [Workspace]
 StartupProject = "Elevated"
+
+[Configs.Debug.Win64]
+IntermediateType = "ObjectAndIRCode"

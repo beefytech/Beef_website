@@ -1,5 +1,6 @@
 @SETLOCAL EnableDelayedExpansion
 @SET SRCDIR=..\..\..\Beef
+@SET CURVER=0.0.42
 
 @if not exist install goto NoRMDIR
 rmdir /S /Q install
@@ -32,6 +33,8 @@ xcopy %SRCDIR%\LICENSE.TXT install\
 xcopy %SRCDIR%\readme.TXT install\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy dist\BeefUninstall.exe install\bin\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+xcopy dist\BeefInstallElevated.exe install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy %SRCDIR%\IDE\dist\BeefIDE.exe install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
@@ -83,17 +86,38 @@ copy %SRCDIR%\bin\AeDebug.reg install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
 cd install
+
+FOR /F "tokens=* USEBACKQ" %%F IN (`git --git-dir=..\%SRCDIR%\.git rev-parse HEAD`) DO (
+SET GITVER=%%F
+)
+..\..\..\bin\rcedit bin\BeefIDE.exe --set-version-string "ProductVersion" %GITVER%
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+..\..\..\bin\rcedit bin\BeefIDE_d.exe --set-version-string "ProductVersion" %GITVER%
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+..\..\..\bin\rcedit bin\BeefBuild.exe --set-version-string "ProductVersion" %GITVER%
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+..\..\..\bin\rcedit bin\BeefBuild_d.exe --set-version-string "ProductVersion" %GITVER%
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+
 del ..\InstallData.zip
 "C:\Program Files\7-Zip\7z.exe" a -r ..\InstallData.zip
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 cd ..
-copy /b dist\Stub.exe + InstallData.zip BeefSetup.exe
+
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
+..\..\bin\rcedit dist\Stub.exe --set-version-string "FileVersion" %CURVER%
+IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
+..\..\bin\rcedit dist\Stub.exe --set-file-version %CURVER%
+IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
+..\..\bin\rcedit dist\Stub.exe --set-version-string "ProductVersion" %GITVER%
+IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
+copy /b dist\Stub.exe + InstallData.zip BeefSetup.exe
+
 
 GOTO :DONE
 
 :HADERROR
-@ECHO !!!!!!!!!!!!!!!!!!!!!!FAILED!!!!!!!!!!!!!!!!!!!!!!
+@ECHO =================FAILED=================
 POPD
 EXIT /b %ERRORLEVEL%
 

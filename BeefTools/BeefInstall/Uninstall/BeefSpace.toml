@@ -1,5 +1,6 @@
 FileVersion = 1
 Projects = {Uninstall = {Path = "."}}
+Unlocked = ["corlib"]
 
 [Workspace]
 StartupProject = "Uninstall"
