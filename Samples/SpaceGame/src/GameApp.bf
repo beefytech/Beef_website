@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 namespace SpaceGame
 {
+	static
+	{
+		public static GameApp gGameApp;
+	}
+
 	class GameApp : SDLApp
 	{
 		public List<Entity> mEntities = new List<Entity>() ~ DeleteContainerAndItems!(_);
@@ -19,6 +24,8 @@ namespace SpaceGame
 
 		public this()
 		{
+			gGameApp = this;
+
 			mHero = new Hero();
 			AddEntity(mHero);
 
@@ -45,7 +52,7 @@ namespace SpaceGame
 		{
 			var x;
 
-			SDL.SetRenderDrawColor(gGameApp.mRenderer, 255, 255, 255, 255);
+			SDL.SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
 			let surface = SDLTTF.RenderUTF8_Blended(mFont.mFont, str, color);
 			let texture = SDL.CreateTextureFromSurface(mRenderer, surface);
 			SDL.Rect srcRect = .(0, 0, surface.w, surface.h);

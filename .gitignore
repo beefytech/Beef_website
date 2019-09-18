@@ -18,6 +18,8 @@ stats/
 **/dist/*
 BeefySysLib/third_party/*
 BeefTools/RandoCode/*
+BeefTools/BeefInstall/InstallData.zip
+BeefTools/BeefInstall/BeefSetup.exe
 jbuild*/
 IDE/Tests/NewProject*/*
 *.csproj.user

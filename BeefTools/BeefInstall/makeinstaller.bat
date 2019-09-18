@@ -50,7 +50,11 @@ copy %SRCDIR%\IDE\dist\BeefDbgVis.toml install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\IDE\dist\Beef*RT*.dll install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+copy %SRCDIR%\IDE\dist\Beef*RT*.lib install\bin\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\IDE\dist\Beef*Dbg*.dll install\bin\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+copy %SRCDIR%\IDE\dist\Beef*Dbg*.lib install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\IDE\dist\BeefySysLib64.dll install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR

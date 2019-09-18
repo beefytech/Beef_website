@@ -1,5 +1,6 @@
 FileVersion = 1
-Projects = {SpaceGame = {Path = "."}, SDL2 = {Ver = "*"}}
+Projects = {SpaceGame = {Path = "."}, SDL2 = "*"}
+Unlocked = ["SDL2"]
 
 [Workspace]
 StartupProject = "SpaceGame"

@@ -18,7 +18,7 @@ namespace BiUninstall
 
 			if (args.IsEmpty)
 			{
-				if (Windows.MessageBoxA(default, "Are you sure you want to uninstall Beef Development Tools?", "UINSTALL BEEF?", Windows.MB_YESNO | Windows.MB_ICONQUESTION) != Windows.IDYES)
+				if (Windows.MessageBoxA(default, "Are you sure you want to uninstall Beef Development Tools?", "UNINSTALL BEEF?", Windows.MB_YESNO | Windows.MB_ICONQUESTION) != Windows.IDYES)
 					return 0;
 
 				String tempDir = scope .();

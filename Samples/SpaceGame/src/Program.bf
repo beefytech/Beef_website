@@ -1,9 +1,6 @@
-using System;
-using System;
-using SDL2;
-using SpaceGame;
-using System.IO;
-using System.Diagnostics;
+// SpaceGame is a Beef sample utilizing SDL2.
+//
+// Press F5 to compile and run.
 
 namespace SpaceGame
 {
@@ -11,14 +8,9 @@ namespace SpaceGame
 	{
 		public static void Main()
 		{
-			gGameApp = scope .();
-			gGameApp.Init();
-			gGameApp.Run();
+			let gameApp = scope GameApp();
+			gameApp.Init();
+			gameApp.Run();
 		}
-	}
-
-	static
-	{
-		public static GameApp gGameApp;
 	}
 }
