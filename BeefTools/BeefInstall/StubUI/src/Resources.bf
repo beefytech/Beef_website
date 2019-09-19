@@ -32,7 +32,7 @@ namespace BIStubUI
 
 		public static Result<Image> Load(String fileName, bool additive = false)
 		{
-			let image = Image.LoadFromFile(scope String(gApp.mInstallDir, "/", fileName), additive);
+			let image = Image.LoadFromFile(scope String(gApp.mInstallDir, "/", fileName), additive ? .Additive : .None);
 			if (image == null)
 			{
 				delete image;

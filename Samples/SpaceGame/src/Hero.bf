@@ -4,6 +4,9 @@ namespace SpaceGame
 {
 	class Hero : Entity
 	{
+		public const int cShootDelay = 10; // How many frames to delay between shots
+		public const float cMoveSpeed = 4.0f;
+
 		public int mHealth = 1;
 		public bool mIsMovingX;
 		public int mShootDelay;

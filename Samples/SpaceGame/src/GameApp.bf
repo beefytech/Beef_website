@@ -99,7 +99,7 @@ namespace SpaceGame
 		{
 			float deltaX = 0;
 			float deltaY = 0;
-			float moveSpeed = 4.0f;
+			float moveSpeed = Hero.cMoveSpeed;
 			if (IsKeyDown(.Left))
 				deltaX -= moveSpeed;
 			if (IsKeyDown(.Right))
@@ -121,7 +121,7 @@ namespace SpaceGame
 			if ((IsKeyDown(.Space)) && (mHero.mShootDelay == 0))
 			{
 				mHasShot = true;
-				mHero.mShootDelay = 10;
+				mHero.mShootDelay = Hero.cShootDelay;
 				let bullet = new HeroBullet();
 				bullet.mX = mHero.mX;
 				bullet.mY = mHero.mY - 50;
@@ -174,10 +174,11 @@ namespace SpaceGame
 			HandleInputs();
 			SpawnEnemies();
 
+			// Make the game harder over time
 			mDifficulty += 0.0001f;
 
+			// Scroll the background
 			mBkgPos += 0.6f;
-
 			if (mBkgPos > 1024)
 				mBkgPos -= 1024;
 
@@ -187,6 +188,7 @@ namespace SpaceGame
 				entity.Update();
 				if (entity.mIsDeleting)
 				{
+					// '@entity' refers to the enumerator itself
 	                @entity.Remove();
 					delete entity;
 				}
