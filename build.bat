@@ -15,7 +15,7 @@ cd ..
 
 ..\Beef\IDE\dist\BeefBuild -workspace=..\Beef\BeefTools\DocPrep
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-@REM ..\Beef\IDE\dist\DocPrep ..\Beef\BeefLibs\corlib\src temp
+..\Beef\IDE\dist\DocPrep ..\Beef\BeefLibs\corlib\src temp
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 cd bin
 doxygen corlib.cfg

@@ -1,6 +1,8 @@
 @SETLOCAL EnableDelayedExpansion
 @SET SRCDIR=..\..\..\Beef
 
+PUSHD %~dp0
+
 %SRCDIR%\IDE\dist\BeefBuild -workspace=Stub -config=Debug -platform=Win64
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 %SRCDIR%\IDE\dist\BeefBuild -workspace=Stub -config=Release -platform=Win64

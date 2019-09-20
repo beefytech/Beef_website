@@ -1,6 +1,6 @@
 @SETLOCAL EnableDelayedExpansion
 @SET SRCDIR=..\..\..\Beef
-@SET CURVER            =0.0.42
+@SET CURVER=0.0.42
 @SET DESTNAME=BeefSetup_0_0_42.exe
 
 PUSHD %~dp0
@@ -133,7 +133,7 @@ IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 ..\..\bin\rcedit dist\Stub.exe --set-version-string "ProductVersion" %GITVER%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
-copy /b dist\Stub.exe + InstallData.zip ..\..\www.beef-lang.org\static\setup
+copy /b dist\Stub.exe + InstallData.zip ..\..\www.beef-lang.org\static\setup\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 
 GOTO :DONE

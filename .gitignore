@@ -25,7 +25,6 @@ BeefTools/BeefInstall/BeefSetup.exe
 jbuild*/
 IDE/Tests/NewProject*/*
 *.csproj.user
-builds/*
-BeefPerf.txt
-IDE/Tests/Rando
-install/
+stage/
+public/
+temp/
