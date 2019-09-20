@@ -95,7 +95,7 @@ copy %SRCDIR%\bin\BfAeDebug.exe install\bin\
 copy %SRCDIR%\bin\AeDebug.reg install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
-@IF "%1" NEQ "syms" goto SETVER
+@IF "%1" NEQ "rel" goto SETVER
 @ECHO Copying PDBs...
 copy %SRCDIR%\IDE\dist\*.pdb pdb\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
@@ -115,12 +115,14 @@ SET GITVER=%%F
 ..\..\..\bin\rcedit bin\BeefBuild_d.exe --set-version-string "ProductVersion" %GITVER%
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
-@IF "%1" NEQ "syms" goto ZIP
+@IF "%1" NEQ "rel" goto ZIP
 @ECHO Storing symbols...
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 @call ..\storesyms.bat
-:ZIP
+IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 
+:ZIP
+cd install
 del ..\InstallData.zip
 "C:\Program Files\7-Zip\7z.exe" a -r ..\InstallData.zip
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
@@ -133,9 +135,19 @@ IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 ..\..\bin\rcedit dist\Stub.exe --set-version-string "ProductVersion" %GITVER%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
+
+@IF "%1" NEQ "rel" goto SETUP_NOREL
+if exists "..\..\stage\setup\%DESTNAME%" (
+	@ECHO ERROR: File %DESTHPATH% has already been submitted to production!
+	exit /b 1
+)
 copy /b dist\Stub.exe + InstallData.zip ..\..\www.beef-lang.org\static\setup\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
+GOTO :DONE
 
+:SETUP_NOREL
+copy /b dist\Stub.exe + InstallData.zip BeefSetup.exe
+IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 GOTO :DONE
 
 :HADERROR
