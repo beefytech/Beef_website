@@ -1,14 +1,20 @@
 @SETLOCAL EnableDelayedExpansion
 @SET SRCDIR=..\..\..\Beef
-@SET CURVER=0.0.42
+@SET CURVER            =0.0.42
+@SET DESTNAME=BeefSetup_0_0_42.exe
+
+PUSHD %~dp0
 
 @if not exist install goto NoRMDIR
+rmdir /S /Q pdb
 rmdir /S /Q install
 IF %ERRORLEVEL% NEQ 0 GOTO FAILED
 :NoRMDIR
+mkdir pdb
 mkdir install
 IF %ERRORLEVEL% == 0 GOTO COPY
 timeout 2
+mkdir pdb
 mkdir install
 IF %ERRORLEVEL% NEQ 0 GOTO FAILED
 
@@ -89,6 +95,12 @@ copy %SRCDIR%\bin\BfAeDebug.exe install\bin\
 copy %SRCDIR%\bin\AeDebug.reg install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
+@IF "%1" NEQ "syms" goto SETVER
+@ECHO Copying PDBs...
+copy %SRCDIR%\IDE\dist\*.pdb pdb\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+:SETVER
+
 cd install
 
 FOR /F "tokens=* USEBACKQ" %%F IN (`git --git-dir=..\%SRCDIR%\.git rev-parse HEAD`) DO (
@@ -103,6 +115,12 @@ SET GITVER=%%F
 ..\..\..\bin\rcedit bin\BeefBuild_d.exe --set-version-string "ProductVersion" %GITVER%
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
+@IF "%1" NEQ "syms" goto ZIP
+@ECHO Storing symbols...
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+@call ..\storesyms.bat
+:ZIP
+
 del ..\InstallData.zip
 "C:\Program Files\7-Zip\7z.exe" a -r ..\InstallData.zip
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
@@ -115,8 +133,8 @@ IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 ..\..\bin\rcedit dist\Stub.exe --set-version-string "ProductVersion" %GITVER%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
-copy /b dist\Stub.exe + InstallData.zip BeefSetup.exe
-
+copy /b dist\Stub.exe + InstallData.zip ..\..\www.beef-lang.org\static\setup
+IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 
 GOTO :DONE
 

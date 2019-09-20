@@ -11,11 +11,13 @@ _gen/
 **/build/*
 **/__installer/*
 **/install/*
+**/pdb/*
 **/.vs/*
 BeefSpace_User.toml
 lld-link.exe
 stats/
 **/dist/*
+beef-lang.org/static/doxygen/*
 BeefySysLib/third_party/*
 BeefTools/RandoCode/*
 BeefTools/BeefInstall/InstallData.zip
@@ -23,3 +25,7 @@ BeefTools/BeefInstall/BeefSetup.exe
 jbuild*/
 IDE/Tests/NewProject*/*
 *.csproj.user
+builds/*
+BeefPerf.txt
+IDE/Tests/Rando
+install/
