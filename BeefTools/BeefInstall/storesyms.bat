@@ -18,7 +18,8 @@ PUSHD %~dp0
 %SYMSTORE% add /f pdb\*.pdb /s c:\BeefSyms /t Beef /compress 
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
-aws s3 sync c:\BeefSyms s3://symbols.beeflang.org
+@REM size-only because the directory hash is really the 'unique' part
+aws s3 sync --size-only c:\BeefSyms s3://symbols.beeflang.org
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
 GOTO :DONE

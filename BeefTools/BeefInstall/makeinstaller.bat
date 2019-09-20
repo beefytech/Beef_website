@@ -137,10 +137,12 @@ IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 
 @IF "%1" NEQ "rel" goto SETUP_NOREL
-if exists "..\..\stage\setup\%DESTNAME%" (
+if exist "..\..\stage\setup\%DESTNAME%" (
 	@ECHO ERROR: File %DESTHPATH% has already been submitted to production!
 	exit /b 1
 )
+@mkdir ..\..\www.beef-lang.org\static\setup\
+@REM ALLOW TO FAIL ^
 copy /b dist\Stub.exe + InstallData.zip ..\..\www.beef-lang.org\static\setup\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 GOTO :DONE
