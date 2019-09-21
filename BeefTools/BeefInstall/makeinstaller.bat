@@ -82,6 +82,9 @@ copy %SRCDIR%\IDE\dist\en_*.* install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\IDE\dist\userdict.txt install\bin\
 @REM ALLOW TO FAIL ^
+mkdir install\bin\CrashDumps
+echo Minidump directory > install\bin\CrashDumps\placeholder.txt
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
 xcopy /e %SRCDIR%\BeefLibs\* install\BeefLibs\ /exclude:xexclude.txt
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
