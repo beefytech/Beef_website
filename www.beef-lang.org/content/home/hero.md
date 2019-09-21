@@ -34,8 +34,8 @@ hero_media = "Beef256.png"
 #   Display link(s) by specifying a URL and label below. Icon is optional for `[cta]`.
 #   Remove a link/note by deleting a cta/note block.
 [cta]
-  url = "https://sourcethemes.com/academic/docs/install/"
-  label = "Get Started"
+  url = "setup/BeefSetup_0_42_0.exe"
+  label = "Beef for Windows"
   icon_pack = "fas"
   icon = "download"
   
@@ -45,9 +45,9 @@ hero_media = "Beef256.png"
 
 # Note. An optional note to show underneath the links.
 [cta_note]
-  label = '<a class="js-github-release" href="https://github.com/beefytech/beef" data-repo="beefytech/beef">Latest release<!-- V --></a>'
+  label = '<a href="docs/getting-start/building/">Build from source</a>'
 +++
 
-Beef is a performance-oriented compiled programming language which has been built hand-in-hand with its IDE environment.
+Beef is an open source performance-oriented compiled programming language which has been built hand-in-hand with its IDE environment.
 
-Give it a try.
+Binaries are available for Windows, and Linux is supported via building from source.

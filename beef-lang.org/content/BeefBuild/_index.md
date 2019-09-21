@@ -18,6 +18,6 @@ BeefBuild -workspace=samples\Sample1 -config=Release
 |-new|Creates a new workspace and project|
 |-platform=&lt;platform>|Sets the platform|
 |-test=&lt;path>|Executes test script|
-|-verbosity=&lt;verbosity>|Set verbosity level to: quiet/minimal/normal/detailed/diagnostics|
+|-verbosity=&lt;verbosity>|Set verbosity level to: quiet/minimal/normal/detailed/diagnostic|
 |-workspace=&lt;path>|Sets workspace path|
 

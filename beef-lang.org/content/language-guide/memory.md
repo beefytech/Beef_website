@@ -36,17 +36,29 @@ static void Test(StreamReader fs)
 
 Scoped allocations can dynamically increase stack size, and care must be used to ensure enough stack space is available for the given computation, just as recursive methods must ensure recursion depth won't exhaust the stack.
 
-Allocations through the global allocator use the "new" keyword, and allocations through a custom allocator uses the "new" keyword with a custom allocator instance specified.
+Allocations through the global allocator use the "new" keyword.
 
 ```C#
 String AllocGlobalString(int len)
 {
 	return new String(len);
 }
+```
 
+Allocations through a custom allocator uses the "new" keyword with a custom allocator instance specified.
+```C#
 String AllocCustomString(int len)
 {
 	return new:customAllocator String(len);
+}
+```
+
+Custom allocations can allocate through mixins, which can even allow for conditionally allocating on the stack. The ScopedAlloc mixin, for example, will perform small allocations on the stack and large objects on the heap.
+```C#
+void ReadString(int reserveLen)
+{
+	String str = new:ScopedAlloc! String(reserveLen);
+	UseString(str);	
 }
 ```
 

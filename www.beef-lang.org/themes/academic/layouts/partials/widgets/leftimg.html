@@ -1,0 +1,59 @@
+{{ $st := .page }}
+
+<div class="row">  <!-- Hello! !-->  
+  <table border=0 class="imgsection">
+    
+    <tr class="imgtr_top">
+      <td class="imgtd" align=center>
+        <div class="imgtxt" align=center>
+          <img src= {{ $st.Params.img0 }}>
+        </div>
+      </td>
+      <td class="imgtd">
+        <div class="imgtxt">
+          {{ $st.Params.txt0 | markdownify }}<br><br><br>
+        </div>
+      </td>
+    </tr>   
+
+    <tr class="imgtr">
+      <td class="imgtd">
+        <div class="imgtxt">
+          {{ $st.Params.txt1 | markdownify }}<br><br><br>
+        </div>
+      </td>
+      <td class="imgtd" align=center>
+        <div class="imgtxt">
+          <img src= {{ $st.Params.img1 }}>        
+        </div>
+      </td>
+    </tr>   
+
+    <tr class="imgtr">
+      <td class="imgtd" align=center>
+        <div class="imgtxt" align=center>
+          <img src= {{ $st.Params.img2 }}>
+        </div>
+      </td>
+      <td class="imgtd">
+        <div class="imgtxt">
+          {{ $st.Params.txt2 | markdownify }}<br><br><br>
+        </div>
+      </td>
+    </tr>   
+
+    <tr class="imgtr">
+      <td class="imgtd">
+        <div class="imgtxt">
+          {{ $st.Params.txt3 | markdownify }}<br><br><br>
+        </div>
+      </td>
+      <td class="imgtd" align=center>
+        <div class="imgtxt">
+          <img src= {{ $st.Params.img3 }}>        
+        </div>
+      </td>
+    </tr>   
+
+  </table>    
+</div>

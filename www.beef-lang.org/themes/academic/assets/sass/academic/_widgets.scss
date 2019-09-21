@@ -2,6 +2,40 @@
  *  Page Builder: sections and widgets
  **************************************************/
 
+.imgsection
+{  
+  table-layout: fixed;  
+  display: table;  
+}
+
+.imgtr_top
+{
+  
+}
+
+.imgtr
+{
+  border-top: 1px solid #ddd;
+}
+
+.imgtr:hover
+{
+  
+}
+
+.imgtxt
+{
+  
+}
+
+.imgtd
+{
+  width: 50%;
+  border-top: 0px;
+  padding: 20px;  
+  vertical-align: center;
+}
+
 @keyframes intro {
   0% {
     opacity: 0;
@@ -13,10 +47,11 @@
 
 .home-section {
   background-color: $sta-home-section-odd;
-  padding: 110px 0 110px 0;
+  padding: 20px 0 20px 0;
   animation: intro 0.3s both;
   animation-delay: 0.15s;
 }
+/* padding: 110px 0 110px 0; */
 
 /* Override dark colors that may be inherited from body.dark */
 .home-section.dark,
@@ -139,7 +174,7 @@
 
 .hero-lead {
   max-width: 768px;
-  font-size: 1.35rem;
+  font-size: 1.2rem;
 }
 
 .wg-hero.dark .hero-title,

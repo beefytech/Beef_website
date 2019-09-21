@@ -9,21 +9,21 @@ The basic standard Beef is called "corlib", and provides access to basic utility
 
 The following is a partial list of collection types provided by corlib.
 
-|Names|Description|
+|Category|Types|
 |-----|------|
-|List|System.Collections.Generic.List<T>|
-|Dictionary|System.Collections.Generic.Dictionary<T>|
-|Hash set|System.Collections.Generic.HashSet<T>|
-|Queue|System.Collections.Generic.Queue<T>|
+|List|[System.Collections.Generic.List<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_generic_1_1_list.html)|
+|Dictionary|[System.Collections.Generic.Dictionary<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_generic_1_1_dictionary.html)|
+|Hash set|[System.Collections.Generic.HashSet<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_generic_1_1_hash_set.html)|
+|Queue|[System.Collections.Generic.Queue<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_generic_1_1_queue.html)|
 
 The following is a parial list of the funtionality provided by corlib. See the complete API documentation for the full list.
 
-|Names|Description|
+|Category|Types|
 |-----|------|
 |Strings|[System.String](../doxygen/corlib/html/class_system_1_1_string.html) [System.StringView](../doxygen/corlib/html/struct_system_1_1_string_view.html)|
 |Math|[System.Math](../doxygen/corlib/html/class_system_1_1_math.html)|
 |Random|[System.Random](../doxygen/corlib/html/class_system_1_1_random.html)|
-|Error handling|System.Result<T>|
+|Error handling|[System.Result<T>](../doxygen/corlib/html/struct_system_1_1_result.html)|
 |Files and Directories|[System.IO.File](../doxygen/corlib/html/class_system_1_1_i_o_1_1_file.html) [System.IO.FileStream](../doxygen/corlib/html/class_system_1_1_i_o_1_1_file_stream.html) [System.IO.Directory](../doxygen/corlib/html/class_system_1_1_i_o_1_1_directory.html) [System.IO.Path](../doxygen/corlib/html/class_system_1_1_i_o_1_1_path.html)|
 |Date and Time|[System.DateTime](../doxygen/corlib/html/struct_system_1_1_date_time.html)|
 |Timing|[System.Diagnostics.Stopwatch](../doxygen/corlib/html/class_system_1_1_diagnostics_1_1_stopwatch.html)|

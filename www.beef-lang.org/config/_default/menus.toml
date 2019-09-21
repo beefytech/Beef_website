@@ -10,22 +10,16 @@
 
 [[main]]
   name = "Doxygen"
-  url = "/docs"
+  url = "/docs/doxygen/corlib/html/"
   weight = 20
 
 [[main]]
-  name = "Download"
-  url = "/doxygen"
+  name = "Releases"
+  url = "#releases"
   weight = 30
 
 [[main]]
-  name = "Contact"
-  url = "#contact"
+  name = "About"
+  url = "#about"
   weight = 60
 
-# Link to a PDF of your resume/CV from the menu.
-# To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.
-# [[main]]
-#    name = "CV"
-#    url = "files/cv.pdf"
-#    weight = 70

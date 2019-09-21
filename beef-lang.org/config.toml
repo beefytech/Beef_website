@@ -1,6 +1,6 @@
 baseURL = "http://beef-lang.org/docs/"
 languageCode = "en-us"
-title = "Beef Language"
+title = "Beef Programming Language"
 theme = "docdock"
 publishDir = "../public/docs"
 
