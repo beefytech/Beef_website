@@ -6,8 +6,8 @@ _gen/
 */llvm-*
 */llvm_*
 */x64/*
-**/Debug*/*
-**/Release*/*
+**/Debug/
+**/Release/
 **/build/*
 **/__installer/*
 **/install/*
