@@ -146,6 +146,7 @@ if exist "..\..\stage\setup\%DESTNAME%" (
 )
 @mkdir ..\..\www.beef-lang.org\static\setup\
 @REM ALLOW TO FAIL ^
+@echo Creating installer at ..\..\www.beef-lang.org\static\setup\%DESTNAME%
 copy /b dist\Stub.exe + InstallData.zip ..\..\www.beef-lang.org\static\setup\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 GOTO :DONE
