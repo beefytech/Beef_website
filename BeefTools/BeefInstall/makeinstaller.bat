@@ -144,10 +144,10 @@ if exist "..\..\stage\setup\%DESTNAME%" (
 	@ECHO ERROR: File %DESTHPATH% has already been submitted to production!
 	exit /b 1
 )
-@mkdir ..\..\www.beef-lang.org\static\setup\
+@mkdir public\setup\
 @REM ALLOW TO FAIL ^
-@echo Creating installer at ..\..\www.beef-lang.org\static\setup\%DESTNAME%
-copy /b dist\Stub.exe + InstallData.zip ..\..\www.beef-lang.org\static\setup\%DESTNAME%
+@echo Creating installer at public\setup\%DESTNAME%
+copy /b dist\Stub.exe + InstallData.zip public\setup\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 GOTO :DONE
 
