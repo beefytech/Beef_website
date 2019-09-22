@@ -149,6 +149,8 @@ if exist "..\..\stage\setup\%DESTNAME%" (
 @echo Creating installer at public\setup\%DESTNAME%
 copy /b dist\Stub.exe + InstallData.zip public\setup\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
+@git hash-object public\setup\%DESTNAME%
+IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 GOTO :DONE
 
 :SETUP_NOREL

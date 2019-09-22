@@ -17,6 +17,7 @@ import os
 import time
 import subprocess
 import tempfile
+import ctypes
 
 srcToolPath = "C:\\Program Files (x86)\\Windows Kits\\10\\Debuggers\\x64\\srcsrv\\srctool.exe"
 symStorePath = "C:\\Program Files (x86)\\Windows Kits\\10\\Debuggers\\x64\\symstore.exe"
@@ -91,6 +92,30 @@ def ExtractGitInfo():
 
   return info
 
+rtGetActualPath = None
+def GetActualPath(path):
+  global rtGetActualPath
+
+  if not rtGetActualPath:
+    dllPath = FindFile('..\..\Beef\IDE\dist\Beef042Rt64.dll')
+    rtDll = ctypes.WinDLL(dllPath)
+
+    apiProto = ctypes.WINFUNCTYPE (
+      None,      # Return type.
+      ctypes.c_char_p,   # Parameters 1 ...
+      ctypes.c_char_p,
+      ctypes.c_void_p,
+      ctypes.c_void_p)   # ... thru 4.
+    apiParams = (1, "inPath", 0), (1, "outPath", 0), (1, "inOutPathSize",0), (1, "outResult",0),
+
+    rtGetActualPath = apiProto (("BfpFile_GetActualPath", rtDll), apiParams)
+  
+  p1 = ctypes.c_char_p (path)
+  p2 = ctypes.create_string_buffer(260)
+  p3 = ctypes.c_int (260)
+  p4 = ctypes.c_int (0)
+  rtGetActualPath (p1, p2, ctypes.byref (p3), ctypes.byref (p4))
+  return p2.value
 
 def UpdatePDB(pdb_filename, verbose=False):  
   #print "UpdatePDB: %s" % pdb_filename
@@ -138,7 +163,11 @@ def UpdatePDB(pdb_filename, verbose=False):
       if verbose:
         print "  skipping, directory is blacklisted."
       continue        
-          
+            
+    actualPath = GetActualPath(filename)
+    if verbose:
+        print "Actual: %s" % actualPath
+    
     url = filename[beefIdx + 6:].replace('\\', '/')
     lines.append('%s*%s' % (filename, url));
 
