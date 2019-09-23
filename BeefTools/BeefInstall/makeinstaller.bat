@@ -144,12 +144,12 @@ if exist "..\..\stage\setup\%DESTNAME%" (
 	@ECHO ERROR: File %DESTHPATH% has already been submitted to production!
 	exit /b 1
 )
-@mkdir ..\..\..\public\setup\
+@mkdir ..\..\public\setup\
 @REM ALLOW TO FAIL ^
-@echo Creating installer at ..\..\..\public\setup\%DESTNAME%
-copy /b dist\Stub.exe + InstallData.zip ..\..\..\public\setup\%DESTNAME%
+@echo Creating installer at ..\..\public\setup\%DESTNAME%
+copy /b dist\Stub.exe + InstallData.zip ..\..\public\setup\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
-@git hash-object public\setup\%DESTNAME%
+@git hash-object ..\..\public\setup\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 GOTO :DONE
 
