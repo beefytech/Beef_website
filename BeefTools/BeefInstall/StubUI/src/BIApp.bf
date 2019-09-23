@@ -111,6 +111,7 @@ namespace BIStubUI
 
 					return .NotHandled;
 				});
+			mMainWindow.SetForeground();
 
 			Font CreateFont(StringView srcName, float fontSize)
 			{
