@@ -41,7 +41,6 @@ def ExtractSourceFiles(pdb_filename):
     raise "srctool failed: " + filelist
   return [x for x in filelist.split('\r\n') if len(x) != 0]
 
-
 def ReadSourceStream(pdb_filename):
   """Read the contents of the source information stream from a PDB."""
   srctool = subprocess.Popen([pdbStrPath,
@@ -52,8 +51,7 @@ def ReadSourceStream(pdb_filename):
   data = srctool.stdout.read()
   res = srctool.wait()
 
-  if (res != 0 and res != -1 and res != 1) or data.startswith("pdbstr: "):    
-    #print "val: %d" % res
+  if (res != 0 and res != -1 and res != 1) or data.startswith("pdbstr: "):        
     raise "pdbstr failed: " + data
   return data
 
@@ -76,7 +74,7 @@ def WriteSourceStream(pdb_filename, data):
   data = srctool.stdout.read()
   res = srctool.wait()
 
-  if (res != 0 and res != -1) or data.startswith("pdbstr: "):
+  if (res != 0 and res != -1) or data.startswith("pdbstr: "):    
     raise "pdbstr failed: " + data
 
   os.unlink(fname)
@@ -142,8 +140,8 @@ def UpdatePDB(pdb_filename, verbose=False):
     'SRCSRV: source files ---------------------------------------',
   ]
   
-  #if ReadSourceStream(pdb_filename):
-    #raise "PDB already has source indexing information!"
+  if ReadSourceStream(pdb_filename):
+    raise "PDB already has source indexing information!"
 
   filelist = ExtractSourceFiles(pdb_filename)
   for filename in filelist:
@@ -168,8 +166,8 @@ def UpdatePDB(pdb_filename, verbose=False):
     if verbose:
         print "Actual: %s" % actualPath
     
-    url = filename[beefIdx + 6:].replace('\\', '/')
-    lines.append('%s*%s' % (filename, url));
+    url = actualPath[beefIdx + 6:].replace('\\', '/')
+    lines.append('%s*%s' % (actualPath, url));
 
     if verbose:
       print "  indexed file."
