@@ -78,10 +78,10 @@ xcopy /y %SRCDIR%\IDE\dist\fonts install\bin\fonts\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\IDE\dist\BeefConfig_install.toml install\bin\BeefConfig.toml
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+copy %SRCDIR%\IDE\dist\userdict_install.txt install\bin\userdict.txt
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\IDE\dist\en_*.* install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-copy %SRCDIR%\IDE\dist\userdict.txt install\bin\
-@REM ALLOW TO FAIL ^
 mkdir install\bin\CrashDumps
 echo Minidump directory > install\bin\CrashDumps\placeholder.txt
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
