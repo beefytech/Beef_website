@@ -140,10 +140,11 @@ IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 
 @IF "%1" NEQ "rel" goto SETUP_NOREL
-if exist "..\..\stage\setup\%DESTNAME%" (
-	@ECHO ERROR: File %DESTHPATH% has already been submitted to production!
-	exit /b 1
-)
+aws s3api head-object --bucket www.beeflang.org --key setup/%DESTNAME%
+IF %ERRORLEVEL% NEQ 0 GOTO SETUP_NO_PROD_EXIST
+@ECHO ERROR: File %DESTHPATH% has already been submitted to production!
+exit /b 1
+:SETUP_NO_PROD_EXIST
 @mkdir ..\..\public\setup\
 @REM ALLOW TO FAIL ^
 @echo Creating installer at ..\..\public\setup\%DESTNAME%
