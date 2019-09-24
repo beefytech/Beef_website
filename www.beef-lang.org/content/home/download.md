@@ -15,7 +15,9 @@ columns = "1"
 ## Version 0.42.0
 September 28, 2019<br>
 [Release Notes](docs/releases/ver_0_42_0/)<br>
-[Windows Installer](setup/Setup_0_42_0.exe) -
-90.1Mb MD5:00000000000000<br>
+[Windows Installer](setup/Setup_0_42_0.exe) - 88.9Mb 
+<font size=-1>SHA256:361c4e9c98e8a87a44b1ccafb5f46416573e1279</font><br>
 [GitHub Tag](http://www.github.com/BeefyTech/Beef)
+
+
 
