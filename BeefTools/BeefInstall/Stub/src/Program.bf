@@ -2,6 +2,7 @@ using System;
 using IDE.Util;
 using System.IO;
 using System.Windows;
+using System.Diagnostics;
 using BiUtils;
 
 namespace BIStub
@@ -290,6 +291,8 @@ namespace BIStub
 
 		static int Main(String[] args)
 		{
+			Debug.WriteLine("Starting BeefInstall...");
+
 			sProgram = new Program();
 			sProgram.ParseCommandLine(args);
 			sProgram.Run();
