@@ -169,7 +169,7 @@ class Circle : Shape
 }
 ```
 
-Classes can define destructors, and individual fields can define field destructors, which are a convience to more closely associate their destruction with their initialization.
+Classes can define destructors, and individual fields can define field destructors, which are a convenience to more closely associate their destruction with their initialization.
 
 ```C#
 public Button : Widget
@@ -273,7 +273,7 @@ if (drawShape case .Square)
 
 ### Nullable types
 
-Nullable types are a enum wrapper around value types (System.Nullable<T>), which allows for value types to use null semantics which usually only work for pointer and reference types.
+Nullable types are an enum wrapper around value types (System.Nullable<T>), which allows for value types to use null semantics which usually only work for pointer and reference types.
 
 ```C#
 int? val = null;
