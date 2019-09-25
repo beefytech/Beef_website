@@ -112,7 +112,7 @@ static bool Inc3(int* a, int* b, int* c)
 
 Mixin parameter types can also be "unconstrained" by declaring their type as "var". This can be useful for creating generalized macro-like helpers. Mixins can also be implemeneted with generic parameters with constraints, which can help for either generating more useful errors or for overload selection when multiple overloaded versions of a mixin are available, but does not affect code generation.
 
-When mixin parameter types are specified, the parameter will be mutable if the caller passes in a mutable value that matches the specified type. If not, there will be a type conversion may occur and the parameter will be immutable.
+When mixin parameter types are specified, the parameter will be mutable if the caller passes in a mutable value that matches the specified type. If not, a type conversion will occur and the parameter will be immutable.
 
 Mixins do not declare return types since they don't return, but they can result in a value using "expression block" syntax where the mixin definition block ends with an expression not terminated by a semicolon.
 
@@ -227,7 +227,7 @@ static void Main()
 	var button = new Button();
 	/* We can only access 'button.color' */
 
-	/* Ther [Friend] attribute allows us to access members which are normally hidden */
+	/* The [Friend] attribute allows us to access members which are normally hidden */
 	int32 id = button.[Friend]id;
 	/* Note that the 'friend' relationship is inverted from C++ here - the user is 
 	promising to be friendly rather than the defining types declaring its friends */

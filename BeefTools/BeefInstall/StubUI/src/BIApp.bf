@@ -118,8 +118,8 @@ namespace BIStubUI
 				Font font = new Font();
 				font.Load(srcName, fontSize);
 				font.AddAlternate("Segoe UI Symbol", fontSize);
-				font.AddAlternate("Segoe UI Historic", fontSize);
-				font.AddAlternate("Segoe UI Emoji", fontSize);
+				font.AddAlternate("Segoe UI Historic", fontSize).IgnoreError();
+				font.AddAlternate("Segoe UI Emoji", fontSize).IgnoreError();
 				return font;
 			}
 
