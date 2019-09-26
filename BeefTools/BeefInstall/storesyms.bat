@@ -15,6 +15,8 @@ PUSHD %~dp0
 
 %SYMSTORE% add /f install\bin\*.dll /s c:\BeefSyms /t Beef /compress 
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+%SYMSTORE% add /f install\bin\*.exe /s c:\BeefSyms /t Beef /compress 
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 %SYMSTORE% add /f pdb\*.pdb /s c:\BeefSyms /t Beef /compress 
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
