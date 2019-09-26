@@ -16,5 +16,5 @@ columns = "1"
 September 28, 2019<br>
 [Release Notes](docs/releases/ver_0_42_0/)<br>
 [Windows Installer](setup/BeefSetup_0_42_0.exe) - 89.0Mb 
-<font size=-1>SHA256:b45122336afcc99474f8efa2cabebc3fdbd30fcd</font><br>
+<font size=-1>SHA256:30c5fe4f4ebfdfec04b11616947f2408111d1f75</font><br>
 [GitHub Tag](http://www.github.com/BeefyTech/Beef)

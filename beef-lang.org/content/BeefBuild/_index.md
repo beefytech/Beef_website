@@ -17,6 +17,7 @@ BeefBuild -workspace=samples\Sample1 -config=Release
 |-config=&lt;config>|Sets the config|
 |-new|Creates a new workspace and project|
 |-platform=&lt;platform>|Sets the platform|
+|-run=|Compile and run the startup project in the workspace|
 |-test=&lt;path>|Executes test script|
 |-verbosity=&lt;verbosity>|Set verbosity level to: quiet/minimal/normal/detailed/diagnostic|
 |-workspace=&lt;path>|Sets workspace path|
