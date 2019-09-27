@@ -6,6 +6,8 @@ aws s3 sync s3://stage.beeflang.org public
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 aws s3 sync public s3://www.beeflang.org
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+python.exe bin\aws_tagbuilds.py
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
 GOTO :DONE
 
