@@ -12,9 +12,9 @@ columns = "1"
 
 <a name="releases"></a>
 
-## Version 0.42.0
-September 28, 2019<br>
-[Release Notes](docs/releases/ver_0_42_0/)<br>
-[Windows Installer](setup/BeefSetup_0_42_0.exe) - 89.0Mb 
-<font size=-1>SHA256:597f219dc303b9e65219cb4a1820bb5c5a8cf4e3</font><br>
+## Version 0.42.1
+October 31, 2019<br>
+[Release Notes](docs/releases/ver_0_42_1/)<br>
+[Windows Installer](setup/BeefSetup_0_42_1.exe) - 89.0Mb 
+<font size=-1>SHA256:</font><br>
 [GitHub Tag](http://www.github.com/BeefyTech/Beef)
