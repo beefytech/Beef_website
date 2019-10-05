@@ -171,6 +171,8 @@ class Circle : Shape
 
 Classes can define destructors, and individual fields can define field destructors, which are a convenience to more closely associate their destruction with their initialization.
 
+Destruction runs in reverse order of constriction. For construction, first the base class is constructed, then the class field constructors run in declaration order, and then the class constructor runs. For destruction, the class destructor runs, then the class field destructors in reverse declaration order, then the base is destructed.
+
 ```C#
 public Button : Widget
 {

@@ -1,6 +1,6 @@
 FileVersion = 1
 Projects = {StubUI = {Path = "."}, Beefy2D = "*", SDL2 = "*"}
-Unlocked = ["Beefy2D", "corlib", "SDL2"]
+Unlocked = ["Beefy2D", "SDL2", "corlib"]
 
 [Workspace]
 StartupProject = "StubUI"

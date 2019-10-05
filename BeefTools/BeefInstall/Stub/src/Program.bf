@@ -79,27 +79,6 @@ namespace BIStub
 			}
 		}
 
-		void CheckPE()
-		{
-			let module = Windows.GetModuleHandleW(null);
-			uint8* moduleData = (uint8*)(int)module;
-			PEFile.PEHeader* header = (.)moduleData;
-
-			PEFile.PE_NTHeaders64* hdr64 = (.)(moduleData + header.e_lfanew);
-			if (hdr64.mFileHeader.mMachine == PEFile.PE_MACHINE_X64)
-			{
-				int fileEnd = 0;
-
-				for (int sectIdx < hdr64.mFileHeader.mNumberOfSections)
-				{
-					PEFile.PESectionHeader* sectHdrHead = (.)((uint8*)(hdr64 + 1)) + sectIdx;
-					fileEnd = Math.Max(fileEnd, sectHdrHead.mPointerToRawData + sectHdrHead.mSizeOfRawData);
-				}
-
-
-			}
-		}
-
 		static void UI_Install(StringView dest, StringView filter)
 		{
 
@@ -254,9 +233,20 @@ namespace BIStub
 					exeEnd = Math.Max(exeEnd, sectHdrHead.mPointerToRawData + sectHdrHead.mSizeOfRawData);
 				}
 
-				mStream = new Substream(fileStream, exeEnd, fileStream.Length - exeEnd, true);
+				int fileLength = fileStream.Length;
+				if (hdr64.mOptionalHeader.mDataDirectory[4].mVirtualAddress != 0)
+				{
+					// This handles the case where our installer is signed
+					fileLength = hdr64.mOptionalHeader.mDataDirectory[4].mVirtualAddress;
+				}
+
+				mStream = new Substream(fileStream, exeEnd, fileLength - exeEnd, true);
 				fileStream = null;
-				mZipFile.Init(mStream);
+				if (mZipFile.Init(mStream) case .Err)
+				{
+					Fail("Failed to read installer data");
+					return;
+				}
 			}
 
 			mTempPath = new String();
@@ -277,16 +267,6 @@ namespace BIStub
 			String fileInfo = scope .();
 			ParseZip(fileInfo);
 			StartUI(fileInfo);
-
-			/*CheckPE();
-
-			ZipFile zipFile = scope .();
-			zipFile.Open(@"c:\\temp\\build_1827.zip");
-			ExtractTo(zipFile, @"c:\temp\unzip", .());
-
-			CabFile cabFile = scope .();
-			cabFile.Init();
-			cabFile.Copy();*/
 		}
 
 		static int Main(String[] args)

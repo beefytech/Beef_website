@@ -20,6 +20,13 @@ PUSHD %~dp0
 %SRCDIR%\IDE\dist\BeefBuild -workspace=Uninstall -config=Release -platform=Win64
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
+call ..\..\bin\sign.bat dist\BeefInstallElevated.exe
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+call ..\..\bin\sign.bat dist\BeefUninstall.exe
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+@REM call ..\..\bin\sign.bat dist\Stub.exe
+@REM @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+
 GOTO :DONE
 
 :HADERROR
