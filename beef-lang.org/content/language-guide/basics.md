@@ -1,6 +1,6 @@
 +++
 title = "The Basics"
-weight = 1
+weight = 10
 +++
 
 ## Compilation Model

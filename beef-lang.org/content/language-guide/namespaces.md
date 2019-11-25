@@ -1,6 +1,6 @@
 +++
 title = "Namespaces"
-weight = 3
+weight = 30
 +++
 
 ## Namespace overview

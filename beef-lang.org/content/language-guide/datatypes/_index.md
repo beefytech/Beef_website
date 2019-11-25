@@ -1,6 +1,6 @@
 +++
 title = "Data Types"
-weight = 3
+weight = 40
 alwaysopen = true
 +++
 
@@ -249,6 +249,23 @@ enum Direction
 }
 ```
 
+Enums have some operations available to help inspect and enumerate over the values.
+
+```C#
+
+// Enumerate from the minimum enum value to the maximum value
+for (var direction = typeof(Direction).MinValue; direction <= typeof(Direction).MaxValue; direction++)
+{
+}
+
+// Convert to the underyling integer representation (in this case it is an int8)
+let val = direction.Underlying;
+// Like the above, but results in an integer reference which can be assinged to 
+let valRef = ref direction.UnderlyingRef;
+
+
+```
+
 Enums can allow for multiple values to behave as a set of flags, as well, and support type-safe bitwise binary operations and define a convenience "HasFlag" method to check if a given set of flags is set or not.
 
 Enums can also define associated data for each case, which makes them behave as a type-safe "discriminated" union.
@@ -282,5 +299,14 @@ int? val = null;
 int i = val ?? 21;
 if (val == null)
 	val = 42;
+int? val2 = val + 123;
 ```
 
+### Type aliases
+
+Beef type aliases allow creating type names that directly map to another type.
+
+```C#
+typealias Size = int;
+typealias Collection<T> = List<T>;
+```

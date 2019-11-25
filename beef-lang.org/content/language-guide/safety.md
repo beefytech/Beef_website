@@ -1,6 +1,6 @@
 +++
 title = "Safety Features"
-weight = 2
+weight = 20
 +++
 
 Beef supports a variety of optional safety features, many of which can be disabled for specified groups of code for "mixed safety" builds (ie: so performance-critical code can disable some checks while less performance-critical or less tested code can run with more safety checks).

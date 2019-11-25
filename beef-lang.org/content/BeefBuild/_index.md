@@ -1,6 +1,6 @@
 +++
 title = "BeefBuild"
-weight = 6
+weight = 60
 +++
 
 ## BeefBuild overview
@@ -8,7 +8,7 @@ weight = 6
 BeefBuild is the command-line interface counterpart of the Beef IDE.
 
 ```
-BeefBuild -workspace=samples\Sample1 -config=Release
+BeefBuild -workspace=samples\HelloWorld -run
 ```
 
 |Argument    |Description      |

@@ -1,6 +1,6 @@
 +++
 title = "Core Libraries"
-weight = 4
+weight = 40
 +++
 
 ## Beef core libraries overview

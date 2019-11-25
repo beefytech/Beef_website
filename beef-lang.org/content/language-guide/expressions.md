@@ -1,6 +1,6 @@
 +++
 title = "Expressions"
-weight = 4
+weight = 40
 +++
 
 ### Allocations
@@ -123,6 +123,15 @@ All `new` operations can also accept a custom allocator argument.
 
 * `new:a T(....)` allocates an instance of `T` in custom allocator `a` where `a` is an identifier.
 * `new:(a) T(...)` allocates an instance of `T` in custom allocator `a` where `a` is any expression. 
+
+### Null-conditional operators
+
+Null-conditional operators `val?.field` and `val?[index]` will result in `null` if `val` is null. The null-conditional operators can be applied in a chain, which will short-circuit to `null` at the first instance of a `null`.
+
+```C#
+int? a = val?.intField;
+int? nameLength = val?.name?.Length;
+```
 
 ### Parentheses expression
 

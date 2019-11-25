@@ -1,6 +1,6 @@
 +++
 title = "Type Members"
-weight = 1
+weight = 10
 +++
 
 ## Fields
@@ -25,7 +25,7 @@ class Widget
 
 Method overloading is supported in Beef. For generic overloads, multiple versions of the same generic method are allowed if the constraints are different. If multiple generic methods match, one can be considered "better" if its contraints are a superset of another method's constaints, otherwise the overload selection is ambiguous.
 
-Parameter values are immutable unless 'ref' or 'out' specifiers are used.
+Parameter values are immutable unless 'ref', 'out', or 'mut' specifiers are used.
 
 ```C#
 bool GetInt(out int outVal)
@@ -33,6 +33,13 @@ bool GetInt(out int outVal)
 	outVal = 92;
 	return true;
 }
+
+/* 'mut' can be used for generics that may be a value type or a reference type, but we need to have a mutable reference. 'mut' will have no effect on reference types but will be treated as a 'ref' for value types. */
+bool DisposeVal<T>(mut T val) where T : IDisposable
+{
+	val.Dispose();
+}
+
 ```
 
 When it is convenient to have parameters treated as "initial values" that can be modified, there is variable shadowing functionality that semantically creates a modifiable copy of the parameter and a new shadow variable with the same name.
@@ -90,6 +97,24 @@ void Use(Collection c)
 }
 ```
 
+Methods provide some safeties to protect against discarded return values. This can be useful to ensure that errors are handled, or that methods that return modified values are not mistaken for methods that modify the value in-place. Static warnings on discarded results can be emitted by adding a [NoDiscard] attribute to the method. Cases like protecting against unhandled errors can be handled by adding a 'ReturnValueDiscarded()' method to the returned type, which the compiler will call at runtime -- this is used on the built-in `Result` type (see [Error Handling]({{< ref "errors.md" >}})).
+
+```C#
+
+[NoDiscard]
+char8 ToUpperCase(char8 c);
+
+void ToUpperCase(String str)
+{
+	for (var c in ref str.RawChars)
+	{
+		/* OOPS- a 'value discarded' warning is thrown here. 'c = ToUpperCase(c)' was intended */
+		ToUpperCase(c);
+	}
+}
+
+```
+
 ## Mixins
 Mixins are kinds of methods that get "mixed in" to the callsite directly, rather than being "called". This can be useful for not only eliminating call overhead, but the semantics are different than called methods since statements declared in a mixin such as "break" can break from structured blocks in the caller itself, and a "return" will return from the caller itself.
 
@@ -110,7 +135,7 @@ static bool Inc3(int* a, int* b, int* c)
 }
 ```
 
-Mixin parameter types can also be "unconstrained" by declaring their type as "var". This can be useful for creating generalized macro-like helpers. Mixins can also be implemeneted with generic parameters with constraints, which can help for either generating more useful errors or for overload selection when multiple overloaded versions of a mixin are available, but does not affect code generation.
+Mixin parameter types can also be "unconstrained" by declaring their type as `var`. This can be useful for creating generalized macro-like helpers. Mixins can also be implemeneted with generic parameters with constraints, which can help for either generating more useful errors or for overload selection when multiple overloaded versions of a mixin are available, but does not affect code generation. There is no performance penalty for using `var`, as the mixin will expand the same way at the callsite -- the only difference is in what errors occur at the callsite expression itself vs inside the expanded mixin.
 
 When mixin parameter types are specified, the parameter will be mutable if the caller passes in a mutable value that matches the specified type. If not, a type conversion will occur and the parameter will be immutable.
 
@@ -135,15 +160,24 @@ static mixin AllocString()
 
 void Use()
 {
-	String s = null;
+	String outerStr = null;
 
-	if (Check())
+	while (IsRunning())
+	WhileBody:
 	{
-		// Allocs string in current scope
-		let s2 = AllocString!();
+		String whileStr = null;
 
-		// Allocs string in method scope
-		s = AllocString!::();
+		if (Check())
+		{
+			// Allocs string in current scope
+			let localStr = AllocString!();
+	
+			// Allocs string in the scope of the 'while' body
+			whileStr = AllocString!:WhileBody();
+
+			// Allocs string in method scope
+			outerStr = AllocString!::();
+		}
 	}
 }
 ```

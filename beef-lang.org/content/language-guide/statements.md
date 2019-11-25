@@ -1,6 +1,6 @@
 +++
 title = "Statements"
-weight = 5
+weight = 60
 +++
 
 ### break/continue
@@ -106,6 +106,10 @@ while (enumerator.GetNext() case .Ok(let val))
 
 }
 enumerator.Dispose();
+
+/* We can also iterate by refrence instead of by value */
+for (var valRef in ref intList)
+	valRef += 100;
 ```
 
 ### if

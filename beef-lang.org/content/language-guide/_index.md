@@ -1,7 +1,7 @@
 +++
 title = "Language Guide"
 alwaysopen = true
-weight = 2
+weight = 20
 +++
 
 ## Language guide overview

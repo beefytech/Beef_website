@@ -93,4 +93,23 @@ void EnumSwitch()
 
 ```
 
+Enums can also pattern match to a 'ref', allowing modification of the underlying values.
+
+``` C#
+
+void Enlarge(ref Shape shape)
+{
+	switch (shape)
+	{
+	case .Circle(?, ?, var ref radius):
+		radius++;
+	case .Rectangle(?, ?, var ref width, var ref height):
+		width++;
+		height++;
+	}
+}
+
+```
+
+
 ### Value matching

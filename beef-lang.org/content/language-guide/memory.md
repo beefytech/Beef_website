@@ -1,5 +1,6 @@
 +++
 title = "Memory Management"
+weight = 30
 +++
 
 ## Memory Allocation {#allocating}
@@ -61,6 +62,11 @@ void ReadString(int reserveLen)
 	UseString(str);	
 }
 ```
+
+### Global allocator
+The global allocator is selected on a per-workspace basis. By default, the CRT malloc/free allocators are used, but any C-style global allocator can be used, such as TCMalloc or JEMalloc. In addition, Beef contains a special debug allocator which enables features such as real-time leak checking and hot compilation.
+
+Beef allocations are C-style in that they are non-relocatable and there is no garbage collector.
 
 ### Releasing memory
 Scoped allocations are automatically released at the end of the scope, but manual allocations must be manually released with the "delete" keyword. Similarly as with custom allocator allocations, the delete can specify a custom allocator target for releasing memory from custom allocators.

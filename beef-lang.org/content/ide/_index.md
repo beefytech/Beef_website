@@ -1,7 +1,7 @@
 +++
 title = "IDE"
 alwaysopen = true
-weight = 5
+weight = 50
 +++
 
 ## Overview
