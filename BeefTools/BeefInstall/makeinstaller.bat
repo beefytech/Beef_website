@@ -36,6 +36,8 @@ xcopy /e dist\sounds\* install\__installer\sounds\
 
 xcopy %SRCDIR%\LICENSE.TXT install\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+xcopy %SRCDIR%\LICENSES.TXT install\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy %SRCDIR%\readme.TXT install\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy dist\BeefUninstall.exe install\bin\

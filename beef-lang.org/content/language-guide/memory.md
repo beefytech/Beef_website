@@ -54,14 +54,56 @@ String AllocCustomString(int len)
 }
 ```
 
-Custom allocations can allocate through mixins, which can even allow for conditionally allocating on the stack. The ScopedAlloc mixin, for example, will perform small allocations on the stack and large objects on the heap.
+At minimum, a custom allocator must implement only a single `Alloc` method, but an `AllocTyped` method can be added to add type-specific allocation logic. Memory is freed through a `Free` method.
 ```C#
+struct ArenaAlloc
+{
+	public void* Alloc(int size, int align)
+	{
+		return Internal.StdMalloc(size);
+	}
+
+	public void* AllocTyped(Type type, int size, int align)
+	{
+		void* data = Alloc(size, align);
+		if (type.HasDestructor)
+			MarkRequiresDeletion(data);
+	}
+
+	public void Free(void* ptr)
+	{
+		Internal.StdFree(ptr);
+	}
+}
+```
+
+Note that if realtime leak checking is enabled and custom allocators utilize memory that isn't already tracked by the leak checker, the allocator will need to report its memory for scanning for object references. See the corlib BumpAllocator for an example of how to cooperate with the leak checker, in particular the 'GCMarkMembers' method.
+
+Custom allocations can also allocate through [mixins]({{< ref "language-guide/datatypes/members.md#mixins" >}}), which can even allow for conditionally allocating on the stack. The ScopedAlloc mixin, for example, will perform small allocations on the stack and large objects on the heap.
+```C#
+static mixin ScopedAlloc(int size, int align)
+{
+	void* data;
+	if (size <= 128)
+	{
+		data = scope:mixin [Align(align)] uint8[size]* { ? };
+	}
+	else
+	{
+		data = new [Align(align)] uint8[size]* { ? };
+		defer:mixin delete data;
+	}
+	data
+}
+
 void ReadString(int reserveLen)
 {
 	String str = new:ScopedAlloc! String(reserveLen);
 	UseString(str);	
 }
 ```
+
+Many corlib classes such as [System.String](../doxygen/corlib/html/class_system_1_1_string.html) and [System.Collections.Generic.List<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_generic_1_1_list.html) need to dynamically allocate memory. By convention, these classes allocate from the global allocator, and they support custom allocators through virtual method overrides such as `String.Alloc` and `String.Free`.
 
 ### Global allocator
 The global allocator is selected on a per-workspace basis. By default, the CRT malloc/free allocators are used, but any C-style global allocator can be used, such as TCMalloc or JEMalloc. In addition, Beef contains a special debug allocator which enables features such as real-time leak checking and hot compilation.

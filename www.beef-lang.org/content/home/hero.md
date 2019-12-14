@@ -50,4 +50,4 @@ hero_media = "Beef256.png"
 
 Beef is an open source performance-oriented compiled programming language which has been built hand-in-hand with its IDE environment.
 
-Binaries are available for Windows, and Linux is supported via building from source.
+Binaries are available for Windows, and building from source is supported on Windows, Linux, and macOS.

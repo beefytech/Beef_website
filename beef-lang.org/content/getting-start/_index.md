@@ -7,7 +7,11 @@ alwaysopen = true
 
 ## Welcome to Beef
 
-Beef is primarily an IDE-based experience, but command-line building is also supported. Your first step is to [install Beef]({{< ref "getting-start/installation.md" >}}).
+Beef is primarily an IDE-based experience, but command-line building is also supported. Your first step is to [install Beef]({{< ref "getting-start/installation.md" >}}) or [build from source]({{< ref "getting-start/building.md" >}}).
+
+### Platforms Supported
+
+Binaries are available for Windows, and building from source is supported on Windows, Linux, and macOS. [Cross-compilation]({{< ref "platforms/_index.md" >}}) is in development for targets including Android and iOS.
 
 ### Creating an IDE-based "Hello World"
 
