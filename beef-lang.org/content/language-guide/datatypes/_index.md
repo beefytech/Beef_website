@@ -128,7 +128,7 @@ Opaque struct definitionss can be created by simply not supplying a body, which 
 
 ## Tuple types {#tuples}
 
-Tuples are a different kind of struct. Their syntax allows for more concise representation of certain types of code patterns, but they cannot define properties or methods.
+Tuples are a special kind of struct. Their syntax allows for more concise representation of certain types of code patterns, but they cannot define properties or methods.
 
 ```C#
 let tup = (1, 2); // Unnamed members
