@@ -13,8 +13,8 @@ Description = "Beef Installer"
 Company = "BeefyTech"
 Product = "Beef Installer"
 Copyright = "Copyright 2019 BeefyTech"
-FileVersion = "0.42.0"
-ProductVersion = "0.42.0"
+FileVersion = "0.42.1"
+ProductVersion = "0.42.1"
 
 [Configs.Debug.Win32]
 TargetDirectory = "$(WorkspaceDir)/../dist"
