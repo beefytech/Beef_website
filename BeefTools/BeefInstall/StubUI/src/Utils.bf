@@ -216,7 +216,7 @@ namespace BiUtils
 		public static void RehupEnvironment()
 		{
 			int32 result = 0;
-			Windows.SendMessageTimeoutW(.Broadcast, Windows.WM_SETTINGCHANGE, 0, (int)"Environment".ToScopedNativeWChar!(), Windows.SMTO_ABORTIFHUNG, 2000, &result);
+			Windows.SendMessageTimeoutW(.Broadcast, Windows.WM_SETTINGCHANGE, 0, (int)(void*)"Environment".ToScopedNativeWChar!(), Windows.SMTO_ABORTIFHUNG, 2000, &result);
 		}
 
 		public static Result<void, Error> CreateDir(StringView dir)
