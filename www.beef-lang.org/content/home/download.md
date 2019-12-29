@@ -17,4 +17,4 @@ December 31, 2019<br>
 [Release Notes](docs/releases/ver_0_42_1/)<br>
 [Windows Installer](setup/BeefSetup_0_42_1.exe) - 89.0Mb 
 <font size=-1>SHA256:9a08c7fef52a5e1893636d7cf236700c0b9d3ecea94a9500bfdc0afa4fb98da2</font><br>
-[GitHub Tag](http://www.github.com/BeefyTech/Beef)
+[GitHub Tag](https://github.com/beefytech/Beef/tree/0.42.1)
