@@ -11,7 +11,7 @@ Beef is a performance-oriented compiled programming language. The syntax and cor
 * High performance execution
  * No GC or ref counting overhead
  * Minimal runtime 
- * Compliled (no JIT delays)
+ * Compiled (no JIT delays)
 * Control over memory
  * Extensive support for custom allocators
  * Enchanced control over stack memory
