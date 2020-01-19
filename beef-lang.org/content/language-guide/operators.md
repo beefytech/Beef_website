@@ -98,6 +98,9 @@ Assignments result in the new value of `x`.
 * `ref x` - required for passing values into ref parameters or other values expecting `ref`
 * `out x` - required for passing values into out parameters
 
+### Params operator
+* params x - where x is a variadic parameter, will pass through those params to another variadic parameter. Where x is a delegate or function params, will expand those in place.
+
 ## Operator overloading
 
 Structs and classes can provide operator overloads. Comparison operator selection is flexible, in that not all combination of <, <=, ==, !=, >, and >= need to be defined. The "inverse" of operators will be called if available, or if just the <=> operator is defined then that can be used for all comparison types as well.

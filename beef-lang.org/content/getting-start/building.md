@@ -7,6 +7,8 @@ weight = 2
 
 Building Beef from source is not required for platforms that have binary distributions available (ie: Windows). 
 
+Source code is available at https://github.com/beefytech/Beef.
+
 ### Bootstrapping
 
 The core of the Beef compiler is written in C++, while the IDE and command-line BeefBuild build system is written in Beef itself. For bootstrapping purposes, Beef includes a minimal bootstrapping compiler whose sole job is to perform an initial BeefBuild build, which then performs a 'proper' build of itself.

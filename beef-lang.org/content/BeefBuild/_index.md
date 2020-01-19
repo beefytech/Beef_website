@@ -15,6 +15,7 @@ BeefBuild -workspace=samples\HelloWorld -run
 |----|------|
 |-clean|Cleans the build cache when building|
 |-config=&lt;config>|Sets the config|
+|-generate|Generates startup code for an empty project|
 |-new|Creates a new workspace and project|
 |-platform=&lt;platform>|Sets the platform|
 |-run=|Compile and run the startup project in the workspace|
