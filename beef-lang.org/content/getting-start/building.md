@@ -20,6 +20,7 @@ The core of the Beef compiler is written in C++, while the IDE and command-line 
 #### Requirements
 
 * Microsoft C++ build tools for Visual Studio 2013 or later. You can install just Microsoft Visual C++ Build Tools or the entire Visual Studio suite from https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2019.
+* Windows SDK 10.0.17763.0
 * CMake
 * Python 2.7
 * Git command line tools
