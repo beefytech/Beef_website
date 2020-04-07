@@ -1,0 +1,18 @@
++++
+
+title = "Community"
+weight = 35
+widget = "blank"
+headless = true  # This file represents a page section.
+active = true  # Activate this widget? true/false
+
+[design]
+columns = "1"
+
++++
+
+Reddit<br>
+https://www.reddit.com/r/beeflang/
+
+Discord<br>
+https://discordapp.com/channels/670260150656827422

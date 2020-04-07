@@ -19,16 +19,17 @@ The core of the Beef compiler is written in C++, while the IDE and command-line 
 
 #### Requirements
 
-* Microsoft C++ build tools for Visual Studio 2013 or later. You can install just Microsoft Visual C++ Build Tools or the entire Visual Studio suite from https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2019.
+* Microsoft C++ build tools for Visual Studio 2017 or later. You can install just Microsoft Visual C++ Build Tools or the entire Visual Studio suite from https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2019.
+* Platform Toolset 141 (VS2017)
 * Windows SDK 10.0.17763.0
 * CMake
 * Python 2.7
 * Git command line tools
 
 #### Build Steps
-* Build LLVM with extern/llvm_build.bat
-* Build Beef with bin/build.bat
+* Execute bin/build.bat
 
+Note that this will first download and build LLVM, which will take some time.
 The build results will be in IDE/dist
 
 ---
