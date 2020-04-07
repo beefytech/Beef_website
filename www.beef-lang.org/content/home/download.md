@@ -12,8 +12,8 @@ columns = "1"
 
 <a name="releases"></a>
 
-## Version 0.42.1
-December 31, 2019<br>
-[Release Notes](docs/releases/ver_0_42_1/)<br>
-[Windows Installer](setup/BeefSetup_0_42_1.exe) - 89.0MB
-[GitHub Tag](https://github.com/beefytech/Beef/tree/0.42.1)
+## Version 0.42.2
+April 7, 2020<br>
+[Release Notes](docs/releases/ver_0_42_2/)<br>
+[Windows Installer](setup/BeefSetup_0_42_2.exe) - 89.0MB
+[GitHub Tag](https://github.com/beefytech/Beef/tree/0.42.2)
