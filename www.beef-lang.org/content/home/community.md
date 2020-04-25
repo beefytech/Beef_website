@@ -15,4 +15,4 @@ Reddit<br>
 https://www.reddit.com/r/beeflang/
 
 Discord<br>
-https://discord.gg/JvEHS2z
+https://discord.gg/rnsc9YP
