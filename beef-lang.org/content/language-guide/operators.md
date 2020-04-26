@@ -93,6 +93,7 @@ Assignments result in the new value of `x`.
 * `alignof(T)` - alignment of `T`
 * `strideof(T)` - size of `T`, aligned to the alignment of `T`
 * `decltype(x)` - type of `X`. Any expression is allowed, including method calls, but will only be evaluated to determine the type of `x` and won't generate any executable code.
+* `rettype(T)` - return type of a delegate or function
 
 ### Ref operators
 * `ref x` - required for passing values into ref parameters or other values expecting `ref`

@@ -125,9 +125,9 @@ class FloatArray
 	[AllowAppend]
 	public this(int length)
 	{
-		let ptr = append float[length]*;
+		let ptr = append float[length]*;		
+		pPtr = ptr;
 		mLength = length;
-		mFloats = ptr;
 	}
 }
 

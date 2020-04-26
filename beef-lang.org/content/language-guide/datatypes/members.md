@@ -59,14 +59,23 @@ void Write(char8 c)
 
 Passing structs by immutable value is efficient, as it does not require a copy to be created at the callsite, so passing by reference is not needed for performance. In addition to platform-specific calling conventions that can pack small structs into ints, Beef may "splat" struct arguments, where something like a (double, double) tuple can be directly passed in two floating point registers rather than requiring it to be passed by struct reference as would be standard in C.
 
-Methods can be defined which accept a variable number of arguments, using a "params" specifier on the last parameter. This is common with string-formatting methods like Console.WriteLine. The "params" type can be declared as either an array or a Span type. 
+Methods can be defined which accept a variable number of arguments, using a "params" specifier on the last parameter. This is common with string-formatting methods like Console.WriteLine. The "params" type can be declared as either an array or a Span type. The "params" specifier can also be used on delegate or function types, which expands the parameter declaration to include the parameters declared in the delegate/function -- this is useful for generic argument forwarding, such as in the case of System.Event<T>.
 
 ```C#
+/* Variable number of arguments */
 void Draw(String format, params Object[] args)
 {
 	let str = scope String();
 	/* The 'params' */
 	str.AppendF(format, params args);	
+}
+
+/* Delegate argument forwarding */
+public static rettype(T) SafeInvoke<T>(T dlg, params T p) where T : Delegate
+{
+	if (dlg == null)
+		return default;
+	return dlg(params p);
 }
 ```
 
