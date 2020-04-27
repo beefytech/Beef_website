@@ -1,7 +1,7 @@
 @SETLOCAL EnableDelayedExpansion
 @SET SRCDIR=..\..\..\Beef
-@SET CURVER=0.42.2
-@SET DESTNAME=BeefSetup_0_42_2.exe
+@SET CURVER=0.42.3
+@SET DESTNAME=BeefSetup_0_42_3.exe
 
 PUSHD %~dp0
 
@@ -75,6 +75,8 @@ copy %SRCDIR%\IDE\dist\IDEHelper64_d.dll install\bin\
 xcopy /y %SRCDIR%\IDE\dist\shaders install\bin\shaders\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy /y %SRCDIR%\IDE\dist\images install\bin\images\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+xcopy /y %SRCDIR%\IDE\dist\llvm install\bin\llvm\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy /y %SRCDIR%\IDE\dist\fonts install\bin\fonts\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
