@@ -76,7 +76,7 @@ xcopy /y %SRCDIR%\IDE\dist\shaders install\bin\shaders\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy /y %SRCDIR%\IDE\dist\images install\bin\images\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-xcopy /y %SRCDIR%\IDE\dist\llvm install\bin\llvm\
+xcopy /e /y %SRCDIR%\IDE\dist\llvm install\bin\llvm\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy /y %SRCDIR%\IDE\dist\fonts install\bin\fonts\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
