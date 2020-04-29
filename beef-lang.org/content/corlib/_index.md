@@ -20,7 +20,7 @@ The following is a parial list of the funtionality provided by corlib. See the c
 
 |Category|Types|
 |-----|------|
-|Strings|[System.String](../doxygen/corlib/html/class_system_1_1_string.html) [System.StringView](../doxygen/corlib/html/struct_system_1_1_string_view.html)|
+|Strings|[System.String](../doxygen/corlib/html/class_system_1_1_string.html)<br/>[System.StringView](../doxygen/corlib/html/struct_system_1_1_string_view.html)|
 |Math|[System.Math](../doxygen/corlib/html/class_system_1_1_math.html)|
 |Random|[System.Random](../doxygen/corlib/html/class_system_1_1_random.html)|
 |Error handling|[System.Result<T>](../doxygen/corlib/html/struct_system_1_1_result.html)|
