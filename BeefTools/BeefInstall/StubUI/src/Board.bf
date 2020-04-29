@@ -622,8 +622,7 @@ namespace BIStubUI
 				}
 
 				installedFiles.Add(scope String()..Concat(beefProgramsPath, @"\"));
-				CreateShortcut(scope String()..Concat(beefProgramsPath, @"\Beef IDE.lnk"), scope String()..Concat(mInstallPath, @"\bin\BeefIDE.exe"), "", mInstallPath, "Beef IDE");
-				CreateShortcut(scope String()..Concat(beefProgramsPath, @"\Beef IDE (Debug).lnk"), scope String()..Concat(mInstallPath, @"\bin\BeefIDE_d.exe"), "", mInstallPath, "Beef IDE (Debug)");
+				CreateShortcut(scope String()..Concat(beefProgramsPath, @"\Beef IDE.lnk"), scope String()..Concat(mInstallPath, @"\bin\BeefIDE.exe"), "", mInstallPath, "Beef IDE");				
 				CreateShortcut(scope String()..Concat(beefProgramsPath, @"\Documentation.lnk"), "http://beeflang.org/docs/", "", mInstallPath, "Beef IDE (Debug)");
 				CreateShortcut(scope String()..Concat(beefProgramsPath, @"\LICENSE.lnk"), scope String()..Concat(mInstallPath, @"\LICENSE.TXT"), "", mInstallPath, "Beef License");
 				CreateShortcut(scope String()..Concat(beefProgramsPath, @"\README.lnk"), scope String()..Concat(mInstallPath, @"\bin\readme.txt"), "", mInstallPath, "Beef ReadMe");
