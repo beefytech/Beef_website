@@ -126,7 +126,7 @@ class FloatArray
 	public this(int length)
 	{
 		let ptr = append float[length]*;		
-		pPtr = ptr;
+		mPtr = ptr;
 		mLength = length;
 	}
 }
