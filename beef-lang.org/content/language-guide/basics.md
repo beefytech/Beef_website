@@ -11,4 +11,4 @@ Incremental compilation is supported, with a dependency graph rebuilding only po
 
 Beef supports multiple compiler backends, including LLVM and a custom "enhanced debug" (Og+) backend which performs some code optimizations which do not adversely impact debuggability and has some improvements in emitted debug information over LLVM. 
 
-Multiple linkers are supported, including system linkers and the LLVM linker which can be used for link-time optimimied builds (LLVM LTO/ThinLTO).
+Multiple linkers are supported, including system linkers and the LLVM linker which can be used for link-time optimised builds (LLVM LTO/ThinLTO).
