@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using System.Collections.Generic;
+using System.Collections;
 using System.Threading;
 
 namespace BiUtils

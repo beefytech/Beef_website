@@ -4,7 +4,7 @@ using Beefy.widgets;
 using Beefy.geom;
 using Beefy.gfx;
 using BiUtils;
-using System.Collections.Generic;
+using System.Collections;
 using System.Threading;
 
 namespace BIStubUI

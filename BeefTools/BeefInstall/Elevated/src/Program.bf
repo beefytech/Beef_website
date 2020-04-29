@@ -1,6 +1,6 @@
 using System;
 using BiUtils;
-using System.Collections.Generic;
+using System.Collections;
 using System.Threading;
 using System.IO;
 using System.Diagnostics;

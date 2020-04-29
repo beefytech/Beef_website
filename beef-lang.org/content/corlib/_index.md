@@ -11,10 +11,10 @@ The following is a partial list of collection types provided by corlib.
 
 |Category|Types|
 |-----|------|
-|List|[System.Collections.Generic.List<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_generic_1_1_list.html)|
-|Dictionary|[System.Collections.Generic.Dictionary<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_generic_1_1_dictionary.html)|
-|Hash set|[System.Collections.Generic.HashSet<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_generic_1_1_hash_set.html)|
-|Queue|[System.Collections.Generic.Queue<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_generic_1_1_queue.html)|
+|List|[System.Collections.List<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_list.html)|
+|Dictionary|[System.Collections.Dictionary<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_dictionary.html)|
+|Hash set|[System.Collections.HashSet<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_hash_set.html)|
+|Queue|[System.Collections.Queue<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_queue.html)|
 
 The following is a parial list of the funtionality provided by corlib. See the complete API documentation for the full list.
 

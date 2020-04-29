@@ -1,6 +1,6 @@
 using System;
 using Beefy.gfx;
-using System.Collections.Generic;
+using System.Collections;
 using Beefy.sound;
 
 namespace BIStubUI

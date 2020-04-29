@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using System.Threading;
 using BiUtils;
-using System.Collections.Generic;
+using System.Collections;
 
 namespace BIStubUI
 {

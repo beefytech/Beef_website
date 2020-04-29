@@ -103,7 +103,7 @@ void ReadString(int reserveLen)
 }
 ```
 
-Many corlib classes such as [System.String](../doxygen/corlib/html/class_system_1_1_string.html) and [System.Collections.Generic.List<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_generic_1_1_list.html) need to dynamically allocate memory. By convention, these classes allocate from the global allocator, and they support custom allocators through virtual method overrides such as `String.Alloc` and `String.Free`.
+Many corlib classes such as [System.String](../doxygen/corlib/html/class_system_1_1_string.html) and [System.Collections.List<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_list.html) need to dynamically allocate memory. By convention, these classes allocate from the global allocator, and they support custom allocators through virtual method overrides such as `String.Alloc` and `String.Free`.
 
 ### Global allocator
 The global allocator is selected on a per-workspace basis. By default, the CRT malloc/free allocators are used, but any C-style global allocator can be used, such as TCMalloc or JEMalloc. In addition, Beef contains a special debug allocator which enables features such as real-time leak checking and hot compilation.

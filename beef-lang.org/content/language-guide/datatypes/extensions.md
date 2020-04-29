@@ -22,7 +22,7 @@ namespace System.Threading
 Generic types can be conditionally extended based on matching interface constraints.
 
 ```C#
-namespace System.Collections.Generic
+namespace System.Collections
 {
 	extension List<T> where T : IOpComparable
 	{

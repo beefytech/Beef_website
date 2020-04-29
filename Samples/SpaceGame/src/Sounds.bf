@@ -1,6 +1,6 @@
 using System;
 using SDL2;
-using System.Collections.Generic;
+using System.Collections;
 
 namespace SpaceGame
 {
