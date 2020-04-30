@@ -7,7 +7,7 @@ weight = 70
 
 Generics enable writing of code abstractions which can be applied to different types at compile time. List<T>, for example, is a basic list abstraction which allows for type-safe storage of values. Using a "List<int32>" type reference creates a specialized int32 list type. 
 
-Methods can also be have generic parameters, allowing for them to be specialized either explicitly or implicitly based on callsite argument types.
+Methods can also have generic parameters, allowing for them to be specialized either explicitly or implicitly based on callsite argument types.
 
 ```C#
 public static T GetFirst<T>(List<T> list)
