@@ -27,7 +27,7 @@ Defer statements can be used to defer execution of method calls or of code block
 	Console.WriteLine("End:{}", i);
 }
 
-/* The following will print "End:2 B:2 A:2". There were no aguments to evaluate at the defer location, so the 'i' value used in WriteLine is just the current value at the end of the scope. */
+/* The following will print "End:2 B:2 A:2". There were no arguments to evaluate at the defer location, so the 'i' value used in WriteLine is just the current value at the end of the scope. */
 {
 	int i = 0;
 	defer
@@ -227,7 +227,7 @@ let val4 = 2.3;
 ```
 
 ### while
-Repeadly excutes a statement as long as the condition is true.
+Repeatedly excutes a statement as long as the condition is true.
 
 ```C#
 while (i >= 0)
