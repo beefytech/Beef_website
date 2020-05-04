@@ -43,7 +43,8 @@ namespace SpaceGame
 		{
 			base.Init();
 			Images.Init();
-			Sounds.Init();
+			if (mHasAudio)
+				Sounds.Init();
 			mFont = new Font();
 			mFont.Load("zorque.ttf", 24);
 		}
