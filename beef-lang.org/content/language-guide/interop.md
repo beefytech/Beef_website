@@ -4,7 +4,7 @@ weight = 60
 +++
 
 ### Interop (FFI)
-Beef allows for zero-overhead linking to static and dynamic libraries. Methods declared as 'extern' will create an external symbol reference which must be satisfied at link time. Beef can also import DLL methods when a C linking library is not available, using the `[DllImport(...)]` attribute. By default, C++-compatible name mangling is used, but a method's link name can be override with [CLink] or [LinkName].
+Beef allows for zero-overhead linking to static and dynamic libraries. Methods declared as 'extern' will create an external symbol reference which must be satisfied at link time. Beef can also import DLL methods when a C linking library is not available, using the `[Import(...)]` attribute. By default, C++-compatible name mangling is used, but a method's link name can be override with [CLink] or [LinkName].
  
 ```C#
 /* Links to a method in an external library, with the following attributes:
