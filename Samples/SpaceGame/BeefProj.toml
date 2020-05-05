@@ -12,7 +12,7 @@ TargetName = "$(ProjectName)_d"
 
 [Configs.Debug.Linux64]
 TargetDirectory = "$(WorkspaceDir)/dist"
-OtherLinkFlags = "$(LinkFlags) -lSDL2 -lSDL2_ttf -LSDL2_image -LSDL2_mixer"
+OtherLinkFlags = "$(LinkFlags) -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer"
 CLibType = "Static"
 BeefLibType = "Static"
 LibPaths = ["sdl2.a"]
@@ -22,14 +22,14 @@ TargetDirectory = "$(WorkspaceDir)/dist"
 
 [Configs.Release.Linux64]
 TargetDirectory = "$(WorkspaceDir)/dist"
-OtherLinkFlags = "$(LinkFlags) -lSDL2 -lSDL2_ttf -LSDL2_image -LSDL2_mixer"
+OtherLinkFlags = "$(LinkFlags) -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer"
 
 [Configs.Paranoid.Win64]
 TargetDirectory = "$(WorkspaceDir)/dist"
 
 [Configs.Paranoid.Linux64]
 TargetDirectory = "$(WorkspaceDir)/dist"
-OtherLinkFlags = "$(LinkFlags) -lSDL2 -lSDL2_ttf -LSDL2_image -LSDL2_mixer"
+OtherLinkFlags = "$(LinkFlags) -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer"
 CLibType = "Static"
 BeefLibType = "Static"
 
@@ -39,6 +39,6 @@ TargetDirectory = "$(WorkspaceDir)/dist"
 [Configs.Test.Linux64]
 BuildKind = "Normal"
 TargetDirectory = "$(WorkspaceDir)/dist"
-OtherLinkFlags = "$(LinkFlags) -lSDL2 -lSDL2_ttf -LSDL2_image -LSDL2_mixer"
+OtherLinkFlags = "$(LinkFlags) -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer"
 CLibType = "Static"
 BeefLibType = "Static"
