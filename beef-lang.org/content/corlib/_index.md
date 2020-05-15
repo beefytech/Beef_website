@@ -12,7 +12,7 @@ The following is a partial list of collection types provided by corlib.
 |Category|Types|
 |-----|------|
 |List|[System.Collections.List<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_list.html)|
-|Dictionary|[System.Collections.Dictionary<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_dictionary.html)|
+|Dictionary|[System.Collections.Dictionary<T>](https://github.com/beefytech/Beef/blob/master/BeefLibs/corlib/src/Collections/Dictionary.bf)|
 |Hash set|[System.Collections.HashSet<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_hash_set.html)|
 |Queue|[System.Collections.Queue<T>](../doxygen/corlib/html/class_system_1_1_collections_1_1_queue.html)|
 
@@ -33,7 +33,7 @@ The following is a parial list of the funtionality provided by corlib. See the c
 |Console|[System.Console](../doxygen/corlib/html/class_system_1_1_console.html)|
 |Debug helpers|[System.Diagnostics.Debug](../doxygen/corlib/html/class_system_1_1_diagnostics_1_1_debug.html)|
 |Hashing|[System.Cryptography.MD5Hash](../doxygen/corlib/html/class_system_1_1_security_1_1_cryptography_1_1_m_d5.html)<br/>[System.Cryptography.SHA256](../doxygen/corlib/html/struct_system_1_1_security_1_1_cryptography_1_1_s_h_a256.html)|
-|Text Encoding|[System.Text.Encoding](../doxygen/corlib/htmlclass_system_1_1_text_1_1_encoding.html)|
+|Text Encoding|[System.Text.Encoding](../doxygen/corlib/html/class_system_1_1_text_1_1_encoding.html)|
 |Multi-cast delegates|[System.Event<T>](../doxygen/corlib/html/struct_system_1_1_event.html)|
 |FFI|[System.FFI.FFILIB](../doxygen/corlib/html/struct_system_1_1_f_f_i_1_1_f_f_i_l_i_b.html)<br/>[System.FFI.FFIType](../doxygen/corlib/html/struct_system_1_1_f_f_i_1_1_f_f_i_type.html)<br/>[System.FFI.FFICaller](../doxygen/corlib/html/struct_system_1_1_f_f_i_1_1_f_f_i_caller.html)|
 |Windows API|[System.Windows](../doxygen/corlib/html/class_system_1_1_windows.html)|

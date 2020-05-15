@@ -1,5 +1,5 @@
 using System;
-using IDE.Util;
+using MiniZ;
 using System.IO;
 using System.Windows;
 using System.Diagnostics;
