@@ -16,3 +16,6 @@ https://www.reddit.com/r/beeflang/
 
 Discord<br>
 https://discord.gg/rnsc9YP
+
+Community-managed list of Beef frameworks, libraries, and resources<br>
+https://github.com/Jonathan-Racaud/awesome-beef
