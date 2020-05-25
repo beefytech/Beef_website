@@ -20,4 +20,4 @@ May 20, 2020<br>
 
 ## Nightly
 Nightly releases are avilable if you need access to the latest features.<br>
-[Windows Installer](http://nightly.beeflang.org/setup/BeefSetup.exe)
+[Windows Installer](http://nightly.beeflang.org/BeefSetup.exe)
