@@ -1,7 +1,15 @@
 @SETLOCAL EnableDelayedExpansion
+
+for /f "tokens=1-4 delims=/ " %%i in ("%date%") do (
+     set dow=%%i
+     set month=%%j
+     set day=%%k
+     set year=%%l
+)
+
 @SET SRCDIR=..\..\..\Beef
-@SET CURVER=0.42.4
-@SET DESTNAME=BeefSetup_0_42_4.exe
+@SET CURVER=0.42.5 (Nightly %month%/%day%/%year%)
+@SET DESTNAME=BeefSetup_0_42_5__%month%_%day%_%year%.exe
 
 PUSHD %~dp0
 
@@ -113,20 +121,44 @@ cd install
 FOR /F "tokens=* USEBACKQ" %%F IN (`git --git-dir=..\%SRCDIR%\.git rev-parse HEAD`) DO (
 SET GITVER=%%F
 )
+..\..\..\bin\rcedit bin\BeefIDE.exe --set-version-string "FileVersion" "%CURVER%"
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 ..\..\..\bin\rcedit bin\BeefIDE.exe --set-version-string "ProductVersion" %GITVER%
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+..\..\..\bin\rcedit bin\BeefIDE_d.exe --set-version-string "FileVersion" "%CURVER%"
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 ..\..\..\bin\rcedit bin\BeefIDE_d.exe --set-version-string "ProductVersion" %GITVER%
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+..\..\..\bin\rcedit bin\BeefBuild.exe --set-version-string "FileVersion" "%CURVER%"
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 ..\..\..\bin\rcedit bin\BeefBuild.exe --set-version-string "ProductVersion" %GITVER%
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+..\..\..\bin\rcedit bin\BeefBuild_d.exe --set-version-string "FileVersion" "%CURVER%"
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 ..\..\..\bin\rcedit bin\BeefBuild_d.exe --set-version-string "ProductVersion" %GITVER%
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
-@IF "%1" NEQ "rel" goto ZIP
-@ECHO Storing symbols...
+@ECHO Cleaning up old BeefNightly files
+ForFiles /p "C:\BeefNightly" /s /d -30 /c "cmd /c del @file"
+@REM Clear error in case no files were deleted
+cd.
+
+@SET SRCDIR=..\..\..\Beef
+@SET SYMSTORE="C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\symstore.exe"
+@SET PDBSTR="C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\srcsrv\pdbstr.exe"
+
+@FOR %%i IN (pdb\*.pdb) DO (	
+	..\..\bin\source_index.py %%i
+	@IF !ERRORLEVEL! NEQ 0 GOTO:EOF
+)
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-@call ..\storesyms.bat
-IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
+
+%SYMSTORE% add /f bin\*.dll /s c:\BeefNightly /t Beef /compress
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+%SYMSTORE% add /f bin\*.exe /s c:\BeefNightly /t Beef /compress 
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+%SYMSTORE% add /f ..\pdb\*.pdb /s c:\BeefNightly /t Beef /compress 
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
 :ZIP
 cd install
@@ -136,34 +168,25 @@ IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 cd ..
 
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
-..\..\bin\rcedit dist\Stub.exe --set-version-string "FileVersion" %CURVER%
+..\..\bin\rcedit dist\Stub.exe --set-version-string "FileVersion" "%CURVER%"
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
-..\..\bin\rcedit dist\Stub.exe --set-file-version %CURVER%
+..\..\bin\rcedit dist\Stub.exe --set-file-version "%CURVER%"
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 ..\..\bin\rcedit dist\Stub.exe --set-version-string "ProductVersion" %GITVER%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 
-@IF "%1" NEQ "rel" goto SETUP_NOREL
-aws s3api head-object --bucket www.beeflang.org --key setup/%DESTNAME%
-IF %ERRORLEVEL% NEQ 0 GOTO SETUP_NO_PROD_EXIST
-@ECHO ERROR: File %DESTNAME% has already been submitted to production!
-exit /b 1
-:SETUP_NO_PROD_EXIST
-@mkdir ..\..\public\setup\
-@REM ALLOW TO FAIL ^
-@echo Creating installer at ..\..\public\setup\%DESTNAME%
-copy /b dist\Stub.exe + InstallData.zip ..\..\public\setup\%DESTNAME%
+copy /b dist\Stub.exe + InstallData.zip C:\BeefNightly\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
-..\..\bin\sign.bat ..\..\public\setup\%DESTNAME%
-IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
+copy /y C:\BeefNightly\%DESTNAME% C:\BeefNightly\BeefSetup.exe
 
-@git hash-object ..\..\public\setup\%DESTNAME%
-IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
-GOTO :DONE
+aws s3 cp c:\BeefNightly\BeefSetup.exe s3://nightly.beeflang.org
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
-:SETUP_NOREL
-copy /b dist\Stub.exe + InstallData.zip %DESTNAME%
-IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
+@REM size-only because the directory hash is really the 'unique' part
+aws s3 sync --size-only c:\BeefNightly s3://nightly.beeflang.org
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+
+
 GOTO :DONE
 
 :HADERROR

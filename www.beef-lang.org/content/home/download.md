@@ -17,3 +17,7 @@ May 20, 2020<br>
 [Release Notes](docs/releases/ver_0_42_4/)<br>
 [Windows Installer](setup/BeefSetup_0_42_4.exe) - 116.0MB<br>
 [GitHub Tag](https://github.com/beefytech/Beef/tree/0.42.4)
+
+## Nightly
+Generally you should use the latest stable release, but nightly releases are avilable if you need access to the latest features.<br>
+[Windows Installer](http://setup/BeefSetup.exe)
