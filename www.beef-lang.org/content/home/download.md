@@ -19,5 +19,5 @@ May 20, 2020<br>
 [GitHub Tag](https://github.com/beefytech/Beef/tree/0.42.4)
 
 ## Nightly
-Nightly releases are avilable if you need access to the latest features.<br>
+Nightly releases are available if you need access to the latest features.<br>
 [Windows Installer](http://nightly.beeflang.org/BeefSetup.exe)
