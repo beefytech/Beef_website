@@ -110,11 +110,10 @@ copy %SRCDIR%\bin\BfAeDebug.exe install\bin\
 copy %SRCDIR%\bin\AeDebug.reg install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
-@IF "%1" NEQ "rel" goto SETVER
 @ECHO Copying PDBs...
+copy dist\*.pdb pdb\
 copy %SRCDIR%\IDE\dist\*.pdb pdb\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-:SETVER
 
 cd install
 
@@ -153,6 +152,10 @@ cd.
 )
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
+%SYMSTORE% add /f ..\install\*.dll /s c:\BeefNightly /t Beef /compress
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+%SYMSTORE% add /f ..\install\*.exe /s c:\BeefNightly /t Beef /compress
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 %SYMSTORE% add /f bin\*.dll /s c:\BeefNightly /t Beef /compress
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 %SYMSTORE% add /f bin\*.exe /s c:\BeefNightly /t Beef /compress 

@@ -13,9 +13,9 @@ PUSHD %~dp0
 )
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
-%SYMSTORE% add /f install\__installer\*.dll /s c:\BeefSyms /t Beef /compress 
+%SYMSTORE% add /f dist\*.dll /s c:\BeefSyms /t Beef /compress 
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-%SYMSTORE% add /f install\__installer\*.exe /s c:\BeefSyms /t Beef /compress 
+%SYMSTORE% add /f dist\*.exe /s c:\BeefSyms /t Beef /compress 
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 %SYMSTORE% add /f install\bin\*.dll /s c:\BeefSyms /t Beef /compress 
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
