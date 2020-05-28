@@ -147,7 +147,7 @@ namespace BIStubUI
 					folderDialog.SelectedPath = mInstallPath;
 					if (folderDialog.ShowDialog(mWidgetWindow).GetValueOrDefault() == .OK)
 					{
-						var selectedPath = scope String..AppendF(folderDialog.SelectedPath);
+						var selectedPath = scope String()..AppendF(folderDialog.SelectedPath);
 						mInstallPath.Set(selectedPath);
 					}
 				});

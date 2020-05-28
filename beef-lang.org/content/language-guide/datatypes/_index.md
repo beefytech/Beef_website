@@ -123,7 +123,7 @@ Structs can be zero-sized, which allows for efficient use of some types of gener
 	 (Clang/GCC). */
 ```
 
-Opaque struct definitionss can be created by simply not supplying a body, which create types that can be used for interop which disallows direct allocation (since the size is unknown).
+Opaque struct definitions can be created by simply not supplying a body, which create types that can be used for interop which disallows direct allocation (since the size is unknown).
 
 
 ## Tuple types {#tuples}

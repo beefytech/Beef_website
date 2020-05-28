@@ -1,5 +1,5 @@
 using System;
-using IDE.Util;
+using MiniZ;
 using System.IO;
 using System.Windows;
 using System.Diagnostics;
@@ -33,7 +33,7 @@ namespace BIStub
 			if (mFailed)
 				return;
 			mFailed = true;
-			Windows.MessageBoxA(default, scope String..AppendF("ERROR: {}", str), "FATAL ERROR", Windows.MB_ICONHAND);
+			Windows.MessageBoxA(default, scope String()..AppendF("ERROR: {}", str), "FATAL ERROR", Windows.MB_ICONHAND);
 		}
 
 		bool HandleCommandLineParam(String key, String value)
