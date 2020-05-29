@@ -1,7 +1,7 @@
 @SETLOCAL EnableDelayedExpansion
 @SET SRCDIR=..\..\..\Beef
-@SET CURVER=0.42.4
-@SET DESTNAME=BeefSetup_0_42_4.exe
+@SET CURVER=0.42.5
+@SET DESTNAME=BeefSetup_0_42_5.exe
 
 PUSHD %~dp0
 
@@ -104,6 +104,7 @@ copy %SRCDIR%\bin\AeDebug.reg install\bin\
 
 @IF "%1" NEQ "rel" goto SETVER
 @ECHO Copying PDBs...
+copy dist\*.pdb pdb\
 copy %SRCDIR%\IDE\dist\*.pdb pdb\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 :SETVER
