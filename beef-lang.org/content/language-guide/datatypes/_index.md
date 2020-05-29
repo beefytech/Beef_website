@@ -117,7 +117,7 @@ Structs can be zero-sized, which allows for efficient use of some types of gener
 	 sizeof(StructB) = 32 (or 24)
 	 
 	 In Beef, the data size is smaller due to field reordering eliminating alignment 
-	 padding. In C, the 'k' field byte added in StructB causes an 	  extra 7 bytes of 
+	 padding. In C, the 'k' field byte added in StructB causes an extra 7 bytes of 
 	 padding. The 'l' field byte added in StructC creates yet another 7 bytes of padding 
 	 on some compilers (VC) while other compilers will fit 'l' into the previous padding 
 	 (Clang/GCC). */

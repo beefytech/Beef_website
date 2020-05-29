@@ -49,3 +49,5 @@ The build results will be in IDE/dist
 This will build dependencies such as LLVM, which can take quite some time.
 
 The build results will be in IDE/dist
+
+Please note that the CLI tools such as BeefBuild are supported on these platforms, but the the IDE is currently only available for Windows.
