@@ -116,7 +116,8 @@ namespace BIStubUI
 			Font CreateFont(StringView srcName, float fontSize)
 			{
 				Font font = new Font();
-				font.Load(srcName, fontSize);
+				if (!font.Load(srcName, fontSize))
+					font.Load("Arial", fontSize);
 				font.AddAlternate("Segoe UI Symbol", fontSize).IgnoreError();
 				font.AddAlternate("Segoe UI Historic", fontSize).IgnoreError();
 				font.AddAlternate("Segoe UI Emoji", fontSize).IgnoreError();

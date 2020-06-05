@@ -221,22 +221,56 @@ namespace BiUtils
 
 		public static Result<void, Error> CreateDir(StringView dir)
 		{
-			Windows.ACL* acl = null;
-			Windows.ACL* newAcl = null;
-
 			if (Directory.Exists(dir))
 				return .Ok;
 
-			if (Directory.CreateDirectory(dir) case .Err)
-				return .Err(.CreateDirectoryFailed(new String(dir)));
+			CreateLoop: for (int i = 0; true; i++)
+			{
+				switch (Directory.CreateDirectory(dir))
+				{
+				case .Ok:
+					break CreateLoop;
+				case .Err(let err):
+				}
+				if (i == 10)
+					return .Err(.CreateDirectoryFailed(new String(dir)));
+				Thread.Sleep(20);
+			}
+
+			return .Ok;
+		}
+
+		public static Result<void, Error> AllowAccess(StringView dir)
+		{
+			Windows.ACL* acl = null;
+			Windows.ACL* newAcl = null;
 
 			char16* dirWC = dir.ToScopedNativeWChar!();
 
 			if (Windows.GetNamedSecurityInfoW(dirWC, .SE_FILE_OBJECT, .DACL_SECURITY_INFORMATION, null, null, &acl, null, null) != 0)
 				return .Err(.SetPermissionFailed);
 
+			uint32 numEntries = 0;
+			Windows.EXPLICIT_ACCESS_W* explicitAccessList = null;
+			if (Windows.GetExplicitEntriesFromAclW(acl, &numEntries, &explicitAccessList) != 0)
+				return .Err(.SetPermissionFailed);
+
+			// Find the "Users" sid
+			Windows.SID* sid = null;
+			if (!Windows.ConvertStringSidToSidW("S-1-5-32-545".ToScopedNativeWChar!(), &sid))
+				return .Err(.SetPermissionFailed);
+
+			char16[256] name;
+			uint32 nameLen = 256;
+			int peUse = 0;
+			char16[256] domainName;
+			uint32 domainNameLen = 256;
+			if (!Windows.LookupAccountSidW(null, sid, &name, &nameLen, &domainName, &domainNameLen, &peUse))
+				return .Err(.SetPermissionFailed);
+
+
 			Windows.EXPLICIT_ACCESS_W explicitAccess = default;
-			Windows.BuildExplicitAccessWithNameW(&explicitAccess, "Users".ToScopedNativeWChar!(), Windows.GENERIC_ALL, .SET_ACCESS, Windows.CONTAINER_INHERIT_ACE | Windows.OBJECT_INHERIT_ACE);
+			Windows.BuildExplicitAccessWithNameW(&explicitAccess, &name, Windows.GENERIC_ALL, .SET_ACCESS, Windows.CONTAINER_INHERIT_ACE | Windows.OBJECT_INHERIT_ACE);
 			if (Windows.SetEntriesInAclW(1, &explicitAccess, acl, &newAcl) != 0)
 				return .Err(.SetPermissionFailed);
 			if (Windows.SetNamedSecurityInfoW(dirWC, .SE_FILE_OBJECT, .DACL_SECURITY_INFORMATION, null, null, newAcl, null) != 0)

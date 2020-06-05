@@ -147,6 +147,15 @@ namespace BiElevated
 								HandleError(err);
 						}
 					}
+					else if (cmd.StartsWith("allowAccess "))
+					{
+						StringView dir = .(cmd, "allowAccess ".Length);
+						using (var result = BiUtils.Utils.AllowAccess(dir))
+						{
+							if (result case .Err(let err))
+								HandleError(err);
+						}
+					}
 					else if (cmd.StartsWith("createHKLM "))
 					{
 						StringView keyName = .(cmd, "createHKLM ".Length);

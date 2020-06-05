@@ -225,6 +225,7 @@ namespace BIStubUI
 		public bool mIsClosed;
 		State mState;
 		String mInstallPath ~ delete _;
+		String mProgramFilesPath ~ delete _;
 		bool mWantsOptionsSetting;
 		bool mElevateFailed;
 
@@ -312,6 +313,8 @@ namespace BIStubUI
 			{
 				mInstallPathBox.mInstallPath.Set(@"C:\Program Files");
 			}
+			mProgramFilesPath = new String(mInstallPathBox.mInstallPath);
+
 			mInstallPathBox.mInstallPath.Append(@"\BeefLang");
 		}
 
@@ -471,14 +474,21 @@ namespace BIStubUI
 					needsElevation = true;
 			}*/
 
-			if (Directory.CreateDirectory(beefProgramsPath) case .Err)
+			if (Utils.CreateDir(beefProgramsPath) case .Err)
 			{
 				Elevate(scope String()..AppendF("mkdir {}", beefProgramsPath));
 			}
 
-			if (Directory.CreateDirectory(mInstallPath) case .Err)
+			if (Utils.CreateDir(mInstallPath) case .Err)
 			{
 				Elevate(scope String()..AppendF("mkdir {}", mInstallPath));
+			}
+			if (mInstallPath.StartsWith(mProgramFilesPath, .OrdinalIgnoreCase))
+			{
+				if (Utils.AllowAccess(mInstallPath) case .Err)
+				{
+					Elevate(scope String()..AppendF("allowAccess {}", mInstallPath));
+				}
 			}
 
 			if (elevateFailed)
