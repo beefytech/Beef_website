@@ -13,7 +13,7 @@ IF %ERRORLEVEL% NEQ 0 GOTO FAILED
 mkdir pdb
 mkdir install
 IF %ERRORLEVEL% == 0 GOTO COPY
-timeout 2
+ping -n 5 127.0.0.1 > NUL
 mkdir pdb
 mkdir install
 IF %ERRORLEVEL% NEQ 0 GOTO FAILED
