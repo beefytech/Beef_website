@@ -3,7 +3,7 @@ title = "Extensions"
 weight = 20
 +++
 
-## Extensions
+## Type Extensions
 
 Type definitions can be extended, and a user project can even extend types originally defined in the core library, even adding additional data fields. 
 
@@ -44,3 +44,46 @@ namespace System.Collections
 ```
 
 Extensions can be useful for adding interface conformance to types that are outside your control (ie: system types or types defined in another library).
+
+## Extension Methods
+
+Method extensions can be used to virtually add methods to existing types without modifying the original type. Extension methods are static methods, but they are called as if they are non-static methods on an extended type, or a type that conforms to a set of generic constraints. Extension methods can be preferable over type extensions when you want to limit the scope of a given method to a particular namespace or utility method, or when the method is intended to apply to a broad range of types conforming to specific generic constraints.
+
+```C#
+
+
+/* This provides a CharCount method in String in total global namespace */
+static
+{
+	public static int CharCount(this String str, char8 c)
+	{
+		int total = 0;
+		for (let checkC in str.RawChars)
+			if (checkC == c)
+				total++;
+		return total;
+	}
+}
+
+/* This provides a Total method in List<T> for any T that can be added together. 
+ This method is only visible when explicitly importing this type with 'using static'  */ 
+static class ListUtils
+{
+	public static T Total<T>(this List<T> list) where T : IOpAddable
+	{
+		T total = default;
+		for (let val in list)
+			total += val;
+		return total;
+	}
+}
+
+/*************************************************/
+
+int charCount = "Test string".CharCount('s');
+
+using static ListUtils;
+int GetListTotal(List<int> list) => list.Total();
+
+
+```

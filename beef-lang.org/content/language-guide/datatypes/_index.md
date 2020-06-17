@@ -200,6 +200,8 @@ float[,] floatArr2D = new float[3, 2];
 
 /* This is a fixed-size array, which is much like a tuple with four values */
 float[4] sizedFloatArr = .(100, 200, 300, 400);
+int[?] inferredSizeArr = .(500, 600);
+let inferredSizeArr2 = int[?](700, 800, 900);
 
 /* A span is a ptr/size value type pair */
 Span<float> floatSpan = floatArr;

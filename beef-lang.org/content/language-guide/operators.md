@@ -58,7 +58,9 @@ These following operator groups are listed from the highest priority group to th
 
 ### Equality operator
 * `x == y`
+* `x === y` - strict equality
 * `x != y`
+* `x !== y` - strict inequality
 
 ### Conditional AND operator
 * `x && y`
