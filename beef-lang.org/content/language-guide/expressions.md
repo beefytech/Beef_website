@@ -99,7 +99,6 @@ Console.WriteLine("Result={}",
 * `123` - number
 * `0x1234` - hex number
 * `0x1234'5678` - number with a seperator, which can be placed anywhere
-* `0x'1234` - int64 hex number, because of "0x'".
 * `0x1234L` - int64 hex number
 * `0x1234UL` - uint64 hex number
 * `'c'` - char8

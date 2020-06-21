@@ -60,6 +60,20 @@ int[] iArr = new int[10] (1, 2, 3, ?);
 int[] iArr = new int[10] (1, 2, 3);
 ```
 
+Value initializers let you assign values to fields and properties of values at creation time.
+
+```C#
+/* Construct a Cat, calling the default constructor, and then assign the Age and Name properties */
+var cat = new Cat() { Age = 10, Name = "Fluffy" };
+```
+
+Value initializers also allow you to add items to collections at creation time. You can provide a list of expressions, which will be passed individually to an applicable `Add` method.
+
+```C#
+var list = scope List<int>() {1, 2, 3, 4};
+var weightDict = scope Dictionary<String, float>() { ("Roger", 212.3f), ("Sam", 110.2f) };
+```
+
 Types can also define static fields and static constructors. Static initialization order is defined by alphanumeric order of the fully-qualified type name. This order can be overriden with type attributes such as [StaticInitPriority(...)] and [StaticInitAfter(...)]. Static initialization that refer to static fields in other types will cause that type's static initializers to execute on-demand before the access. This on-demand initialization can cause circular dependencies, however, which are resolved by simply skipping any reentrant initializer calls.
 
 ## Destruction

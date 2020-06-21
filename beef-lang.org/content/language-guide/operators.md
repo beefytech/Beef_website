@@ -57,10 +57,13 @@ These following operator groups are listed from the highest priority group to th
 * `x | y` - bitwise OR   
 
 ### Equality operator
+
 * `x == y`
 * `x === y` - strict equality
 * `x != y`
 * `x !== y` - strict inequality
+
+The strict equality operators can be used to check reference equality, skipping any equality operator overloads. For value types such as structs or tuples, the strict equality operator will perform a memberwise strict equality check.
 
 ### Conditional AND operator
 * `x && y`

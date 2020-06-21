@@ -4,7 +4,7 @@ title = "Literals"
 
 ## Integer literals
 
-Integers can be represented as decimal, hexadecimal, octal, or binary. In addition, the seperator character `'` (single quote) can be used to seperate numbers any way the user desires. A seperater character immediately following the hex `0x` specifier explicitly means to interpret the number as a 64-bit integer, however, and is generally used for displaying 64-bit addresses in Beef.
+Integers can be represented as decimal, hexadecimal, octal, or binary. In addition, the seperator character `'` (single quote) can be used to seperate numbers any way the user desires.
 
 ```C#
 
@@ -23,12 +23,21 @@ int oct = 0o666;
 uint32 bin = 0b'1111'0000'1111'0000;
 ```
 
-Suffixes can be added to explicitly specified size and signedness.
+Suffixes can be added to explicitly specified size and signedness. Integer literals are limited to 32-bits unless a size specifier is used or if there is at least one separator character specified.
 
-```
+```C#
 let val = 123U; // Results in an 'uint'
 let val2 = 234L; // Results in an 'int64'
+let val3 = 0x12'34567890; // Results in an `int64`
+let val4 = 0x1234567890; // ERROR- either an 'L' or '`' is required
 ```
+
+When no size specifiers are used, integer literals do not inherently have a specific size; their size will depend on the context in which they are used:
+
+* Integer literals can be implicitly cast to any integer size that fits the value.
+* When used as an argument to a method with overloads, the method with the smallest applicable integer size will be selected.
+* If no specific integer type can be determined, the first of the following types that fits the value will be used: int, uint, int64, uint64.
+
 
 ## Floating point literals
 
