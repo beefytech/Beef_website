@@ -19,6 +19,9 @@ There will be, at some point.
 #### Is Beef available for consoles?
 Work has not yet started on this, but it is a priority item.
 
+#### How long has BeefLang been in development?
+Work on the language and the IDE started in September 2014, and the first public release was in January 2020.
+
 #### Is Beef suitable for production code right now?
 Beef is a new language, which has it's advantages and disadvantages - early adopters can help shape the direction of the language, and will often receive personal attention for their issues. New languages are subject to breaking changes at times, however, and may contain more bugs than older languages. Beef bugs are usually fixed quickly.
 
@@ -28,8 +31,14 @@ The best way to help is to to simply use Beef, even for small projects, and repo
 #### Can I help support Beef financially through Patreon or something?
 This project is not in need of financial support.
 
+#### Who are you?
+BeefLang was started by Brian Fiete, co-founder of PopCap Games and PopCap employee through 2011. Brian has been working more or less full-time on BeefLang since September 2014.
+
 #### I don't like the name or logo of the language. Will you change it please?
 The logo will likely change, but the name will not change.
+
+#### Are there any plans for async/await or coroutines?
+These will be considered for a future version of BeefLang.
 
 #### How do I get the name of the current executable?
 `System.Environment.GetExecutableFilePath`
