@@ -14,6 +14,21 @@ Delegates are more general, and are defined as class types which can not only re
 delegate void() delegateVal = scope => MemberMethod;
 ```
 
+## Events
+Events can be thought of as multicast delegates. The `System.Event<T>` struct wraps a delegate type and can contain zero or many delegate references.
+```C#
+Event<delegate void(int)> evt = default;
+/* Note the use of 'new =>' because the Event takes ownership of the delegates */
+evt.Add(new => obj.MethodA);
+evt.Add(new => obj.MethodB);
+/* This will invoke the delegates in the order they were added */
+evt(intVal);
+/* This removes a single delegate. Note the use of 'scope' because this argument is only used for comparison and no ownership is transferred */
+evt.Remove(scope => obj.MethodA, true);
+/* Dispose will delete all remaining delegates */
+evt.Dispose();
+```
+
 ## Lambdas
 Lambdas are a shorthand for creating a local method and then allocating a delegate to point to it, except a lambda also allows you to define a lambda destructor for freeing any resources required during the lifetime of the lambda.
 
