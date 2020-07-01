@@ -15,7 +15,6 @@ TargetDirectory = "$(WorkspaceDir)/dist"
 OtherLinkFlags = "$(LinkFlags) -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer"
 CLibType = "Static"
 BeefLibType = "Static"
-LibPaths = ["sdl2.a"]
 
 [Configs.Release.Win64]
 TargetDirectory = "$(WorkspaceDir)/dist"
