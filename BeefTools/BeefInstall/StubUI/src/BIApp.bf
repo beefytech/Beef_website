@@ -91,7 +91,8 @@ namespace BIStubUI
 				| .DestAlpha
 				;
 
-			GetWorkspaceRect(var workX, var workY, var workWidth, var workHeight);
+			// Center on the primary monitor
+			GetWorkspaceRectFrom(0, 0, 0, 0, var workX, var workY, var workWidth, var workHeight);
 
 			mRootWidget = new Widget();
 			mMainWindow = new WidgetWindow(null, "Beef Installer",
