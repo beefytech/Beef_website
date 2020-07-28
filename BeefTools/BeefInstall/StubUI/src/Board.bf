@@ -190,6 +190,7 @@ namespace BIStubUI
 	{
 		const float cBodyX = 0;
 		const float cBodyY = 20;
+		public const String cSettingsHKeyName = @"Software\BeefyTech\BeefLang";
 
 		enum State
 		{
@@ -301,6 +302,11 @@ namespace BIStubUI
 
 			////
 
+			Windows.HKey optionsKey = default;
+			uint32 disposition = 0;
+			if (Windows.RegOpenKeyExW(Windows.HKEY_CURRENT_USER, cSettingsHKeyName.ToScopedNativeWChar!(), 0, Windows.KEY_QUERY_VALUE, out optionsKey) != 0)
+				Windows.RegCreateKeyExW(Windows.HKEY_CURRENT_USER, cSettingsHKeyName.ToScopedNativeWChar!(), 0, null, Windows.REG_OPTION_NON_VOLATILE, Windows.KEY_ALL_ACCESS, null, out optionsKey, &disposition);
+
 			int pidl = 0;
 			Windows.SHGetSpecialFolderLocation(gApp.mMainWindow.HWND, Windows.CSIDL_PROGRAM_FILES, ref pidl);
 			if (pidl != 0)
@@ -316,6 +322,22 @@ namespace BIStubUI
 			mProgramFilesPath = new String(mInstallPathBox.mInstallPath);
 
 			mInstallPathBox.mInstallPath.Append(@"\BeefLang");
+
+			if (!optionsKey.IsInvalid)
+			{
+				String str = scope .();
+				if ((optionsKey.GetValue("InstallPath", str) case .Ok) && (!str.IsWhiteSpace))
+					mInstallPathBox.mInstallPath.Set(str);
+				if (optionsKey.GetValue("InstallForAll") case .Ok(let val))
+					mInstallForAllCheckbox.Checked = val.Get<uint32>() != 0;
+				if (optionsKey.GetValue("AddToPath") case .Ok(let val))
+					mAddToPathCheckbox.Checked = val.Get<uint32>() != 0;
+				if (optionsKey.GetValue("AddToDesktop") case .Ok(let val))
+					mAddToDesktopCheckbox.Checked = val.Get<uint32>() != 0;
+				if (optionsKey.GetValue("StartAfter") case .Ok(let val))
+					mStartAfterCheckbox.Checked = val.Get<uint32>() != 0;
+				optionsKey.Close();
+			}
 		}
 
 		Result<void> CreateDirectory(StringView dirPath)
@@ -327,6 +349,25 @@ namespace BIStubUI
 				Thread.Sleep(10);
 			}
 			return .Err;
+		}
+
+		void SetInstalledOptions()
+		{
+			Windows.HKey optionsKey = default;
+			if (Windows.RegOpenKeyExW(Windows.HKEY_CURRENT_USER, cSettingsHKeyName.ToScopedNativeWChar!(), 0, Windows.KEY_ALL_ACCESS, out optionsKey) != 0)
+			{
+				uint32 disposition = 0;
+				Windows.RegCreateKeyExW(Windows.HKEY_CURRENT_USER, cSettingsHKeyName.ToScopedNativeWChar!(), 0, null, Windows.REG_OPTION_NON_VOLATILE, Windows.KEY_ALL_ACCESS, null, out optionsKey, &disposition);
+			}
+			if (!optionsKey.IsInvalid)
+			{
+				optionsKey.SetValue("InstallPath", mInstallPath);
+				optionsKey.SetValue("InstallForAll", mInstallForAllCheckbox.Checked ? 1 : 0);
+				optionsKey.SetValue("AddToPath", mAddToPathCheckbox.Checked ? 1 : 0);
+				optionsKey.SetValue("AddToDesktop", mAddToDesktopCheckbox.Checked ? 1 : 0);
+				optionsKey.SetValue("StartAfter", mStartAfterCheckbox.Checked ? 1 : 0);
+				optionsKey.Close();
+			}
 		}
 
 		void InstallProc()
@@ -505,6 +546,7 @@ namespace BIStubUI
 					pathInstallStr = scope:: String()..AppendF("USERPATH:{}", pathPath);
 			}
 
+			String prefsHKeyStr = scope String()..AppendF("HKCU:{}", cSettingsHKeyName);
 			String uninstallHKeyName = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\BeefLang";
 			String uinstallHKeyInstallStr = scope String();
 			String beefPathEnvInstallStr = allUsers ? "ENV:BeefPath" : "USERENV:BeefPath";
@@ -531,6 +573,8 @@ namespace BIStubUI
 					Elevate(cmdString);
 				}
 			}
+
+			SetInstalledOptions();
 
 			InstalledFiles installedFiles = scope .();
 
@@ -650,6 +694,7 @@ namespace BIStubUI
 
 			uint32 disposition = 0;
 			installedFiles.Add(uinstallHKeyInstallStr);
+			installedFiles.Add(prefsHKeyStr);
 
 			Windows.HKey rootInstallKey = allUsers ? Windows.HKEY_LOCAL_MACHINE : Windows.HKEY_CURRENT_USER;
 			if (Windows.RegOpenKeyExA(rootInstallKey, uninstallHKeyName, 0, Windows.KEY_QUERY_VALUE, var uninstallKey) == 0)
