@@ -79,6 +79,13 @@ class Program
 }
 ```
 
+### Distinct Build Options
+
+Reflection information can be configured in workspaces and projects under Distinct Build Options. For example, if you need `Add` and `Remove` methods reflected for all `System.Collection.List<T>` instances, you can add a `System.Collections.List<*>` under Distinct Build Options: 
+	* Set "Reflect\Method Filter" to "Add;Remove" to ensure the settings only apply to those methods
+	* Set "Reflect\Always Include" to "Include All" to ensure the specified methods get compiled into the build even if they werent't explicitly used
+	* Set "Reflect\Non-Static Methods" to "Yes" to ensure the specified non-static methods have reflection information added
+
 ### Common Reflection Issues
 
 Beef strives to produce the smallest executables possible -- a "Hello World" program should ideally only contain the absolute minimum machine code and data in the resulting executable to print "Hello World" and nothing else. If you were to add functionality to that application to allow the user to pass in a type name and a method name and you expect to be able to construct that type and call that method based on reflection information, that would clearly be impossible unless the executable contained machine code and reflection information for every single method defined in the corlib, which would violate the "minimum binary" ideal.
