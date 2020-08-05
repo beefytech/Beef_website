@@ -25,17 +25,17 @@ Generic constraints can be specified, which describe the 'shape' of the type whi
 - Interface type - any number of interfaces can be specified for a generic parameter. The incoming type must declare implementations for all these interfaces.
 - Class/struct type - a single concrete type can be specified, which the incoming type must derive from.
 - Delegate type - the incoming type can either be an instance of this delegate type, or it can be a method reference whose signature conforms to the delegate (see Method References)
-- "operator T <op> T2" - type must result from binary operation between the specified types
-- "operator <op> T" - type must result from unary operation on the specified
-- "operator implicit T" - type must be implicitly convertible from the specified type
-- "operator explicit T" - type must be explicitly convertible from the specified type
-- "class" - type must be class
-- "struct" - type must be a value type
-- "struct* - type must be a pointer to a value type
-- "new" - type must define an accessible default constructor
-- "delete" - type must define an accessible destructor
-- "const" - type must be a constant value - see "Const Generics"
-- "var" - type is unconstrained. This can be useful for certain kinds of "duck typing", and can generate patterns similar to C++ templates, but in general produces less useful errors and a less pleasant development experience 
+- `operator T <op> T2` - type must result from binary operation between the specified types
+- `operator <op> T` - type must result from unary operation on the specified
+- `operator implicit T` - type must be implicitly convertible from the specified type
+- `operator explicit T` - type must be explicitly convertible from the specified type
+- `class` - type must be class
+- `struct` - type must be a value type
+- `struct*` - type must be a pointer to a value type
+- `new` - type must define an accessible default constructor
+- `delete` - type must define an accessible destructor
+- `const` - type must be a constant value - see "Const Generics"
+- `var` - type is unconstrained. This can be useful for certain kinds of "duck typing", and can generate patterns similar to C++ templates, but in general produces less useful errors and a less pleasant development experience 
 
 ```C#
 public static T Abs<T>(T value) where T : IOpComparable, IOpNegatable
