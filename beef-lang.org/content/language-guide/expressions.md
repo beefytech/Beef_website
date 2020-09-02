@@ -36,7 +36,7 @@ The `box` expression allocates an object which wraps a value type. (See [Memory 
 
 ### case
 
-`case` expressions can be used for pattern matching outside switches. (See [Pattern Matching]{{<ref "pattern.md" >}}))
+`case` expressions can be used for pattern matching outside switches. (See [Pattern Matching]{{< ref "pattern.md" >}}))
 
 ### Cast expression
 
@@ -61,7 +61,7 @@ if ((let name = GetName()) && (isEnabled))
 
 }
 
-/* This is ILLEGAN since "force" can cause the block to be entered even if the conditional variable declaration fails */
+/* This is ILLEGAL since "force" can cause the block to be entered even if the conditional variable declaration fails */
 if ((let name == GetName() || (force))
 {
 
