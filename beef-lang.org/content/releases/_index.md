@@ -3,6 +3,9 @@ title = "Release Notes"
 weight = 1
 +++
 
+September 9, 2020<br>
+[Version 0.42.6](ver_0_42_6)
+
 June 25, 2020<br>
 [Version 0.42.5](ver_0_42_5)
 

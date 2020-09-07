@@ -32,8 +32,7 @@ weight = 11
 - [Import] - imports a method from the specified DLL. This can be used when a DLL's lib file is not available.
 - [Inline] - inlines the function even on unoptimized builds
 - [Intrinsic] - ties a method to an intrinsic (generally only used in system libraries)
-- [NoDiscard] - if the return value of this method is not used at a callsite, a warning will be thrown
-- [NoDiscard] - throw a warning at compile time at callsites if the return value isn't used
+- [NoDiscard] - throw a warning at callsites if the return value of this method isn't used
 - [NoReturn] - denotes that this method will not return
 - [Obsolete] - marks a method as obsolete, throwning either a warning or error
 - [Optimized] - compiles method with optimizations enabled
@@ -49,3 +48,6 @@ weight = 11
 ## Member access attributes
 - [Friend] - allow access to private members
 - [SkipAccessCheck] - omits object access checks for the target of this member access (optimization)
+
+## Code block attributes
+- [IgnoreErrors] - Silently ignore errors in this code block

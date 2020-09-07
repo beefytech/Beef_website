@@ -124,16 +124,39 @@ struct Vector2
 		this.y = y;
 	}
 
+	/* Binary + operator */
 	public static Vector2 operator+(Vector2 lhs, Vector2 rhs)
 	{
 		return .(lhs.x, rhs.y);
 	}
 
+	/* Unary '-' operator */
 	public static Vector2 operator-(Vector2 val)
 	{
 		return .(-val.x, -val.y);
 	}
 
+	/* Unary '++' operator */
+	public static Vector2 operator++(Vector2 val)
+	{
+		return .(val.x + 1, val.y + 1);
+	}
+
+	/* Non-static unary '--' operator */
+	public void operator--() mut
+	{
+		x--;
+		y--;
+	}
+
+	/* Assignment '+=' operator */
+	public void operator+=(Vector2 rhs) mut
+	{
+		x += rhs.x;
+		y += rhs.y;
+	}
+
+	/* Comparison operator */
 	public static int operator<=>(Vector2 lhs, Vector2 rhs)
 	{
 		/* Compare on X, or on Y if X's are equal */
@@ -141,6 +164,12 @@ struct Vector2
 		if (cmp != 0)
 			return cmp;
 		return lhs.y <=> rhs.y;
+	}
+
+	/* Conversion operator from float[2] */
+	public static operator Vector2(float[2] val)
+	{
+		return .(val[0], val[1]);
 	}
 }
 ```
