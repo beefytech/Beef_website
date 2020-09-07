@@ -12,10 +12,10 @@ columns = "1"
 
 <a name="releases"></a>
 
-## Version 0.42.9
+## Version 0.42.6
 September 9, 2020<br>
 [Release Notes](docs/releases/ver_0_42_6/)<br>
-[Windows Installer](setup/BeefSetup_0_42_6.exe) - 116.0MB<br>
+[Windows Installer](setup/BeefSetup_0_42_6.exe) - 124.0MB<br>
 [GitHub Tag](https://github.com/beefytech/Beef/tree/0.42.6)
 
 ## Nightly

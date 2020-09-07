@@ -91,6 +91,7 @@ Assignments result in the new value of `x`.
 * `x ^= y`
 * `x <<= y`
 * `x >>= y`
+* `x ??= y`
 * `=> x` - Method binding operator
 
 #### Type attribute operators {#typeattr}
@@ -100,6 +101,7 @@ Assignments result in the new value of `x`.
 * `decltype(x)` - type of `X`. Any expression is allowed, including method calls, but will only be evaluated to determine the type of `x` and won't generate any executable code.
 * `nullable(T)` - `T` if `T` is already nullable, otherwise `T?`
 * `rettype(T)` - return type of a delegate or function
+* `alloctype(T)` - result of `new T()`, which will be `T` for reference types and `T*` for valuetypes
 
 ### Ref operators
 * `ref x` - required for passing values into ref parameters or other values expecting `ref`
