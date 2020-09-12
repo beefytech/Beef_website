@@ -183,7 +183,12 @@ copy /b dist\Stub.exe + InstallData.zip C:\BeefNightly\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 copy /y C:\BeefNightly\%DESTNAME% C:\BeefNightly\BeefSetup.exe
 
+%SRCDIR%\IDE\dist\BeefBuild -run -workspace=../NightlyIndex/Uninstall
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+
 aws s3 cp c:\BeefNightly\BeefSetup.exe s3://nightly.beeflang.org
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+aws s3 cp c:\BeefNightly\index.html s3://nightly.beeflang.org
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
 @REM size-only because the directory hash is really the 'unique' part

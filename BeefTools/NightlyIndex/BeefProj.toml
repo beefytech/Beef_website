@@ -1,0 +1,5 @@
+FileVersion = 1
+
+[Project]
+Name = "NightlyIndex"
+StartupObject = "NightlyIndex.Program"

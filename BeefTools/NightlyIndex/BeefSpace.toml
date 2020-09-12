@@ -1,0 +1,6 @@
+FileVersion = 1
+Projects = {NightlyIndex = {Path = "."}}
+Unlocked = ["corlib"]
+
+[Workspace]
+StartupProject = "NightlyIndex"
