@@ -7,8 +7,8 @@ Function pointer types can point to static methods, non-static methods with expl
 ```C#
 function void() funcPtr = => StaticMethod;
 funcPtr();
-/* Note that 'ca' is not captured here*/
-function void(ClassA this, float f) funcPtr2 = => ca.MemberMethod; 
+/* Note that 'ca' is not captured here. We could also specify 'ClassA.MemberMethod' */
+function void(ClassA this, float f) funcPtr2 = => ca.MemberMethod;
 funcPtr2(ca, 1.2f);
 /* Note that structs need to differentiate between mut/non-mut */
 function void(mut StructA this, float f) funcPtr3 = => sa.MemberMethod; 

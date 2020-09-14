@@ -86,9 +86,12 @@ Reflection information can be configured in workspaces and projects under Distin
 	* Set "Reflect\Always Include" to "Include All" to ensure the specified methods get compiled into the build even if they werent't explicitly used
 	* Set "Reflect\Non-Static Methods" to "Yes" to ensure the specified non-static methods have reflection information added
 
+### Dynamic Boxing
+
+`Variant.GetBoxed` can be used to create a heap-allocated dynamically. The call will fail if the compiler has not generated the box type for the stored valuetype either through on-demand compilation or through reflection options by annotated the valuetype with `[Reflect(.DynamicBoxing)]` or setting the "Dynamic Boxing" reflection setting in Distinct Build Options.
+
 ### Common Reflection Issues
 
 Beef strives to produce the smallest executables possible -- a "Hello World" program should ideally only contain the absolute minimum machine code and data in the resulting executable to print "Hello World" and nothing else. If you were to add functionality to that application to allow the user to pass in a type name and a method name and you expect to be able to construct that type and call that method based on reflection information, that would clearly be impossible unless the executable contained machine code and reflection information for every single method defined in the corlib, which would violate the "minimum binary" ideal.
 
 Firstly, Beef includes types on demand, so reflection information for any type that is not directly used by your program will not be included in the build. Add the `[AlwaysInclude]` attribute to force this type to be included in all builds. If you want to dynamically construct it, use `[AlwaysInclude(AssumeInstantiated=true)]`. Individual methods are also compiled on demand, but you can force every method to be included in the build with `[AlwaysInclude(IncludeAllMethods=true)]`.
-

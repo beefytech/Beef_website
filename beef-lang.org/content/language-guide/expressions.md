@@ -162,3 +162,5 @@ See [unary operators]({{< ref "operators.md#unary" >}})
 ### Uninitialized '?'
 
 When assigned to a variable or field, `?` will cause the value to be treated as if it had an assignment but without (necessarily) any actual operation. This can be useful in cases such as with "buffer" type arrays that don't need to be zero-initialized before use. 
+
+When used with `out` parameters, `?` will act as a discard.

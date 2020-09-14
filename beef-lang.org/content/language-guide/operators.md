@@ -106,6 +106,8 @@ Assignments result in the new value of `x`.
 ### Ref operators
 * `ref x` - required for passing values into ref parameters or other values expecting `ref`
 * `out x` - required for passing values into out parameters
+* `var x` - create a new variable `x` from an out parameter
+* `let x` - create a new const/readonly variable `x` from an out parameter
 
 ### Params operator
 * params x - where x is a variadic parameter, will pass through those params to another variadic parameter. Where x is a delegate or function params, will expand those in place.

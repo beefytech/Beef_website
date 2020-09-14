@@ -161,7 +161,7 @@ Internally, append allocations work by creating a size-calculation function that
 Append-allocated memory does not need to be explicitly released, but object destructors can still be called via a `delete:append obj` statement.
 
 ### Boxing {#boxing}
-All value types (primitives, structs, tuples, pointers, enums) can be 'boxed' into an Object, which can be useful for dynamic type handling and interface dispatching. Primitive types all have library-defined struct wrappers that are used for boxing (ie: the int32 primitive gets wrapped by System.Int32). Boxing is an allocating operation which implicitly occurs as a temporary stack allocation on a cast to System.Object, but long-term boxing and longer-lived stack allocations can be explicitly specified.
+All value types (primitives, structs, tuples, pointers, enums) can be 'boxed' into an Object, which can be useful for dynamic type handling and interface dispatching. Primitive types all have library-defined struct wrappers that are used for boxing (ie: the int32 primitive gets wrapped by System.Int32). Boxing is an allocating operation which implicitly occurs as a temporary stack allocation on a cast to System.Object, but long-term boxing and longer-lived stack allocations can be explicitly specified. When a valuetype is boxed, a special "box type" is statically generated that wraps around the given valuetype. This incurs some code bloat, which is why these box types are only generated on demand per valuetype.
 
 ```C#
 // Format calls rely on boxing to handle incoming types
@@ -170,3 +170,6 @@ Object a = 1.2f; // Implicitly boxed on stack to current scope on
 Object b = scope box:: 2.3f; // Explicitly boxed on stack to method scope
 Object c = new:allok box 4.5f; // Explicitly boxed through a custom allocator 'allok'
 ```
+
+### Variants
+The variant type `System.Variant` is an alternative to boxing. A variant is not an object type, and thus cannot perform dynamic interface dispatching, but a variant has the advantage that it can store small data types without allocation and it does not incur boxing code bloat. A variant can be converted into a heap-allocated boxed object via `Variant.GetBoxed`, but it will fail if the compiler hasn't generated an on-demand box type for the stored valuetype. Boxed type generation can be specifically requested via [reflection options](reflection.html).
