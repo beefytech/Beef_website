@@ -86,6 +86,11 @@ Reflection information can be configured in workspaces and projects under Distin
 	* Set "Reflect\Always Include" to "Include All" to ensure the specified methods get compiled into the build even if they werent't explicitly used
 	* Set "Reflect\Non-Static Methods" to "Yes" to ensure the specified non-static methods have reflection information added
 
+The Distinct Build Options filter can support:
+	* Type name matching (ie: `System.Collections.List<*>`)
+	* Type attribute matching (ie: `[System.Optimize]`)
+	* Interface implementation matching (ie: `:System.IDisposable`)
+
 ### Dynamic Boxing
 
 `Variant.GetBoxed` can be used to create a heap-allocated dynamically. The call will fail if the compiler has not generated the box type for the stored valuetype either through on-demand compilation or through reflection options by annotated the valuetype with `[Reflect(.DynamicBoxing)]` or setting the "Dynamic Boxing" reflection setting in Distinct Build Options.
