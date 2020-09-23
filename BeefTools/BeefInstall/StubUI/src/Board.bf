@@ -704,7 +704,7 @@ namespace BIStubUI
 			}
 			else
 			{
-				Windows.HKey uninstallKey = default;
+				uninstallKey = default;
 
 				void RegSet(StringView name, StringView value)
 				{

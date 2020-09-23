@@ -9,6 +9,7 @@ _gen/
 **/Debug/
 **/Release/
 **/build/*
+**/recovery/*
 **/__installer/*
 **/install/*
 **/pdb/*
