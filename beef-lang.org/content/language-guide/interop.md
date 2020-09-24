@@ -23,6 +23,27 @@ If the CRT allocator is required for FFI, note that the workspace can define the
 
 Beef also supports manual and dynamic foreign function interfacing (FFI) through System.FFI in the corlib.
 
+### Interop type map
+
+|C/C++|System.Interop TypeAlias|Beef Primitive|
+|-----|------|------|
+|short|c_short|int16|
+|unsigned short|c_ushort|uint16|
+|int|c_int|int32|
+|unsigned int|c_uint|uint32|
+|long (Windows)|c_long|int32|
+|long (Linux/macOS/others)|c_long|int64|
+|unsigned long (Windows)|c_ulong|uint32|
+|unsigned long (Linux/macOS/others)|c_ulong|uint64|
+|long long|c_longlong|int64|
+|unsigned long long|c_ulonglong|int64|
+|intptr_t|c_intptr|int|
+|uintptr_t|c_uintptr|uint|
+|char|c_char|char8|
+|unsigned char|c_uchar|uint8|
+|wchar_t (Windows)|c_wchar|char16|
+|wchar_t (Linux/macOS/others)|c_wchar|char32|
+
 ### ABI Stability
 
 Beef does not provide general ABI stability except for that which is provided by the generalized FFI C interop -- not even seperate compilations of exactly the same code are guaranteed to generate stable ABI boundaries. The following is a partial list of ABI breaks that can occur even without code changes within an ABI-boundary library:
