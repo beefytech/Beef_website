@@ -107,8 +107,12 @@ class Serializer
 		ISerializable iSerializable;
 		if (v.IsObject)
 			iSerializable = v.Get<Object>() as ISerializable;
-		else /* 'v.GetBoxed' works for types implementing ISerializable because of the 'ReflectImplementer=.DynamicBoxing' attribute */
+		else
+		{
+			/* 'v.GetBoxed' works for types implementing ISerializable because of the 'ReflectImplementer=.DynamicBoxing' attribute */
 			iSerializable = v.GetBoxed().GetValueOrDefault() as ISerializable;
+			defer:: delete iSerializable;
+		}
 		iSerializable?.Serialize(stream);
 	}
 }
