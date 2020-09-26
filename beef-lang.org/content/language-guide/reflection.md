@@ -79,6 +79,41 @@ class Program
 }
 ```
 
+### Reflection from Interface
+```C#
+/* All implementers of this interface will have dynamic boxing available */
+[Reflect(.None, ReflectImplementer=.DynamicBoxing)]
+interface ISerializable
+{
+	void Serialize(Stream stream);
+}
+
+namespace System
+{
+	extension StringView : ISerializable
+	{
+		void ISerializable.Serialize(Stream stream)
+		{
+			stream.Write(mLength);
+			stream.TryWrite(.((uint8*)mPtr, mLength));
+		}
+	}
+}
+
+class Serializer
+{
+	public void Serialize(Variant v, Stream stream)
+	{
+		ISerializable iSerializable;
+		if (v.IsObject)
+			iSerializable = v.Get<Object>() as ISerializable;
+		else /* 'v.GetBoxed' works for types implementing ISerializable because of the 'ReflectImplementer=.DynamicBoxing' attribute */
+			iSerializable = v.GetBoxed().GetValueOrDefault() as ISerializable;
+		iSerializable?.Serialize(stream);
+	}
+}
+```
+
 ### Distinct Build Options
 
 Reflection information can be configured in workspaces and projects under Distinct Build Options. For example, if you need `Add` and `Remove` methods reflected for all `System.Collection.List<T>` instances, you can add a `System.Collections.List<*>` under Distinct Build Options: 
