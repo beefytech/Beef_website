@@ -6,6 +6,6 @@ This repository contains files related to the beeflang.org website, including th
 
 If there is something wrong with the content on that web site,
 feel free to
-[file an issue with this repository](https://github.com/beefytech/Beef-website/issues),
+[file an issue with this repository](https://github.com/beefytech/Beef_website/issues),
 or formulate a pull request.
 Note that most pages will come with an edit link in the bottom right corner.
