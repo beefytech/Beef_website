@@ -112,6 +112,13 @@ Assignments result in the new value of `x`.
 ### Params operator
 * params x - where x is a variadic parameter, will pass through those params to another variadic parameter. Where x is a delegate or function params, will expand those in place.
 
+## Casting
+
+The `(T)x` cast operator can directly perform many kinds of type conversions, but there are some special cases:
+* Unboxing. `(T)obj` where `obj` is an `Object` and `T` is a valuetype will perform an boxing. This unboxing can fail at runtime in Debug mode (when Dynamic Cast Checks are enabled). You can use an `obj is T` check or a `obj as T?` expression to safely unbox.
+* Retrieving an object's address: the expression `(void*)obj` where `obj` is an Object type is actually an unboxing request, not a type conversion. `System.Internal.UnsafeCastToPtr` can return the address of an Object as a `void*`.
+* Casting to an unrelated type. Sometimes double-casts can be used to achieve what would otherwise be an illegal cast. For example, with `(void*)handle` where `handle` is a the typed primitive `struct Handle : int`, the cast directly to `void*` is not allowed, but `(void*)(int)handle` is allowed.
+
 ## Operator overloading
 
 Structs and classes can provide operator overloads. Comparison operator selection is flexible, in that not all combination of <, <=, ==, !=, >, and >= need to be defined. The "inverse" of operators will be called if available, or if just the <=> operator is defined then that can be used for all comparison types as well.
