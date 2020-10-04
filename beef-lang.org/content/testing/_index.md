@@ -15,6 +15,6 @@ public static void TestAPI()
 }
 ```
 
-In the Workspace configuration, make sure 'Projects' has the 'Test' configuration specified for any projects that you want to run Tests on. By default,  the first project specified in the workspace will be configured for testing.
+In the Workspace properties, make sure 'Projects' has the 'Test' configuration specified for any projects that you want to run Tests on. By default, the first project specified in the workspace will be configured for testing.
 
 Beef tests are suitable for use in CI systems such as Jenkins, as BeefBuild will emit testing text with timing statistics, and will report success or failure via standard return codes.
