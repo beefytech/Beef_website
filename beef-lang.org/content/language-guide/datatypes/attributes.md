@@ -34,7 +34,7 @@ weight = 11
 - [Intrinsic] - ties a method to an intrinsic (generally only used in system libraries)
 - [NoDiscard] - throw a warning at callsites if the return value of this method isn't used
 - [NoReturn] - denotes that this method will not return
-- [Obsolete] - marks a method as obsolete, throwning either a warning or error
+- [Obsolete] - marks a method as obsolete, throwing either a warning or error
 - [Optimized] - compiles method with optimizations enabled
 - [SkipCall] - disables code generation for invocations of this method, and for evaluation of the arguments
 - [StdCall] - uses the stdcall convention instead of the default of cdecl

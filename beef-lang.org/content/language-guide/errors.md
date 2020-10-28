@@ -4,7 +4,7 @@ title = "Error Handling"
 
 ## Error handling
 
-Some languages such as C# use exceptions for error handling, but Beef does not support exceptions. By convention, error handing is implemented using the System.Result<T> and System.Result<T, TError> enum types which implement two values: .Ok(T) and .Err(TError). The version that is parameterized by TError supports returning an explicit error value, otherwise the error type is unspecified. Generics can be parmeterized by "void", so Result<void> is used for methods which may return errors but have no value to return.
+Some languages such as C# use exceptions for error handling, but Beef does not support exceptions. By convention, error handing is implemented using the System.Result<T> and System.Result<T, TError> enum types which implement two values: .Ok(T) and .Err(TError). The version that is parameterized by TError supports returning an explicit error value, otherwise the error type is unspecified. Generics can be parameterized by "void", so Result<void> is used for methods which may return errors but have no value to return.
 
 If a returned error is not handled, it will cause a fatal runtime error.
 ```C#
