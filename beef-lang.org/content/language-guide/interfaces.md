@@ -29,7 +29,7 @@ struct Circle : IDrawable
 }
 
 /* Calling the following method with an instance of Circle will first cause boxing to occur at the
- callsite, then Draw will be called via dyanmic dispatch (method table) */
+ callsite, then Draw will be called via dynamic dispatch (method table) */
 public static void DrawDynamic(IDrawable val)
 {
 	val.Draw();

@@ -17,7 +17,7 @@ funcPtr3(mut sa, 2.3f);
 ```
 
 ## Delegates
-Delegates are more general, and are defined as class types which can not only refer to anything a function can, but can also refer to instance methods and can hold local variable captures when they point to local methods or lambdas. Delegates are alloced using the `=>` operator preceded by an allocation specifier.
+Delegates are more general, and are defined as class types which can not only refer to anything a function can, but can also refer to instance methods and can hold local variable captures when they point to local methods or lambdas. Delegates are allocated using the `=>` operator preceded by an allocation specifier.
 ```C#
 delegate void() delegateVal = scope => MemberMethod;
 ```

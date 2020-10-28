@@ -23,7 +23,7 @@ class Widget
 
 ## Methods
 
-Method overloading is supported in Beef. For generic overloads, multiple versions of the same generic method are allowed if the constraints are different. If multiple generic methods match, one can be considered "better" if its contraints are a superset of another method's constaints, otherwise the overload selection is ambiguous.
+Method overloading is supported in Beef. For generic overloads, multiple versions of the same generic method are allowed if the constraints are different. If multiple generic methods match, one can be considered "better" if its contraints are a superset of another method's constraints, otherwise the overload selection is ambiguous.
 
 Parameter values are immutable unless 'ref', 'out', or 'mut' specifiers are used.
 

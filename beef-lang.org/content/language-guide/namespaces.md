@@ -17,7 +17,7 @@ namespace Gfx
 
 	namespace Resources
 	{
-		// Defines "Gfx.Resource.Image" class
+		// Defines "Gfx.Resources.Image" class
 		class Image
 		{
 
@@ -27,7 +27,7 @@ namespace Gfx
 
 namespace Gfx.Resources
 {
-	// Defines "Gfx.Resource.Shader" class
+	// Defines "Gfx.Resources.Shader" class
 	class Shader
 	{
 

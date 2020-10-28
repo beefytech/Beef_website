@@ -13,7 +13,7 @@ static
 }
 ```
 
-The conciceness of global variables can be matched on a file level with `using static`, which allows direct usage of static fields outside the current type.
+The conciseness of global variables can be matched on a file level with `using static`, which allows direct usage of static fields outside the current type.
 
 ```C#
 class Image

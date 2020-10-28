@@ -47,7 +47,7 @@ Vector2 vec = ?;
 UseVec(&vec);
 ```
 
-Arrays initilization at allocation time is also supported.
+Arrays initialization at allocation time is also supported.
 
 ```C#
 /* Zero-initialize ending 7 elements */
