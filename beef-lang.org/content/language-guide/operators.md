@@ -138,7 +138,7 @@ struct Vector2
 	/* Binary + operator */
 	public static Vector2 operator+(Vector2 lhs, Vector2 rhs)
 	{
-		return .(lhs.x, rhs.y);
+		return .(lhs.x + rhs.x, lhs.y + rhs.y);
 	}
 
 	/* Unary '-' operator */

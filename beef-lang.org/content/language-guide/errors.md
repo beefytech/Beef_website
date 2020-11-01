@@ -24,8 +24,7 @@ void Use()
 		case .Err: Console.WriteLine("Failed");
 	}
 
-	/* This invokes an implicit conversion operator, which will be fatal at runtime if an error is returned */
-	int newVal = GetMinusOne(i);
+	uint newVal = GetMinusOne(i);
 
 	/* Result<T> contains a special "ReturnValueDiscarded" method which is invoked to facilitate failing fatally on ignored returned errors here */
 	GetMinusOne(i);
