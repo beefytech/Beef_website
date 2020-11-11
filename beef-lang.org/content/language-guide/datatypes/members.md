@@ -249,21 +249,24 @@ public ReadOnlyList<T>
 ```
 
 ## Member access
-By default, struct and class members are 'private', meaning they can only be accessed internally by that type. A 'protected' member can be accessed by derived types, and 'public' can be accessed by anyone.
+By default, struct and class members are 'private', meaning they can only be accessed internally by that type. A 'protected' member can be accessed by derived types, and 'public' can be accessed by anyone. An 'internal' member can be access from files specifying `using internal <namespace>`. Note that even types within the same namespace need to explicitly specify `using internal` to access internal members of each other.
 
 ```C#
+/* This allows us to access 'internal' members anywhere within the 'GameEngine' namespace */
+using internal GameEngine;
+
 class Widget
 {
 	private int32 id;
 	protected Rect pos;
 	public uint32 color;
+	internal void* impl;
 }
 
 class Button : Widget
 {
 	/* This class can access 'pos' and 'color' but not 'id' */
 }
-
 
 static void Main()
 {

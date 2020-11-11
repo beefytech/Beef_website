@@ -21,6 +21,18 @@ String str4 =
 
 See [Literals]({{< ref "literals.md#string" >}}) for more information about string literals.
 
+### String Interpolation
+
+String interpolation is supported for either string allocations or string argument expansion.
+
+```C#
+/* This is equivalent to scope String()..AppendF("X = {} Y = {}", GetX(), GetY()) */
+String str = scope $"X = {GetX()} Y = {GetY()}";
+
+/* This is equivalent to Console.WriteLine("X = {} Y = {}", GetX(), GetY()) */
+Console.WriteLine("X = {} Y = {}", GetX(), GetY());
+```
+
 ### String Comparison
 
 |Name           |Sizable non-dynamic buffer           |Custom dynamic allocator|Encoding          |

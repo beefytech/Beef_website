@@ -4,7 +4,7 @@ weight = 20
 +++
 
 ## Initialization
-For class initialization semantics, first the object is zeroed-out, then the root class field initializers are executed in declaration order, then the root class constructor is run, then executing proceeds to the derived class's field initializers and constructor and so on. Virtual method calls will dispatch to the fully derived type even when invoked in a base class's constructor, which can result in a method being called in a type whose constructor has not yet executed.
+For class initialization semantics, first the object is zeroed-out, then the root class field initializers are executed in declaration order, then initializer blocks are executed in declaration order, then the root class constructor is run, then executing proceeds to the derived class's field initializers, initializer blocks, and constructor and so on. Virtual method calls will dispatch to the fully derived type even when invoked in a base class's constructor, which can result in a method being called in a type whose constructor has not yet executed.
 
 ```C#
 
@@ -22,10 +22,22 @@ class Person
 class Student : Person
 {
 	public School mSchool = GetSchool();
+	public int? mAge;
+
+	/* Initializer blocks allow for initialization that occurs irregardless of which constructor is invoked */
+	this
+	{
+		RegisterStudent();
+	}
 
 	public this()
 	{
-		RegisterStudent();
+		
+	}
+
+	public this(int age)
+	{
+		mAge = age;
 	}
 }
 

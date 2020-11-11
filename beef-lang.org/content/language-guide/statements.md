@@ -94,16 +94,19 @@ for (int i < count)
 {
 }
 
-/* Iterate through elements in a List<float> */
+/* Iterate through elements in a List<int> */
 for (let val in intList)
 {
+	if (val == 0)
+		@val.Remove();
 }
 
 /* The above is equivalent to */
 var enumerator = intList.GetEnumerator();
 while (enumerator.GetNext() case .Ok(let val))
 {
-
+	if (val == 0)
+		enumerator.Remove();
 }
 enumerator.Dispose();
 
@@ -121,6 +124,21 @@ else if (i == 0)
 	Use(1);
 else
 	break;
+
+/* Some variable declarations can be used as a condition */
+
+/* Use 'not null' as a condition */
+if (var str = obj as String)
+	Console.WriteLine(str);
+
+/* Unwrap a Result<int> */
+if (int i = intResult)
+	Use(i);
+
+/* Unwrap an int? */
+if ((int i = intNullable) && (i != 0))
+	Use(i);
+
 ```
 
 ### return
@@ -140,7 +158,7 @@ int GetSize()
 /* Note that 'break' is not required after a case */
 switch (c)
 {
-case ' ':
+case ' ', '\t':
 	Space();
 case '\n'
 	NewLine();

@@ -45,6 +45,57 @@ namespace System.Collections
 
 Extensions can be useful for adding interface conformance to types that are outside your control (ie: system types or types defined in another library).
 
+Note that methods defined in extensions follow dependency visibility rules: a method can only be invoked if the callsite is defined in a project that has a dependency on the project defining the method, or if a generic argument is defined in a project that has a dependency on the project defining the method. This also applies to operator overloads -- if you provide an `operator==` overload for `System.Collections.List<T>`, for example, that overload will not be called on `List<T>` quality comparisons performed within `corlib` or other libraries.
+
+Extensions can provide constructors, destructors, and field initializers.
+
+```C#
+namespace System.Collections
+{
+	extension List<T>
+	{		
+		public int mID = GetId();
+
+		/* Visibility of this constructor follows the visibility rules noted above. */
+		/* We still want the root definition's constructor's initialization, so we can still call that. Note that without `[NoExtension]` we would be calling ourselves */
+		public this() : [NoExtension]this()
+		{
+
+		}
+		
+		/* This initializer block will always run no matter which constructor is invoked */
+		this
+		{
+			RegisterList(this);
+		}
+
+		/* This destructor will run before the root definition's destructor */
+		public ~this()
+		{
+			UnregisterList(this);
+		}
+	}
+```
+
+Extensions can also be used for inverting dependencies between projects by providing method declarations whose implementations are provided by dependent projects. This technique provides a static dispatch alternative to virtual methods.
+
+```C#
+/* In project 'Engine' */
+class Platform
+{
+	public Texture CreateTexture();
+}
+
+/* In project 'DirectXEngine' */
+extension Platform
+{
+	public override Texture CreateTexture()
+	{
+		return new DirectXTexture();
+	}
+}
+```
+
 ## Extension Methods
 
 Method extensions can be used to virtually add methods to existing types without modifying the original type. Extension methods are static methods, but they are called as if they are non-static methods on an extended type, or a type that conforms to a set of generic constraints. Extension methods can be preferable over type extensions when you want to limit the scope of a given method to a particular namespace or utility method, or when the method is intended to apply to a broad range of types conforming to specific generic constraints.
