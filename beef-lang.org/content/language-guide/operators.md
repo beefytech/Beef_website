@@ -138,7 +138,7 @@ struct Vector2
 	/* Binary + operator */
 	public static Vector2 operator+(Vector2 lhs, Vector2 rhs)
 	{
-		return .(lhs.x, rhs.y);
+		return .(lhs.x + rhs.x, lhs.y + rhs.y);
 	}
 
 	/* Unary '-' operator */
@@ -184,3 +184,5 @@ struct Vector2
 	}
 }
 ```
+
+Binary operators can be marked with the `[Commutable]` attribute, which allows for certain operator transformations. A commutable "A < B" operator, for example, can be used for "B > A", "!(A >= B)", and !(B <= A). A commutable "A == B" operator can be used for "B == A", "!(A != B)", and "!(B != A)".

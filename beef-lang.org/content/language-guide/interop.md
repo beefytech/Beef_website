@@ -13,6 +13,10 @@ Beef allows for zero-overhead linking to static and dynamic libraries. Methods d
   StdCall: Use stdcall calling convetion (WINAPI) */
 [Import("wsock32.lib"), CLink, StdCall]
 static extern int32 WSAGetLastError(); 
+
+/* This links to an external function defined in C++ as 'const float& GetVal(const int32& a)'' */
+[return: MangleConst, LinkName(.CPP)]
+public static extern ref float GetVal([MangleConst]ref int32 a);
 ```
 
 Struct layouts do not, by default, match C struct layouts due to field reordering (to reduce alignment gaps) and because Beef seperates the concepts of struct size from stride -- Beef structs omit alignment padding at the end. The `[CRepr]`attribute can be used to create structs that match C for interop purposes.
