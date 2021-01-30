@@ -98,7 +98,7 @@ Console.WriteLine("Result={}",
 
 * `123` - number
 * `0x1234` - hex number
-* `0x1234'5678` - number with a seperator, which can be placed anywhere
+* `0x1234'5678` - number with a separator, which can be placed anywhere
 * `0x1234L` - int64 hex number
 * `0x1234UL` - uint64 hex number
 * `'c'` - char8
@@ -153,7 +153,7 @@ A `scope` allocation can be used in any way a `new` allocation can be used.  (Se
 
 ### Tuple expression
 
-The tuple expression is a paranthesized expression containing multiple comma-seperated values, and optionally field names. (See [Data Types (Tuples)]({{< ref "datatypes/_index.md#tuples" >}})))
+The tuple expression is a paranthesized expression containing multiple comma-separated values, and optionally field names. (See [Data Types (Tuples)]({{< ref "datatypes/_index.md#tuples" >}})))
 
 ### Unary operations
 
