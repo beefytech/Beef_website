@@ -72,6 +72,12 @@ copy %SRCDIR%\IDE\dist\IDEHelper64.dll install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\IDE\dist\IDEHelper64_d.dll install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+mkdir install\bin\lib
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+xcopy /y %SRCDIR%\IDE\dist\lib\x86 install\bin\lib\x86\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+xcopy /y %SRCDIR%\IDE\dist\lib\x64 install\bin\lib\x64\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy /y %SRCDIR%\IDE\dist\shaders install\bin\shaders\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy /y %SRCDIR%\IDE\dist\images install\bin\images\
