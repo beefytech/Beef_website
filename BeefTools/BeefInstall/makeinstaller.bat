@@ -1,7 +1,7 @@
 @SETLOCAL EnableDelayedExpansion
 @SET SRCDIR=..\..\..\Beef
-@SET CURVER=0.42.9
-@SET DESTNAME=BeefSetup_0_42_9.exe
+@SET CURVER=0.43.0
+@SET DESTNAME=BeefSetup_0_43_0.exe
 
 PUSHD %~dp0
 
