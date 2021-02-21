@@ -67,16 +67,13 @@ Allows for a non-looping block which can be broken out of, which can reduce 'if 
 ```C#
 do
 {
-	char8 c = NextChar();
+	c = NextChar();
 	if (c == 0)
 		break;
-	char8 op = NextChar();
+	op = NextChar();
 	if (c != '+')
 		break;
-	char8 c2 = NextChar();
-	if (c2 == 0)
-		break;
-	return c + c2;
+	c2 = NextChar();
 }
 ```
 

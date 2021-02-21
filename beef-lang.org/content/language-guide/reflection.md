@@ -1,20 +1,22 @@
 +++
 title = "Reflection"
+weight=75
 +++
 
 ## Reflection
 Beef supports runtime reflection, which allows enumerating and accessing types, fields, methods, and properties. By default, in the interest of smaller executables, only minimal reflection information is included. Code attributes can be used to denote additional class member information that should be emitted.
 
 ```C#
-public class Options
+public struct Options
 {
 	[Reflect]
     public bool mFlag;
 }
 
-void Use(Options options)
+void Use(ref Options options)
 {
-	options.GetType().GetField("mFlag").Value.SetValue(options, true);
+	/* Note that we use &options here - we do this so that we are boxing a pointer to 'options' rather than boxing a copy of 'options' */
+	options.GetType().GetField("mFlag").Value.SetValue(&options, true);
 }
 ```
 

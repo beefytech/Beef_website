@@ -52,21 +52,21 @@ struct Vector
 	public float x;
 	public float y;
 
-	// Default constructor - constructors must set all fields
-	// "this = default;" is equivalent to "x = 0; y = 0;"
+	/* Default constructor - constructors must set all fields
+	 "this = default;" is equivalent to "x = 0; y = 0;" */
 	public this()
 	{
 		this = default;
 	}
 
-	// Constructor that takes values
+	/* Constructor that takes values */
 	public this(float x, float y)
 	{
 		this.x = x;
 		this.y = y;
 	}
 
-	// Property to calculate the Length
+	/* Property to calculate the Length */
 	public float Length
 	{
 		get
@@ -75,7 +75,7 @@ struct Vector
 		}
 	}
 
-	// Methods of structs need to be declared as 'mut' to be able to modify the struct
+	/* Methods of structs need to be declared as 'mut' to be able to modify the struct */
 	public void SetZero() mut
 	{
 		x = 0;
@@ -87,44 +87,60 @@ struct Vector
 Structs can be zero-sized, which allows for efficient use of some types of generic patterns which require other approaches in C++ which doesn't allow zero-sized structs. Also, Beef structs are designed to provide fewer "alignment holes" than their C counterparts: fields are ordered by field alignment size (but otherwise in declaration other), and struct size and stride are separate concepts in Beef whereas C struct size is always aligned to the largest element alignment, thus is equivalent to stride in C. Field reordering can be disabled with the [Ordered] attribute, and structs can be marked for full C interop with [CRepr]. Field alignment packing can be disabled with [Packed]. Unions can be created with [Union].
 
 ```C#
-	struct StructA
-	{
-		int32 i;
-		int64 j;
-	}
+struct StructA
+{
+	int32 i;
+	int64 j;
+}
 
-	struct StructB : StructA
-	{
-		int8 k;
-	}
+struct StructB : StructA
+{
+	int8 k;
+}
 
-	struct StructC : StructB
-	{
-		int8 l;
-	}
+struct StructC : StructB
+{
+	int8 l;
+}
 
-	/* In Beef, StructC only occupies 14 bytes but in C it is either 24 or 32 bytes 
-	 (implementation dependent).
-	
-	 Beef:
-	 sizeof(StructA) = 12 strideof(StructA) = 16
-	 sizeof(StructB) = 13 strideof(StructB) = 16 
-	 sizeof(StructC) = 14 strideof(StructC) = 16
-	 
-	 C/C++:
-	 sizeof(StructA) = 16
-	 sizeof(StructB) = 24
-	 sizeof(StructB) = 32 (or 24)
-	 
-	 In Beef, the data size is smaller due to field reordering eliminating alignment 
-	 padding. In C, the 'k' field byte added in StructB causes an extra 7 bytes of 
-	 padding. The 'l' field byte added in StructC creates yet another 7 bytes of padding 
-	 on some compilers (VC) while other compilers will fit 'l' into the previous padding 
-	 (Clang/GCC). */
+/* In Beef, StructC only occupies 14 bytes but in C it is either 24 or 32 bytes 
+ (implementation dependent).
+
+ Beef:
+ sizeof(StructA) = 12 strideof(StructA) = 16
+ sizeof(StructB) = 13 strideof(StructB) = 16 
+ sizeof(StructC) = 14 strideof(StructC) = 16
+ 
+ C/C++:
+ sizeof(StructA) = 16
+ sizeof(StructB) = 24
+ sizeof(StructB) = 32 (or 24)
+ 
+ In Beef, the data size is smaller due to field reordering eliminating alignment 
+ padding. In C, the 'k' field byte added in StructB causes an extra 7 bytes of 
+ padding. The 'l' field byte added in StructC creates yet another 7 bytes of padding 
+ on some compilers (VC) while other compilers will fit 'l' into the previous padding 
+ (Clang/GCC). */
+```
+
+```C#
+/* Auto-constructors provide a shorthand for simple data types.
+ The following two type definitions are equivalent */
+struct Vector3 : this(float x, float y, float z);
+
+struct Vector3
+{
+	public float x, y, z;
+	public this(float x, float y, float z)
+	{
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+}
 ```
 
 Opaque struct definitions can be created by simply not supplying a body, which create types that can be used for interop which disallows direct allocation (since the size is unknown).
-
 
 ## Tuple types {#tuples}
 
@@ -161,7 +177,7 @@ class Circle : Shape
 		DrawCircle(x, y, radius);
 	}
 
-	// Unlike structs, methods that modify classes do not need to be declared as 'mut'
+	/* Unlike structs, methods that modify classes do not need to be declared as 'mut' */
 	public void DoubleSize()
 	{
 		radius *= 2;
@@ -182,7 +198,7 @@ public Button : Widget
 	{
 		RemoveWidget(this);
 
-		// Field destructors run after this, reverse of initialization order
+		/* Field destructors run after this, reverse of initialization order */
 	}
 }
 ```
@@ -221,8 +237,18 @@ enum Direction
 	South,
 	West
 }
-// Note that we did not need to fully qualify "Direction.South", because the "Direction" was the expected type of the initializer so it was already inferred
+
+/* Note that we did not need to fully qualify "Direction.South", because the "Direction" was the expected type of the initializer so it was already inferred */
 Direction facing = .South;
+
+/* The special value '_' evalutes to the previous field's value, allowing for easier bitflag definitions */
+enum MultiHue
+{
+	Black = 0,
+	Red = 1,
+	Green = _*2,
+	Blue = _*2
+}
 ```
 
 Enums can also be defined in a more verbose syntax that allows adding methods, properties just like you would to struct value types.
@@ -250,19 +276,18 @@ enum Direction
 	}
 }
 ```
-
 Enums have some operations available to help inspect and enumerate over the values.
 
 ```C#
 
-// Enumerate from the minimum enum value to the maximum value
+/* Enumerate from the minimum enum value to the maximum value */
 for (var direction = typeof(Direction).MinValue; direction <= typeof(Direction).MaxValue; direction++)
 {
 }
 
-// Convert to the underlying integer representation (in this case it is an int8)
+/* Convert to the underlying integer representation (in this case it is an int8) */
 let val = direction.Underlying;
-// Like the above, but results in an integer reference which can be assigned to 
+/* Like the above, but results in an integer reference which can be assigned to */
 let valRef = ref direction.UnderlyingRef;
 
 

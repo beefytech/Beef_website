@@ -1,5 +1,6 @@
 +++
 title = "Operators"
+weight=75
 +++
 
 ## Operators overview
@@ -98,10 +99,12 @@ Assignments result in the new value of `x`.
 * `sizeof(T)` - size of `T`. Note that reference types will always result in the native pointer size  
 * `alignof(T)` - alignment of `T`
 * `strideof(T)` - size of `T`, aligned to the alignment of `T`
-* `decltype(x)` - type of `X`. Any expression is allowed, including method calls, but will only be evaluated to determine the type of `x` and won't generate any executable code.
+* `alloctype(T)` - result of `new T()`, which will be `T` for reference types and `T*` for valuetypes
+* `comptype(x)` - type of reflected type `x`
+* `decltype(x)` - type of result of expression `x`. Any expression is allowed, including method calls, but will only be evaluated to determine the type of `x` and won't generate any executable code.
 * `nullable(T)` - `T` if `T` is already nullable, otherwise `T?`
 * `rettype(T)` - return type of a delegate or function
-* `alloctype(T)` - result of `new T()`, which will be `T` for reference types and `T*` for valuetypes
+* `typeof(T)` - reflected type of type `T`
 
 ### Ref operators
 * `ref x` - required for passing values into ref parameters or other values expecting `ref`

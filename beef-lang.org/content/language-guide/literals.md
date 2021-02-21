@@ -1,5 +1,6 @@
 +++
 title = "Literals"
+weight = 75
 +++
 
 ## Integer literals

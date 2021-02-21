@@ -25,7 +25,7 @@ class Widget
 
 Method overloading is supported in Beef. For generic overloads, multiple versions of the same generic method are allowed if the constraints are different. If multiple generic methods match, one can be considered "better" if its contraints are a superset of another method's constraints, otherwise the overload selection is ambiguous.
 
-Parameter values are immutable unless 'ref', 'out', or 'mut' specifiers are used.
+Parameter values are immutable unless `ref`, `out`, or `mut` specifiers are used. The `in` specifier can be used to explicitly request a parameter to be passed as an immutable reference, but note that this disables the ability to pass smaller structs by value even when that would be more efficient, so `in` should only be used when the specific semantics are required. 
 
 ```C#
 bool GetInt(out int outVal)
@@ -57,7 +57,7 @@ void Write(char8 c)
 }
 ```
 
-Passing structs by immutable value is efficient, as it does not require a copy to be created at the callsite, so passing by reference is not needed for performance. In addition to platform-specific calling conventions that can pack small structs into ints, Beef may "splat" struct arguments, where something like a (double, double) tuple can be directly passed in two floating point registers rather than requiring it to be passed by struct reference as would be standard in C.
+By default, "larger" structs are passed as immutable refrences and "smaller" structs are passed as immutable values. Structs such as a `Vector3` can be passed directly in XMM registers on X86.
 
 Methods can be defined which accept a variable number of arguments, using a "params" specifier on the last parameter. This is common with string-formatting methods like Console.WriteLine. The "params" type can be declared as either an array or a Span type. The "params" specifier can also be used on delegate or function types, which expands the parameter declaration to include the parameters declared in the delegate/function -- this is useful for generic argument forwarding, such as in the case of System.Event<T>.
 

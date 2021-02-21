@@ -1,5 +1,6 @@
 +++
 title = "Pattern matching"
+weight=75
 +++
 
 ### Pattern matching overview

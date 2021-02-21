@@ -30,6 +30,8 @@ weight = 41
 - $(TargetPath) - Target binary that this project configuration builds
 - $(WorkingDir) - Working directory for Debugging
 
+Project macros can specify a project name, such as "$(BuildDir LibA)".
+
 ## Prebuild/Postbuild Commands
 - CopyFilesIfNewer(srcPath, destPath) - Copies files only if the date is newer. Recursive and works with wildcards.
 - CopyToDependents(srcPath) - For any projects dependent on this library, copy this files to their target directory.

@@ -1,5 +1,6 @@
 +++
 title = "Strings"
+weight=80
 +++
 
 ### Strings Overview
@@ -53,6 +54,8 @@ newString.Append(name);
 
 /* RIGHT */
 String newString = scope String()..AppendF("Hello, {}", name);
+/* RIGHT - this is equivalent to the code above */
+String newString = scope $"Hello, {name}";
 ```
 
 ```C#
@@ -73,5 +76,15 @@ void GetName(String outName)
 {
 	outName.Append("Brian");
 }
+```
 
+```C#
+/* WRONG - string values cannot be added */
+String strC = strA + strB;
+/* RIGHT - allocation provided */
+String strC = scope $"{strA}{strB}";
+/* RIGHT - string constants can be added because the result is another string constant - no allocation is needed at runtime */
+String strC = "A" + "B";
+/* RIGHT - equivalent to String.Append */
+strC += strA;
 ```
