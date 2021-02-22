@@ -12,9 +12,11 @@ funcPtr();
 void UseFuncPtr(void() funcPtrB) => funcPtrB();
 UseFuncPtr(=> StaticMethodB);
 /* Note that 'ca' is not captured here. We could also specify 'ClassA.MemberMethod' */
+ClassA ca = new ClassA();
 function void(ClassA this, float f) funcPtr2 = => ca.MemberMethod;
 funcPtr2(ca, 1.2f);
 /* Note that structs need to differentiate between mut/non-mut */
+StructA sa = StructA();
 function void(mut StructA this, float f) funcPtr3 = => sa.MemberMethod; 
 funcPtr3(mut sa, 2.3f);
 /* Note that for interop, all [CRepr] structs will be passed by pointer no matter whether mut is specified or not, so calling convention is identical for both */
@@ -81,13 +83,13 @@ static void Test(StringView str)
 		return GetNext();
 	};
 
-	/* This delegate owns a string, which gets cleaned up after lambda goes out of scope */
+	/* This lambda owns a string, which gets cleaned up after lambda goes out of scope */
 	String tempStr = new String(str);
 	tempStr.EnsureNullTerminator();
 	/* capture 'i' by reference, str and tempStr by value */
 	strDlg = scope [&i, =str, =tempStr] () =>
 	{
-		return str[i++];
+		return tempStr[i];
 	}
 	~
 	{

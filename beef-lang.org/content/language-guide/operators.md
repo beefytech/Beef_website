@@ -8,7 +8,7 @@ These following operator groups are listed from the highest priority group to th
 
 ### Primary operators
 * `x.y` - member access
-* `x..y` - cascading member access. Results in `x`, which is useful for chaining together method calls.
+* `x..y(<method args>)` - cascading member access. Overrides result of method `y` with `x`, which is useful for chaining method calls to a common target.
 * `x?.y` - null conditional member access. Results in null if `x` is null.
 * `f(x)` - method call
 * `a[x]` - array indexing
@@ -23,6 +23,7 @@ These following operator groups are listed from the highest priority group to th
 * `(T)x` - type casts `x` to type `T`
 * `&x` - address of `x`
 * `*x` - dereference pointer `x`
+* `x(..y, <other method args>)` - argument cascade. Overrides result of method `x` with `y`, which is useful for reusing an argument.
 
 #### Multiplicative operators {#binary}
 * `x * y` - multiplication

@@ -84,7 +84,7 @@ struct Vector
 }
 ```
 
-Structs can be zero-sized, which allows for efficient use of some types of generic patterns which require other approaches in C++ which doesn't allow zero-sized structs. Also, Beef structs are designed to provide fewer "alignment holes" than their C counterparts: fields are ordered by field alignment size (but otherwise in declaration other), and struct size and stride are separate concepts in Beef whereas C struct size is always aligned to the largest element alignment, thus is equivalent to stride in C. Field reordering can be disabled with the [Ordered] attribute, and structs can be marked for full C interop with [CRepr]. Field alignment packing can be disabled with [Packed]. Unions can be created with [Union].
+Structs can be zero-sized, which allows for efficient use of some types of generic patterns which require other approaches in C++ which doesn't allow zero-sized structs. Also, Beef structs are designed to provide fewer "alignment holes" than their C counterparts: fields are ordered by field alignment size and subordered by declaration order, and struct size and stride are separate concepts in Beef whereas C struct size is always aligned to the largest element alignment, thus is equivalent to stride in C. Field reordering can be disabled with the [Ordered] attribute, and structs can be marked for full C interop with [CRepr]. Field alignment packing can be disabled with [Packed]. Unions can be created with [Union].
 
 ```C#
 struct StructA
