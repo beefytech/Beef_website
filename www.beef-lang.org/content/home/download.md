@@ -13,7 +13,7 @@ columns = "1"
 <a name="releases"></a>
 
 ## Version 0.43.0
-February 17, 2021<br>
+February 22, 2021<br>
 [Release Notes](docs/releases/ver_0_43_0/)<br>
 [Windows Installer](setup/BeefSetup_0_43_0.exe) - 124.3MB<br>
 [GitHub Tag](https://github.com/beefytech/Beef/tree/0.43.0)
