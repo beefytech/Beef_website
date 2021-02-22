@@ -79,6 +79,33 @@ public static rettype(T) SafeInvoke<T>(T dlg, params T p) where T : Delegate
 }
 ```
 
+Beef supports C-compatible variable arguments. This is less safe than `params` since the argument count and argument types are unknown, but it can be useful for C interop.
+
+```C#
+/* external C method 'void Log_External(char*, va_list)' */
+[CLink]
+static extern void Log_External(char8* format, void* varArgs);
+
+public static void Log(String format, ...)
+{
+	VarArgs vaArgs = .();
+	vaArgs.Start!();
+	Log_External(format, vaArgs.ToVAList());
+	vaArgs.End!();
+	return result;
+}
+
+public static void HandleVarArgInts(int count, ...)
+{
+	VarArgs vaArgs = .();
+	vaArgs.Start!();
+	for (int i < count)	
+		Dispay(vaArgs.Get!<int>())
+	vaArgs.End!();
+	return result;
+}
+```
+
 While backend optimizations will perform inlining, you can also explicitly inline methods by annotating them with [Inline]. This will cause direct inlining to occur, which will inline even in debug builds (which does not break debuggability) and ensures methods will be inlined in cases where they may otherwise not inline such as in cross-module calling with non-LTO linking.
 
 ```C#

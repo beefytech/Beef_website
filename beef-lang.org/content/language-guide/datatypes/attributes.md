@@ -26,7 +26,6 @@ weight = 11
 - [Commutable] - this attribute creates an additional version of this method where the first two arguments are transposed. This can be useful for creating 
 - [Comptime] - marks a method as being evaluable only at comptime, not at runtime
 operators whose operations are commutable.
-- [CVarArgs] - passes variable-length 'params' in C-style varargs
 - [DisableChecks] - indicates that calls within this method should call the Unchecked verion of methods when possible (optimization)
 - [DisableObjectAccessChecks] - indicates that object access checks should be disabled within this method (optimization)
 - [Error] - throws a compilation error when the method is called (a more generalized form of [Obsolete])
