@@ -17,6 +17,7 @@ namespace BIStub
 		String mArchiveOverride ~ delete _;
 		String mSelfOverride ~ delete _;
 		String mUIDllPath ~ delete _;
+		String mOutZipPath ~ delete _;
 		ZipFile mZipFile ~ delete _;
 		Stream mStream ~ delete _;
 
@@ -48,6 +49,8 @@ namespace BIStub
 					String.NewOrSet!(mArchiveOverride, value);
 				case "-ui":
 					String.NewOrSet!(mUIDllPath, value);
+				case "-outzip":
+					 String.NewOrSet!(mOutZipPath, value);
 				}
 			}
 
@@ -241,6 +244,29 @@ namespace BIStub
 				}
 
 				mStream = new Substream(fileStream, exeEnd, fileLength - exeEnd, true);
+
+				if (mOutZipPath != null)
+				{
+					FileStream zipStream = scope FileStream();
+					zipStream.Create(mOutZipPath, .Write);
+
+					ZipLoop: while (true)
+					{
+						uint8[4096] data = ?;
+						switch (mStream.TryRead(data))
+						{
+						case .Ok(let len):
+							if (len == 0)
+								break ZipLoop;
+							zipStream.TryWrite(.(&data, len));
+						case .Err:
+							break ZipLoop;
+						}
+					}
+
+					mStream.Seek(0);
+				}
+
 				fileStream = null;
 				if (mZipFile.Init(mStream) case .Err)
 				{

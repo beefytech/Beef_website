@@ -52,7 +52,7 @@ public static Span<int32> GetSorted(String numList)
 const int32[?] iArr = GetSorted("8, 1, 3, 7"); /* evalutes to int32[4](1, 3, 7, 8) */
 ```
 
-Every comptime evaluation occurs in isolation - any static values modified during the evaluation of one method will not be visible to next methods. Certain side effects are restricted during comptime evaluation, such as file IO and access to external libraries.
+Every comptime evaluation occurs in isolation - any static values modified during the evaluation of one method will not be visible to subsequent method evaluations. Certain side effects are restricted during comptime evaluation, such as file IO and access to external libraries.
 
 ### Compile-time code generation
 
