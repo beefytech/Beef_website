@@ -9,4 +9,4 @@ weight=80
 * SelfBase - the base class of the defining type
 * SelfOuter - the outer type of the defining type 
 * var/let - used with type inference when creating variables, `var` is used to create a mutable variable, whereas `let` creates a const or read-only variable
-* . - The `.` type is used with type inference, and refers to "the expected type". The most common use is to change an implicit conversion into an explicit conversion without specifying the type name. (ie: intVal = (.)floatVal)
+* . - The `.` type is used with type inference, and refers to "the expected type". The most common use is to change an implicit conversion into an explicit conversion without specifying the type name. (ie: int intVal = (.)floatVal;)

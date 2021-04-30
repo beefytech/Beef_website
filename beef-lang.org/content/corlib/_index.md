@@ -40,6 +40,6 @@ The following is a partial list of the funtionality provided by corlib. See the 
 
 ## Multimedia libraries
 
-The Beef IDE utilizes a windowing and multimedia library named Beefy2D. This library is only intended for use by the IDE and other internal Beef tools. This library is not documented or supported for this-party applications, and the API will change without regard for backwards compatibility. As such, other third-party libraries should be used by third-party applications.
+The Beef IDE utilizes a windowing and multimedia library named Beefy2D. This library is only intended for use by the IDE and other internal Beef tools. This library is not documented or supported for third-party applications, and the API will change without regard for backwards compatibility. As such, other third-party libraries should be used by third-party applications.
 
 One example of a third-party multimedia library is SDL2, whose use is illustrated in the included Beef samples.
