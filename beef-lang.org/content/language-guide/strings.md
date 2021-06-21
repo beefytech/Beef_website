@@ -4,7 +4,7 @@ weight=80
 +++
 
 ### Strings Overview
-The String type in Beef is a mutable object with an adjustable "small string optimization" buffer, which stores character data in UTF8. `StringView` is a `Span<char8>` pointer-and-length struct. By convention, methods take string input through a `StringView` argument, and methods that want to return string data take a `String` argument which is used to append string data to. 
+The String type in Beef is a mutable object with an adjustable "small string optimization" buffer, which stores character data in UTF8. `StringView` is a `Span<char8>` pointer-and-length struct. By convention, methods take string input through a `StringView` argument, and methods that want to return string data take a `String` argument which is used to append string data to.
 
 String literals within a workspace that have equal values are guaranteed to be pooled and will have equal object addresses, and the pointer to the null-terminated C string pointer obtained through the `char8*` cast operator or the `CStr()` method are guaranteed to have the equal addresses. Generated strings whose value matches a literal are guaranteed to return that literal's address when passed through `String.Intern()`.
 
@@ -13,7 +13,7 @@ String str = "This is a string";
 char8* cStr = "This is a C string";
 String str2 = "This string contains\n Two lines";
 String str3 = @"C:\Path\Literal\NoSlashing";
-String str4 = 
+String str4 =
 	"""
 	Multiline string literal
 		with a tabbed second line;
@@ -31,7 +31,7 @@ String interpolation is supported for either string allocations or string argume
 String str = scope $"X = {GetX()} Y = {GetY()}";
 
 /* This is equivalent to Console.WriteLine("X = {} Y = {}", GetX(), GetY()) */
-Console.WriteLine("X = {} Y = {}", GetX(), GetY());
+Console.WriteLine($"X = {GetX()} Y = {GetY()}");
 ```
 
 ### String Comparison
@@ -43,7 +43,36 @@ Console.WriteLine("X = {} Y = {}", GetX(), GetY());
 |C# StringBuffer| No                                  | No                     | UTF16            |
 |Beef           | Yes                                 | Virtual override       | UTF8             |
 
-Beef is the only string besides a C char array that allows you to create non-small strings (> 32 bytes) entirely on the stack: `var str = scope String(1024)` constructs a String on the stack with a 1024-character internal buffer, for example. For sizing beyond the internal string buffer, you can integrate with a custom allocator by subclassing the String class and overriding the Alloc/Free methods. In C++, custom allocators for strings are provided by a template argument to `std::basic_string`, which means that a string with a custom allocator simply cannot be passed to methods expecting a `std::string` since the types no long match. For character encoding, C/C++ does not define any encoding for characters in their strings, so it's left up to the user to handle all encoding issues. In C#, string characters are UTF16 for historic reasons, which in many ways is the "worst of both worlds" of encoding and size because the user still must deal with UTF16 surrogate pairs (a single unicode character split into two UTF16 characters), but UTF16 strings are almost always larger than their UTF8 counterparts (even when dealing solely with Asian languages).
+Beef is the only string besides a C char array that allows you to create non-small strings (> 32 bytes) entirely on the stack: `var str = scope String(1024)` constructs a String on the stack with a 1024-character internal buffer, for example. For sizing beyond the internal string buffer, you can integrate with a custom allocator by subclassing the String class and overriding the Alloc/Free methods. In C++, custom allocators for strings are provided by a template argument to `std::basic_string`, which means that a string with a custom allocator simply cannot be passed to methods expecting a `std::string` since the types no longer match. For character encoding, C/C++ does not define any encoding for characters in their strings, so it's left up to the user to handle all encoding issues. In C#, string characters are UTF16 for historic reasons, which in many ways is the "worst of both worlds" of encoding and size because the user still must deal with UTF16 surrogate pairs (a single unicode character split into two UTF16 characters), but UTF16 strings are almost always larger than their UTF8 counterparts (even when dealing solely with Asian languages).
+
+### Ease of use
+
+The [Argument cascade operator]({{< ref "operators.md#unary" >}}) is can be especially useful when working with strings. To give the user control over allocations, strings are usually passed into methods, where they are modified. For the most part, these methods return void, which means that you don't miss out on any return values this way, but when methods return Result<T>, this should not be used and the result handled instead.
+
+```C#
+void ToString(String strBuffer)
+{
+	strBuffer.Append("Count: ");
+	count.ToString(strBuffer);
+}
+
+{
+	let printString = scope String();
+	ToString(printString);
+	Console.WriteLine(printString);
+
+	/* Equivalent to code above. ToString is made to return the String we pass in */
+	let printString2 = ToString(.. scope String());
+	Console.WriteLine(printString2);
+
+	/* Equivalent one-liner. '.' can be used to infer 'String', since the type passed into ToString is unambiguous */
+	Console.WriteLine(ToString(.. scope .()));
+}
+
+{
+	let filePath = Path.InternalCombine(.. scope .(), rootDir, "Folder", "file.bin");
+}
+```
 
 ### Common String Mistakes
 
@@ -85,6 +114,6 @@ String strC = strA + strB;
 String strC = scope $"{strA}{strB}";
 /* RIGHT - string constants can be added because the result is another string constant - no allocation is needed at runtime */
 String strC = "A" + "B";
-/* RIGHT - equivalent to String.Append */
+/* RIGHT - equivalent to strC.Append(strA) */
 strC += strA;
 ```
