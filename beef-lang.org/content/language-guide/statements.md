@@ -35,7 +35,7 @@ Defer statements can be used to defer execution of method calls or of code block
 		Console.WriteLine("A:{}", i);
 	}
 	i++;
-	defer 
+	defer
 	{
 		Console.WriteLine("B:{}", i);
 	}
@@ -110,6 +110,11 @@ enumerator.Dispose();
 /* We can also iterate by refrence instead of by value */
 for (var valRef in ref intList)
 	valRef += 100;
+
+
+/* Common Mistake: This will NOT change the values in intList, just the value returned by enumerator.GetNext() */
+for (var val in intList)
+	val += 100;
 ```
 
 ### if
@@ -182,10 +187,10 @@ Switches can be used for [pattern matching]({{<ref "pattern.md">}}) for enums an
 /* Note that switches over enums that do not handle every case and have no 'default' case will give a "not exhaustive" compile error. Thus, if we added a new entry to the Shape definition, we would ensure that all switches will make modifications to handle it */
 switch (shape)
 {
-case Square(let x, let y, let width, let height): 
-	DrawSquare(x, y, width, height); 
-case Circle: 
-	IgnoreShape(); 
+case Square(let x, let y, let width, let height):
+	DrawSquare(x, y, width, height);
+case Circle:
+	IgnoreShape();
 }
 ```
 
@@ -230,12 +235,12 @@ using (g.Open("Header"))
 
 ```C#
 // Define mutable variable with an explicit type and without an assignment
-int val; 
+int val;
 // Define multiple variables with an explicit type
 int a, b;
 // Define mutable variable with an explicit type and an initializer
 int val2 = 123;
-// Define mutable variable with an implicit type and an initializer 
+// Define mutable variable with an implicit type and an initializer
 var val3 = 1.2f;
 // Define immutable variable with an implicit type and an initializer
 let val4 = 2.3;
