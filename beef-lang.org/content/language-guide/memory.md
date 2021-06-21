@@ -100,7 +100,7 @@ void ReadString(int reserveLen)
 {
 	String str = new:ScopedAlloc! String(reserveLen);
 	defer delete:null str;
-	UseString(str);	
+	UseString(str);
 }
 ```
 
@@ -165,11 +165,11 @@ All value types (primitives, structs, tuples, pointers, enums) can be 'boxed' in
 
 ```C#
 // Format calls rely on boxing to handle incoming types
-Console.WriteLine("a + b = {}", a + b); 
+Console.WriteLine("a + b = {}", a + b);
 Object a = 1.2f; // Implicitly boxed on stack to current scope on
 Object b = scope box:: 2.3f; // Explicitly boxed on stack to method scope
 Object c = new:allok box 4.5f; // Explicitly boxed through a custom allocator 'allok'
 ```
 
 ### Variants
-The variant type `System.Variant` is an alternative to boxing. A variant is not an object type, and thus cannot perform dynamic interface dispatching, but a variant has the advantage that it can store small data types without allocation and it does not incur boxing code bloat. A variant can be converted into a heap-allocated boxed object via `Variant.GetBoxed`, but it will fail if the compiler hasn't generated an on-demand box type for the stored valuetype. Boxed type generation can be specifically requested via [reflection options](reflection.html).
+The variant type `System.Variant` is an alternative to boxing. A variant is not an object type, and thus cannot perform dynamic interface dispatching, but a variant has the advantage that it can store small data types without allocation and it does not incur boxing code bloat. A variant can be converted into a heap-allocated boxed object via `Variant.GetBoxed`, but it will fail if the compiler hasn't generated an on-demand box type for the stored valuetype. Boxed type generation can be specifically requested via [reflection options]({{< ref reflection.md >}}).

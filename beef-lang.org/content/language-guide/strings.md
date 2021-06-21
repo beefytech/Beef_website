@@ -47,7 +47,7 @@ Beef is the only string besides a C char array that allows you to create non-sma
 
 ### Ease of use
 
-The [Argument cascade operator]({{< ref "operators.md#unary" >}}) is can be especially useful when working with strings. To give the user control over allocations, strings are usually passed into methods, where they are modified. For the most part, these methods return void, which means that you don't miss out on any return values this way, but when methods return Result<T>, this should not be used and the result handled instead.
+The [Argument cascade operator]({{< ref "operators.md#unary" >}}) can be especially useful when working with strings. To give the user control over allocations, strings are usually passed into methods where they are modified. For the most part, these methods return void, which means that you don't miss out on any return values, though methods that return Result<T> can not be properly handled this way.
 
 ```C#
 void ToString(String strBuffer)
