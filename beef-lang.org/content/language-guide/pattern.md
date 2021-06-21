@@ -33,13 +33,13 @@ void TupleSwitch()
 	case (var drawX, var drawY, let drawStr):
 		/* Since drawX and drawY are 'var' the are mutable, whereas drawStr is immutable */
 		drawX += 10;
-		drawY += 20; 
+		drawY += 20;
 		Draw(x, y, drawStr);
 	}
 }
 ```
 
-### Enum pattern matching
+### Enum pattern matching {#enum}
 
 ```C#
 enum Shape
@@ -51,13 +51,13 @@ enum Shape
 void EnumCase()
 {
 	Shape shape = .Circle(10, 20, 30);
-	
+
 	/* One enum discriminator check, two member equality checks, and one member captures */
 	if (shape case .Circle(0, 0, let radius))
 	{
 		DrawCircleAtOrigin(radius);
 	}
-	
+
 	/* One enum discriminator check, and three member captures */
 	else if (shape case .Circle(let x, let y, let radius))
 	{

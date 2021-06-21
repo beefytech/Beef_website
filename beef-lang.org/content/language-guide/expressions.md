@@ -36,7 +36,7 @@ The `box` expression allocates an object which wraps a value type. (See [Memory 
 
 ### case
 
-`case` expressions can be used for pattern matching outside switches. (See [Pattern Matching]{{< ref "pattern.md" >}}))
+`case` expressions can be used for pattern matching outside switches. (See [Pattern Matching]({{< ref "pattern.md" >}}))
 
 ### Cast expression
 
@@ -46,7 +46,7 @@ The `box` expression allocates an object which wraps a value type. (See [Memory 
 * `x ? y : z` - results in `y` is `x` is true, otherwise results in `z`
 
 ### Conditional variable declarations
-Variable declarations can be use as boolean expressions in 'if' statements for nullable types. These can be used with certain types of binary operations in the cases where a 'true' overall 'if' result ensures that the conditional variable declaration was also evaluated and resulted in 'true'. 
+Variable declarations can be use as boolean expressions in 'if' statements for nullable types. These can be used with certain types of binary operations in the cases where a 'true' overall 'if' result ensures that the conditional variable declaration was also evaluated and resulted in 'true'.
 
 ```C#
 /* Simple conditional variable declaration */
@@ -82,12 +82,12 @@ String str2 = default;
 ### Expression blocks
 Expression blocks end with an expression that is not terminated by a semicolon.
 ```C#
-Console.WriteLine("Result={}", 
-	{ 
+Console.WriteLine("Result={}",
+	{
 		GetByRef(let val);
-		val 
+		val
 	});
-```	
+```
 
 ### Index expressions
 
@@ -121,7 +121,7 @@ The `new` expression allocates memory in the global allocator or in a custom all
 All `new` operations can also accept a custom allocator argument.
 
 * `new:a T(....)` allocates an instance of `T` in custom allocator `a` where `a` is an identifier.
-* `new:(a) T(...)` allocates an instance of `T` in custom allocator `a` where `a` is any expression. 
+* `new:(a) T(...)` allocates an instance of `T` in custom allocator `a` where `a` is any expression.
 
 ### Null-conditional operators
 
@@ -139,7 +139,7 @@ Adding parentheses around expressions can be used for changing order of operatio
 ```C#
 int a = 1 + 2 * 3; // The multiply happens before the add here, resulting in 7
 int b = (1 + 2) * 3; // The add happens before the multiply here, resulting in 9
-``` 
+```
 
 ### scope
 
@@ -161,6 +161,6 @@ See [unary operators]({{< ref "operators.md#unary" >}})
 
 ### Uninitialized '?'
 
-When assigned to a variable or field, `?` will cause the value to be treated as if it had an assignment but without (necessarily) any actual operation. This can be useful in cases such as with "buffer" type arrays that don't need to be zero-initialized before use. 
+When assigned to a variable or field, `?` will cause the value to be treated as if it had an assignment but without (necessarily) any actual operation. This can be useful in cases such as with "buffer" type arrays that don't need to be zero-initialized before use.
 
 When used with `out` parameters, `?` will act as a discard.
