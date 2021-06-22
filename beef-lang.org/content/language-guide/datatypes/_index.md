@@ -44,7 +44,7 @@ Character types only specify size but not encoding. The char8 data type, for ins
 * bool
 
 ## Structs
-Struct types are user-defined collections of values, similar to structs in C. Structs can contain fields, properties, methods, and can define other inner types. For C++ programmers, structs are C++ PODS and cannot contain virtual methods or copy constructors. 
+Struct types are user-defined collections of values, similar to structs in C. Structs can contain fields, properties, methods, and can define other inner types. For C++ programmers, structs are C++ PODS and cannot contain virtual methods or copy constructors.
 
 ```C#
 struct Vector
@@ -103,23 +103,23 @@ struct StructC : StructB
 	int8 l;
 }
 
-/* In Beef, StructC only occupies 14 bytes but in C it is either 24 or 32 bytes 
+/* In Beef, StructC only occupies 14 bytes but in C it is either 24 or 32 bytes
  (implementation dependent).
 
  Beef:
  sizeof(StructA) = 12 strideof(StructA) = 16
- sizeof(StructB) = 13 strideof(StructB) = 16 
+ sizeof(StructB) = 13 strideof(StructB) = 16
  sizeof(StructC) = 14 strideof(StructC) = 16
- 
+
  C/C++:
  sizeof(StructA) = 16
  sizeof(StructB) = 24
  sizeof(StructB) = 32 (or 24)
- 
- In Beef, the data size is smaller due to field reordering eliminating alignment 
- padding. In C, the 'k' field byte added in StructB causes an extra 7 bytes of 
- padding. The 'l' field byte added in StructC creates yet another 7 bytes of padding 
- on some compilers (VC) while other compilers will fit 'l' into the previous padding 
+
+ In Beef, the data size is smaller due to field reordering eliminating alignment
+ padding. In C, the 'k' field byte added in StructB causes an extra 7 bytes of
+ padding. The 'l' field byte added in StructC creates yet another 7 bytes of padding
+ on some compilers (VC) while other compilers will fit 'l' into the previous padding
  (Clang/GCC). */
 ```
 
@@ -151,7 +151,10 @@ let tup = (1, 2); // Unnamed members
 int sum = tup.0 + tup.1; // Access by position
 let (first, second) = tup; // Decompose into new variables
 let coords = (x: 2, y: 3); // Named members
-let len = Math.Sqrt(coords.x*coords.x + coords.y*coords.y); // Access by name 
+let len = Math.Sqrt(coords.x*coords.x + coords.y*coords.y); // Access by name
+
+(uint, uint) utup = (1, 2); // Explicitly typed, unnamed members
+(int index, Type type) entry = (first, null); // Explicitly typed, named members
  ```
 
 Tuples allow for implicit conversions where, field by field, the types are the same and one of the fields is named and the other field is unnamed.
@@ -192,7 +195,7 @@ Destruction runs in reverse order of construction. For construction, first the b
 ```C#
 public Button : Widget
 {
-	String mLabel = new String() ~ delete _; // "_" is an alias to "mLabel" here 
+	String mLabel = new String() ~ delete _; // "_" is an alias to "mLabel" here
 
 	public ~this()
 	{
@@ -205,7 +208,7 @@ public Button : Widget
 
 ### Arrays
 
-There are several forms of arrays supported in Beef. Array classes, sized array types, Spans, and raw pointers. 
+There are several forms of arrays supported in Beef. Array classes, sized array types, Spans, and raw pointers.
 
 ```C#
 /* Allocates a float array class */
@@ -310,7 +313,7 @@ switch (drawShape)
 {
 case .None:
 case .Square(let x, let y, let width, let height): DrawSquare(x, y, width, height);
-case .Circle(let x, let y, let radius): DrawCircle(x, y, radius); 
+case .Circle(let x, let y, let radius): DrawCircle(x, y, radius);
 }
 ....
 if (drawShape case .Square)
@@ -336,4 +339,5 @@ Beef type aliases allow creating type names that directly map to another type.
 ```C#
 typealias Size = int;
 typealias Collection<T> = List<T>;
+typealias StringLookup = Dictionary<String, String>;
 ```

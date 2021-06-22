@@ -4,7 +4,7 @@ weight = 30
 +++
 
 ## Namespace overview
-Namespaces are used in Beef to organize types and to prevent name collisions. 
+Namespaces are used in Beef to organize types and to prevent name collisions. Note that elements in namespaces are always public.
 
 ```C#
 namespace Gfx

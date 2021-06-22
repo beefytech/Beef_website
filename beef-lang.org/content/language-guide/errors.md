@@ -13,7 +13,7 @@ static Result<uint> GetMinusOne(uint i)
 {
 	if (i == 0)
 		return .Err;
-	return .Ok(i - 1);	
+	return .Ok(i - 1);
 }
 
 void Use()
@@ -26,10 +26,24 @@ void Use()
 	}
 
 	/* This invokes an implicit conversion operator, which will be fatal at runtime if an error is returned */
-	int newVal = GetMinusOne(i);
+	let newVal = GetMinusOne(i);
 
 	/* Result<T> contains a special "ReturnValueDiscarded" method which is invoked to facilitate failing fatally on ignored returned errors here */
 	GetMinusOne(i);
+
+	/* "ReturnValueDiscarded" will not be called */
+	GetMinusOne(i).IgnoreError();
+}
+```
+
+Result<T> can also be handled using if statements. Use [case]({{< ref "pattern.md#enum" >}}) to match the .Err or .Ok enum values.
+
+```C#
+void Use()
+{
+	/* Handle result via an if. Note that Result<T> returns are matched with 'case', not compared with '==' */
+	if (GetMinusOne(i) case .Ok(let newVal))
+		Console.WriteLine("Val: {}", newVal);
 }
 ```
 
