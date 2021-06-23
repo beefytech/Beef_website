@@ -23,9 +23,8 @@ weight = 11
 ## Method attributes
 - [AlwaysInclude] - indicates that even if this method would have been skipped by compile-on-demand, it should be included in the build anyway. This can be useful for methods that are meant to be called by reflection.
 - [Checked] - indicates that this method performs runtime checks such as validating arguments (ie: bounds checks)
-- [Commutable] - this attribute creates an additional version of this method where the first two arguments are transposed. This can be useful for creating 
+- [Commutable] - this attribute creates an additional version of this method where the first two arguments are transposed. This can be useful for creating operators whose operations are commutable.
 - [Comptime] - marks a method as being evaluable only at comptime, not at runtime
-operators whose operations are commutable.
 - [DisableChecks] - indicates that calls within this method should call the Unchecked verion of methods when possible (optimization)
 - [DisableObjectAccessChecks] - indicates that object access checks should be disabled within this method (optimization)
 - [Error] - throws a compilation error when the method is called (a more generalized form of [Obsolete])
