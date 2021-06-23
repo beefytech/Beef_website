@@ -32,7 +32,7 @@ class Student : Person
 
 	public this()
 	{
-		
+
 	}
 
 	public this(int age)
@@ -77,6 +77,35 @@ Value initializers let you assign values to fields and properties of values at c
 ```C#
 /* Construct a Cat, calling the default constructor, and then assign the Age and Name properties */
 var cat = new Cat() { Age = 10, Name = "Fluffy" };
+```
+
+For structs, value initalizers can also be used without calling any constructors or initializer blocks.
+
+```C#
+struct WindowInit
+{
+	public width = 1280;
+	public height;
+
+	this
+	{
+		height = 720;
+	}
+}
+
+/* Default contructor & value initializer: height will be 720, width will be 1280, then set to 1920 */
+var init = WindowInit() { width = 1920 }
+
+/* Is equivalent to */
+var init = WindowInit();
+init.width = 1920;
+
+/* Just value initializer: height will be 0, width will be 0, then set to 1920 */
+var init = WindowInit { width = 1920 }
+
+/* Is equivalent to */
+WindowInit init = default; // Struct is zeroed
+init.width = 1920;
 ```
 
 Value initializers also allow you to add items to collections at creation time. You can provide a list of expressions, which will be passed individually to an applicable `Add` method.
