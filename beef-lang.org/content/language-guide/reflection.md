@@ -39,6 +39,9 @@ void DynamicCreate()
 	{
 		Console.WriteLine("Successfully created TestClass instance");
 		UseObject(obj);
+
+		/* Objects and values created through reflection are heap-allocated and need to be deleted */
+		delete obj;
 	}
 }
 ```
