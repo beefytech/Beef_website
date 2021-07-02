@@ -10,7 +10,7 @@ Beef supports runtime reflection, which allows enumerating and accessing types, 
 public struct Options
 {
 	[Reflect]
-    public bool mFlag;
+  public bool mFlag;
 }
 
 void Use(ref Options options)
@@ -22,18 +22,22 @@ void Use(ref Options options)
 
 ## Reflected Construction
 
-Values can be created from reflection information. 
+Values can be created from reflection information. Some care has to be taken to ensure that the type of the value in question is actually included in builds.
 
 ```C#
-[Reflect(.Methods)]
+/* Since we only instatiate the type through reflection, we need to force the needed data to be included */
+/* If we were creating instances of TestClass somewhere in included code, the AlwaysInclude attribute wouldn't be strictly necessary here */
+[Reflect(.Methods), AlwaysInclude(AssumeInstantiated=true)]
 class TestClass
 {
 }
 
 void DynamicCreate()
 {
+	/* CreateObject() returns Result<Object>, which we can handle like this */
 	if (Object obj = typeof(TestClass).CreateObject())
 	{
+		Console.WriteLine("Successfully created TestClass instance");
 		UseObject(obj);
 	}
 }
@@ -81,6 +85,20 @@ class Program
 }
 ```
 
+Alternatively, the effects of the `AlwaysInclude` attribute can also be put directly onto the `Scriptable` attribute itself. With the following struct, the `TestClass` only needs to have the `Scriptable` attribute.
+
+```C#
+[AttributeUsage(.Class | .Struct, .ReflectAttribute, ReflectUser=.Methods, AlwaysIncludeUser=.AssumeInstantiated | .IncludeAllMethods)]
+struct ScriptableAttribute : Attribute
+{
+	public String mName;
+	public this(String name)
+	{
+		mName = name;
+	}
+}
+```
+
 ### Reflection from Interface
 ```C#
 /* All implementers of this interface will have dynamic boxing available */
@@ -122,7 +140,7 @@ class Serializer
 
 ### Distinct Build Options
 
-Reflection information can be configured in workspaces and projects under Distinct Build Options. For example, if you need `Add` and `Remove` methods reflected for all `System.Collection.List<T>` instances, you can add a `System.Collections.List<*>` under Distinct Build Options: 
+Reflection information can be configured in workspaces and projects under Distinct Build Options. For example, if you need `Add` and `Remove` methods reflected for all `System.Collection.List<T>` instances, you can add a `System.Collections.List<*>` under Distinct Build Options:
 	* Set "Reflect\Method Filter" to "Add;Remove" to ensure the settings only apply to those methods
 	* Set "Reflect\Always Include" to "Include All" to ensure the specified methods get compiled into the build even if they werent't explicitly used
 	* Set "Reflect\Non-Static Methods" to "Yes" to ensure the specified non-static methods have reflection information added
