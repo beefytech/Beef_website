@@ -10,7 +10,7 @@ Beef supports runtime reflection, which allows enumerating and accessing types, 
 public struct Options
 {
 	[Reflect]
-  public bool mFlag;
+	public bool mFlag;
 }
 
 void Use(ref Options options)

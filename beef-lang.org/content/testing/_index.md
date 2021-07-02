@@ -15,7 +15,7 @@ public static void TestAPI()
 }
 ```
 
-In some cases, tests are expected to fail. The test attribute can be used to mark tests accordingly.
+In some cases, tests are expected to fail. The `[Test]` attribute can be used to mark tests accordingly.
 
 ```C#
 [Test(ShouldFail=true)]
