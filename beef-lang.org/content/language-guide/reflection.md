@@ -27,7 +27,7 @@ Values can be created from reflection information. Some care has to be taken to 
 ```C#
 /* Since we only instatiate the type through reflection, we need to force the needed data to be included */
 /* If we were creating instances of TestClass somewhere in included code, the AlwaysInclude attribute wouldn't be strictly necessary here */
-[Reflect(.Methods), AlwaysInclude(AssumeInstantiated=true)]
+[Reflect(.DefaultConstructor), AlwaysInclude(AssumeInstantiated=true)]
 class TestClass
 {
 }
