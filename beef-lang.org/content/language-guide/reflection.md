@@ -102,6 +102,97 @@ struct ScriptableAttribute : Attribute
 }
 ```
 
+### Invoking reflected methods
+```C#
+[AlwaysInclude(IncludeAllMethods=true), Reflect(.Methods)]
+class MethodHolder
+{
+	public int mIdentifier;
+
+	static int GiveMeFive()
+	{
+		return 5;
+	}
+
+	public static void Print(int num, String message)
+	{
+		Console.WriteLine(scope $"{num}: {message}");
+	}
+
+	public void ChangeIdentifier(int newIdent)
+	{
+		mIdentifier = newIdent;
+		Console.WriteLine(scope $"I am now number {newIdent}");
+	}
+}
+
+class Program
+{
+	static void InvokeFuncs()
+	{
+		/* Invoke member methods */
+		{
+			let mh = scope MethodHolder();
+
+			/* Pass 'mh' as 'target', as well as method our parameters. Note that we don't handle any errors */
+			typeof(MethodHolder).GetMethod("ChangeIdentifier").Get().Invoke(mh, 14);
+
+			Runtime.Assert(mh.mIdentifier == 14);
+		}
+
+		/* Invoke all static methods */
+		int passInt = 8;
+		for (let m in typeof(MethodHolder).GetMethods(.Static))
+		PARAMS:
+		{
+			/* Pass params based on what the function takes */
+			let methodParams = scope Object[m.ParamCount];
+			for (let i < m.ParamCount)
+			{
+				Object param;
+				switch (m.GetParamType(i)) /* This covers all the cases in this example */
+				{
+				case typeof(String):
+					param = "A nice string message";
+				case typeof(int):
+
+					/* We need to box this value into an object ourselves to make sure it's not out of scope and deleted when we invoke the method */
+					/* param = passInt; would implicitly box passInt, but be deleted once we leave this 'for (let i < m.ParamCount)' loop cycle */
+					/* where as we need it to persist the outer "method" loop's cycle to be valid at the Invoke() call */
+					param = scope:PARAMS box passInt;
+				default:
+					param = null;
+				}
+
+				methodParams[i] = param;
+			}
+
+			/* Invoke the method and handle the result / return value. Static methods don't have a target */
+			switch (m.Invoke(null, params methodParams))
+			{
+			case .Ok(let val):
+
+				/* Handle returned int variants */
+				if (val.VariantType == typeof(int))
+				{
+					let num = val.Get<int>();
+					Console.WriteLine(scope $"Method {m.Name} returned {num}");
+				}
+
+			case .Err:
+				Console.WriteLine(scope $"Couldn't invoke method {m.Name}");
+			}
+		}
+	}
+}
+
+/* Prints:
+	I am now number 14
+	Method GiveMeFive returned 5
+	8: A nice string message
+*/
+```
+
 ### Reflection from Interface
 ```C#
 /* All implementers of this interface will have dynamic boxing available */
