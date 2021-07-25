@@ -168,6 +168,7 @@ class Program
 			}
 
 			/* Invoke the method and handle the result / return value. Static methods don't have a target */
+			/* Note that 'Invoke(null, methodParams)' would attempt to pass the Object[] as the only argument */
 			switch (m.Invoke(null, params methodParams))
 			{
 			case .Ok(let val):
