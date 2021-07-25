@@ -49,7 +49,7 @@ class Student : Person
 	RegisterStudent();
  */
 
-/* Classes and their inheritors or extensions can also choose to ignore all initializers and retain the nulled class */
+/* Classes or structs and their inheritors or extensions can also choose to ignore all initializers and retain the nulled class or struct */
 extension Person
 {
 	/* Adds a constructor to Person that does not call GetFirstName() or GetLastName() due to 'this(?)' */
