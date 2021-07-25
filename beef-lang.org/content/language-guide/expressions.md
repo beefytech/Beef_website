@@ -185,4 +185,4 @@ When assigned to a variable or field, `?` will cause the value to be treated as 
 
 When used with `out` parameters, `?` will act as a discard.
 
-When used with class constructors, `this(?)` and `base(?)` will discard the according initializers and constructors. See [Initialization]({{< ref "datatypes/initialization.md" >}})
+When used in constructors, uninitialized constructor calls `this(...) : this(?)` and `this(...) : base(?)` will discard the according initializers and constructors. See [Initialization]({{< ref "datatypes/initialization.md" >}})
