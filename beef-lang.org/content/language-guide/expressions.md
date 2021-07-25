@@ -141,6 +141,26 @@ int a = 1 + 2 * 3; // The multiply happens before the add here, resulting in 7
 int b = (1 + 2) * 3; // The add happens before the multiply here, resulting in 9
 ```
 
+### Range expression
+
+Ranges consist of a start and end integer value and is primarily used for loop iteration. They can be created as inclusive or exclusive ranges. (See [Range operators]({{< ref "operators.md#range" >}}))
+
+```C#
+let list = scope List<int>() { 5, 1, 0 };
+
+/* Since we are iterating through a range, the list.Count getter will only be called once when the range is created */
+/* Thus, the lists count is simply doubled instead of creating an infinite loop */
+for (let i in 0 ..< list.Count)
+	list.Add(list[i]);
+
+// list is now: { 5, 1, 0, 5, 1, 0 }
+
+for (let i in (0 ..< list.Count).Reversed)
+	list.Add(list[i]);
+
+// list is now: { 5, 1, 0, 5, 1, 0, 0, 1, 5, 0, 1, 5 }
+```
+
 ### scope
 
 The `scope` expression allocates memory on the stack, in a scope contained in an executing method. (See [Memory Management]({{< ref "memory.md#allocating" >}}))
@@ -164,3 +184,5 @@ See [unary operators]({{< ref "operators.md#unary" >}})
 When assigned to a variable or field, `?` will cause the value to be treated as if it had an assignment but without (necessarily) any actual operation. This can be useful in cases such as with "buffer" type arrays that don't need to be zero-initialized before use.
 
 When used with `out` parameters, `?` will act as a discard.
+
+When used with class constructors, `this(?)` and `base(?)` will discard the according initializers and constructors. See [Initialization]({{< ref "datatypes/initialization.md" >}})

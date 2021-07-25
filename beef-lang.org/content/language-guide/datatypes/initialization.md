@@ -49,6 +49,19 @@ class Student : Person
 	RegisterStudent();
  */
 
+/* Classes and their inheritors or extensions can also choose to ignore all initializers and retain the nulled class */
+extension Person
+{
+	/* Adds a constructor to Person that does not call GetFirstName() or GetLastName() due to 'this(?)' */
+	/* Inherited classes could similarly do this with base(?) */
+	public this(String firstName, String lastName) : this(?)
+	{
+		/* At this point, mFirstName and mLastName are still null */
+		mFirstName = firstName;
+		mLastName = lastName;
+		AddPerson();
+	}
+}
 ```
 
 For struct initialization semantics, the struct is not automatically zeroed out -- the fields initializers and constructor together must fully initialize all the struct fields. Users of a struct can also choose to not execute a constructor and just manually initialize all the fields directly. Uses of structs that are not fully initialized will be disallowed via simple static analysis, which can be overriden via the explicit "?" uninitialized expression.
