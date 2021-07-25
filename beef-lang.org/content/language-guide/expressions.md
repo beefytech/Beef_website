@@ -143,7 +143,7 @@ int b = (1 + 2) * 3; // The add happens before the multiply here, resulting in 9
 
 ### Range expression
 
-Ranges consist of a start and end integer value and is primarily used for loop iteration. They can be created as inclusive or exclusive ranges. (See [Range operators]({{< ref "operators.md#range" >}}))
+Ranges consist of a start and end integer value and are primarily used for loop iteration. They can be created as inclusive or exclusive ranges. (See [Range operators]({{< ref "operators.md#range" >}}))
 
 ```C#
 let list = scope List<int>() { 5, 1, 0 };
