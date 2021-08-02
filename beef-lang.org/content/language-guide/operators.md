@@ -39,7 +39,7 @@ These following operator groups are listed from the highest priority group to th
 * `x >> y` - shift bits right. if `x` is signed, the left bits are filled with the sign bit.
 
 ### Spaceship operator
-* `x <=> y` - results is negative if `x < y`, zero if `x == y`, positive if `x > y` 
+* `x <=> y` - results is negative if `x < y`, zero if `x == y`, positive if `x > y`
 
 ### Comparison operators
 * `x < y`
@@ -115,6 +115,10 @@ Assignments result in the new value of `x`.
 
 ### Params operator
 * params x - where x is a variadic parameter, will pass through those params to another variadic parameter. Where x is a delegate or function params, will expand those in place.
+
+### Range operators {#range}
+* `x...y` - creates an inclusive range from x up to including y
+* `x..<y` - creates an exclusive range from x up to but excluding y
 
 ## Casting
 
