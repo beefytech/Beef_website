@@ -187,7 +187,7 @@ IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 
 copy /b dist\Stub.exe + InstallData.zip C:\BeefNightly\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
-..\..\bin\sign.bat C:\BeefNightly\%DESTNAME%
+@call ..\..\bin\sign.bat C:\BeefNightly\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 copy /y C:\BeefNightly\%DESTNAME% C:\BeefNightly\BeefSetup.exe
 

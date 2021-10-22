@@ -161,7 +161,7 @@ exit /b 1
 @echo Creating installer at ..\..\public\setup\%DESTNAME%
 copy /b dist\Stub.exe + InstallData.zip ..\..\public\setup\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
-..\..\bin\sign.bat ..\..\public\setup\%DESTNAME%
+@call ..\..\bin\sign.bat ..\..\public\setup\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 
 @git hash-object ..\..\public\setup\%DESTNAME%
