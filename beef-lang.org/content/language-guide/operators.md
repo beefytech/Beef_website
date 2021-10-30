@@ -106,6 +106,7 @@ Assignments result in the new value of `x`.
 * `nullable(T)` - `T` if `T` is already nullable, otherwise `T?`
 * `rettype(T)` - return type of a delegate or function
 * `typeof(T)` - reflected type of type `T`
+* `offsetof(T, Tfield)` - where `Tfield` is a field of `T`, returns the offset of `Tfield` on `T`
 
 ### Ref operators
 * `ref x` - required for passing values into ref parameters or other values expecting `ref`
@@ -119,6 +120,28 @@ Assignments result in the new value of `x`.
 ### Range operators {#range}
 * `x...y` - creates an inclusive range from x up to including y
 * `x..<y` - creates an exclusive range from x up to but excluding y
+
+* `x...` - creates an index range from x up to including the end of the collection
+* `...y` - creates an index range from the start of the collection up to including y
+* `x...^y` - creates an index range from x up to including y, but counted from the back (See Index operator below). For example from the `x`th element of the list to the `y`th, but counted from the back, element.
+
+See [Range expression]({{< ref "expressions.md#range" >}} for examples.
+
+### Index from end operator
+* `^x` - creates an Index for the `x`th element counting from the back (`.FromEnd`), where the last element is ^1 (^0 is equal to the count/length of the collection) 
+
+These are mostly used for indexing collections and constructing ranges. Index is typically used for indexing from the end of a collection.
+
+```C#
+let list = scope List<int>() { 5, 1, 0 };
+
+let first = list[0];
+// first == 5
+
+// Indexing from the back starts at Count (3 in this case), which is out of range. Thus we get the last element by counting down one -> ^1
+let last = list[^1];
+// last == 0
+```
 
 ## Casting
 
