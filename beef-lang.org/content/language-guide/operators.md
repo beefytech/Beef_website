@@ -125,12 +125,12 @@ Assignments result in the new value of `x`.
 * `...y` - creates an index range from the start of the collection up to including y
 * `x...^y` - creates an index range from x up to including y, but counted from the back (See Index operator below). For example from the `x`th element of the list to the `y`th, but counted from the back, element.
 
-See [Range expression]({{< ref "expressions.md#range" >}} for examples.
+See [Range expression]({{< ref "expressions.md#range" >}}) for examples.
 
 ### Index from end operator
 * `^x` - creates an Index for the `x`th element counting from the back (`.FromEnd`), where the last element is ^1 (^0 is equal to the count/length of the collection) 
 
-These are mostly used for indexing collections and constructing ranges. Index is typically used for indexing from the end of a collection.
+`Index` is mostly used for indexing collections and constructing ranges.
 
 ```C#
 let list = scope List<int>() { 5, 1, 0 };
