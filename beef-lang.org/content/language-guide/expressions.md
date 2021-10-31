@@ -141,9 +141,9 @@ int a = 1 + 2 * 3; // The multiply happens before the add here, resulting in 7
 int b = (1 + 2) * 3; // The add happens before the multiply here, resulting in 9
 ```
 
-### Range expression
+### Range expression {#range}
 
-Ranges consist of a start and end integer value and are primarily used for loop iteration. They can be created as inclusive or exclusive ranges. (See [Range operators]({{< ref "operators.md#range" >}}))
+Ranges consist of a start and end integer value and are primarily used for loop iteration and range indexing. They can be created as inclusive or exclusive ranges. Index ranges may have one open side. (See [Range operators]({{< ref "operators.md#range" >}}))
 
 ```C#
 let list = scope List<int>() { 5, 1, 0 };
@@ -159,6 +159,9 @@ for (let i in (0 ..< list.Count).Reversed)
 	list.Add(list[i]);
 
 // list is now: { 5, 1, 0, 5, 1, 0, 0, 1, 5, 0, 1, 5 }
+
+var subset = list[...2]; // equivalent to 0...2, ..<3 and ...^10 (^ counts from the end, staring at Count)
+subset = list[4...]; // equivalent to 4...11, 4...^1 and 4..<^0
 ```
 
 ### scope
