@@ -15,12 +15,12 @@ static
 	public static void DoAThing() {}
 
 	/// Documentation also works for types.
-	struct AA<T>
+	struct SomeStruct
 	{
 		/**
 		* Multiline comments with two ** at the start.
 		*/
-		void DoAThing() {}
+		void PrivateMethod() {}
 	}
 
 	/**
