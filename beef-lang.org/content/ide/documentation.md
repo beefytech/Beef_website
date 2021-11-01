@@ -4,7 +4,7 @@ title = "Documentation"
 
 ## Documentation comments
 
-The IDE allows for documenting types and methods with `///` or `/** */`. Autocomplete suggestions, as well as prompts while calling/using the documented types or functions, will display their documentation.
+The IDE allows for documenting types and methods with `///` or `/** */` (wich one of these you use doesn't matter). Autocomplete suggestions, as well as prompts while calling/using the documented types or functions, will display their documentation.
 
 ```C#
 static
