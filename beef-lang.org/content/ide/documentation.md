@@ -10,7 +10,7 @@ The IDE allows for documenting types and methods with `///` or `/** */` (wich on
 static
 {
 	/// Must be placed directly above the method, including attributes.
-	/// Using multiple lines like this is also fine.
+	/// Using multiple lines like this is also fine. Both will be recognized.
 	[Optimize]
 	public static void DoAThing() {}
 
@@ -18,7 +18,7 @@ static
 	struct SomeStruct
 	{
 		/**
-		* Multiline comments with two ** at the start.
+		* Multiline comment with two ** at the start works in the same way.
 		*/
 		void PrivateMethod() {}
 	}
