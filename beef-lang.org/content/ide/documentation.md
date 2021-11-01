@@ -28,7 +28,7 @@ static
 	* @brief Allows you to select only this line to be shown.
 	* 
 	* @param a This is shown when writing a call to this function and placing parameter "a".
-	* @param b After placing the ',' after the first arg, the documentation for b/the second argument will show up instead.
+	* @param b For the second argument, the documentation for b (this!) will show up instead.
 	*/
 	public static void DoAnotherThing(int a, int b) {}
 }
