@@ -13,7 +13,7 @@ TargetName = "BeefInstallUI_d"
 OtherLinkFlags = "$(LinkFlags) BeefySysLib64_d.lib"
 BeefLibType = "DynamicDebug"
 DebugCommand = "$(WorkspaceDir)\\..\\dist\\Stub_d.exe"
-DebugCommandArguments = "-file=\"C:\\Beef_website\\BeefTools\\BeefInstall\\InstallData.zip\" -ui=.\\BeefInstallUI_d.dll"
+DebugCommandArguments = "-file=\"C:\\temp\\BeefInstall.zip\" -ui=.\\BeefInstallUI_d.dll"
 
 [Configs.Release.Win64]
 TargetDirectory = "$(WorkspaceDir)/../dist"

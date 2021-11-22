@@ -3,7 +3,7 @@ Dependencies = {corlib = "*", MiniZ = "*"}
 
 [Project]
 Name = "Stub"
-TargetType = "BeefWindowsApplication"
+TargetType = "BeefGUIApplication"
 StartupObject = "BIStub.Program"
 
 [Platform.Windows]
@@ -18,7 +18,7 @@ Copyright = "Copyright 2019 BeefyTech LLC"
 TargetDirectory = "$(WorkspaceDir)/../dist"
 TargetName = "$(ProjectName)_d"
 BeefLibType = "Static"
-DebugCommandArguments = "-self=C:\\Beef_website\\BeefTools\\BeefInstall\\BeefSetup.exe"
+DebugCommandArguments = "-self=C:\\temp\\BeefSetup_bad.exe -outzip=c:\\temp\\BeefInstall.zip"
 
 [Configs.Release.Win64]
 TargetDirectory = "$(WorkspaceDir)/../dist"
@@ -28,8 +28,6 @@ TargetDirectory = "$(WorkspaceDir)/../dist"
 
 [Configs.Test.Win64]
 TargetDirectory = "$(WorkspaceDir)/../dist"
-
-[ProjectFolder]
 
 [[ProjectFolder.Items]]
 Type = "Source"

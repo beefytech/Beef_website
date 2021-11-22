@@ -1,0 +1,8 @@
+FileVersion = 1
+
+[Project]
+Name = "NBody"
+StartupObject = "NBody.Program"
+
+[Configs.Release.Win64]
+DebugCommandArguments = "50000000"
