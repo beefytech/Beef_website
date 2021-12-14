@@ -20,5 +20,5 @@ November 22, 2021<br>
 
 ## Nightly
 Nightly releases are available if you need access to the latest features.<br>
-[Latest Nightly Release for Windows](http://nightly.beeflang.org/BeefSetup.exe)<br>
-[Older Nightly Releases](http://nightly.beeflang.org/index.html)
+[Latest Nightly Release for Windows](https://nightly.beeflang.org/BeefSetup.exe)<br>
+[Older Nightly Releases](https://nightly.beeflang.org/index.html)
