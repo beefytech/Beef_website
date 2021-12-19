@@ -4,7 +4,7 @@ title = "Code Generation"
 
 ## Generator overview
 
-The Beef IDE allows for generating source code through generators contained in the source code itself. The simples example of this is ``NewClassGenerator``. They can be accessed through the "Generate File..." option when right-clicking inside the workspace panel. Classes inheriting from ``Compiler.Generator`` will automatically show up as an option of the "Generator" dropdown in the "Generate File" panel. The generator's methods are directly executed through the compiler, so there is no need to compile manually.
+The Beef IDE allows for generating source code through generators contained in the source code itself. The simplest example of this is ``NewClassGenerator``. They can be accessed through the "Generate File..." option when right-clicking inside the workspace panel. Classes inheriting from ``Compiler.Generator`` will automatically show up as an option of the "Generator" dropdown in the "Generate File" panel. The generator's methods are directly executed through the compiler, so there is no need to compile manually.
 
 Generators can be used for creating custom file templates, but also for generating an entire file of complete source code.
 
