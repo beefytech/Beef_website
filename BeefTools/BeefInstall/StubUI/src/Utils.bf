@@ -104,7 +104,7 @@ namespace BiUtils
 		{
 			Windows.HKey key = 0;
 			bool writeAsExpand = false;
-			uint32 regAccess = (action == .Check) ? Windows.KEY_QUERY_VALUE : Windows.KEY_QUERY_VALUE | Windows.KEY_SET_VALUE;
+			uint32 regAccess = (.)((action == .Check) ? Windows.KEY_QUERY_VALUE : Windows.KEY_QUERY_VALUE | Windows.KEY_SET_VALUE);
 
 			if (allUsers)
 			{
@@ -176,7 +176,7 @@ namespace BiUtils
 		public static Result<bool, Error> ModifyEnv(bool allUsers, StringView name, StringView value, PathAction action)
 		{
 			Windows.HKey key = 0;
-			uint32 regAccess = (action == .Check) ? Windows.KEY_QUERY_VALUE : Windows.KEY_QUERY_VALUE | Windows.KEY_SET_VALUE;
+			uint32 regAccess = (.)((action == .Check) ? Windows.KEY_QUERY_VALUE : Windows.KEY_QUERY_VALUE | Windows.KEY_SET_VALUE);
 
 			if (allUsers)
 			{
