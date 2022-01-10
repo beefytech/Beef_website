@@ -3,4 +3,4 @@
 
 :DOSIGN
 @ECHO Signing %1...
-@REM "%BINPATH%\signtool" sign /tr http://timestamp.comodoca.com /td sha256 /fd sha256 /a %1
+"%BINPATH%\signtool" sign /tr http://timestamp.comodoca.com /td sha256 /fd sha256 /a %1
