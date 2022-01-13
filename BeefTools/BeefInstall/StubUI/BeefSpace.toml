@@ -8,7 +8,3 @@ StartupProject = "StubUI"
 [Configs.Debug.Win64]
 AllocType = "CRT"
 IntermediateType = "ObjectAndIRCode"
-
-[Configs.Release.Win64]
-Toolset = "Microsoft"
-LTOType = "None"
