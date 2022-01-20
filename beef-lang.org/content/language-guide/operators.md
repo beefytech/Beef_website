@@ -28,7 +28,7 @@ These following operator groups are listed from the highest priority group to th
 #### Multiplicative operators {#binary}
 * `x * y` - multiplication
 * `x / y` - division. If `x` and `y` are integers, results in an integer truncated toward zero.
-* `x % y` - remaindier. If `x` and `y` are integers, results in the remaindier of the division `x / y`.
+* `x % y` - remainder. If `x` and `y` are integers, results in the remainder of the division `x / y`.
 
 #### Additive operators
 * `x + y` - addition
