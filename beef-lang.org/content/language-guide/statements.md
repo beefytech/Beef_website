@@ -144,7 +144,6 @@ if ((int i = intNullable) && (i != 0))
 ```
 
 ### return
-
 Returns a value from a method.
 
 ```C#
@@ -152,6 +151,18 @@ int GetSize()
 {
 	return mSize;
 }
+```
+
+### repeat while
+Executes a statement once and repeats execution as long as the condition is true.
+
+```C#
+bool wantsMore;
+repeat
+{
+	wantsMore = Write();
+}
+while (wantsMore);
 ```
 
 ### switch
@@ -182,7 +193,7 @@ case 'E', 'I', 'O', 'U':
 }
 ```
 
-Switches can be used for [pattern matching]({{<ref "pattern.md">}}) for enums and tuples.
+Switches can be used for [pattern matching]({{<ref "pattern.md">}}) (see for further examples) for enums and tuples.
 ```C#
 /* Note that switches over enums that do not handle every case and have no 'default' case will give a "not exhaustive" compile error. Thus, if we added a new entry to the Shape definition, we would ensure that all switches will make modifications to handle it */
 switch (shape)
@@ -247,18 +258,11 @@ let val4 = 2.3;
 ```
 
 ### while
-Repeatedly excutes a statement as long as the condition is true.
+Repeatedly executes a statement as long as the condition is true.
 
 ```C#
 while (i >= 0)
 {
 	i--;
 }
-
-bool wantsMore;
-repeat
-{
-	wantsMore = Write();
-}
-while (wantsMore)
 ```

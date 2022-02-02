@@ -11,7 +11,7 @@ Fields can be const, static, or instanced. Const fields represent values, but ta
 class Widget
 {
 	/* Static "shared" value */
-	static int totalCount; 
+	static int totalCount;
 
 	const int MaxWidgets = 64 * 1024;
 
@@ -25,7 +25,7 @@ class Widget
 
 Method overloading is supported in Beef. For generic overloads, multiple versions of the same generic method are allowed if the constraints are different. If multiple generic methods match, one can be considered "better" if its contraints are a superset of another method's constraints, otherwise the overload selection is ambiguous.
 
-Parameter values are immutable unless `ref`, `out`, or `mut` specifiers are used. The `in` specifier can be used to explicitly request a parameter to be passed as an immutable reference, but note that this disables the ability to pass smaller structs by value even when that would be more efficient, so `in` should only be used when the specific semantics are required. 
+Parameter values are immutable unless `ref`, `out`, or `mut` specifiers are used. The `in` specifier can be used to explicitly request a parameter to be passed as an immutable reference, but note that this disables the ability to pass smaller structs by value even when that would be more efficient, so `in` should only be used when the specific semantics are required.
 
 ```C#
 bool GetInt(out int outVal)
@@ -52,12 +52,14 @@ void Write(char8 c)
 		c = ' ';
 	file.Write(c);
 
-	/* Note that the original argument will still be available as "@c" and can be seen in 
+	/* Note that the original argument will still be available as "@c" and can be seen in
 	the debugger in debug builds */
 }
 ```
 
 By default, "larger" structs are passed as immutable refrences and "smaller" structs are passed as immutable values. Structs such as a `Vector3` can be passed directly in XMM registers on X86.
+
+### Variable argument counts {#params}
 
 Methods can be defined which accept a variable number of arguments, using a "params" specifier on the last parameter. This is common with string-formatting methods like Console.WriteLine. The "params" type can be declared as either an array or a Span type. The "params" specifier can also be used on delegate or function types, which expands the parameter declaration to include the parameters declared in the delegate/function -- this is useful for generic argument forwarding, such as in the case of System.Event<T>.
 
@@ -67,7 +69,7 @@ void Draw(String format, params Object[] args)
 {
 	let str = scope String();
 	/* The 'params' */
-	str.AppendF(format, params args);	
+	str.AppendF(format, params args);
 }
 
 /* Delegate argument forwarding */
@@ -99,12 +101,14 @@ public static void HandleVarArgInts(int count, ...)
 {
 	VarArgs vaArgs = .();
 	vaArgs.Start!();
-	for (int i < count)	
+	for (int i < count)
 		Dispay(vaArgs.Get!<int>())
 	vaArgs.End!();
 	return result;
 }
 ```
+
+### Inlining
 
 While backend optimizations will perform inlining, you can also explicitly inline methods by annotating them with [Inline]. This will cause direct inlining to occur, which will inline even in debug builds (which does not break debuggability) and ensures methods will be inlined in cases where they may otherwise not inline such as in cross-module calling with non-LTO linking.
 
@@ -124,14 +128,16 @@ class Collection
 }
 
 void Use(Collection c)
-{	
+{
 	c.GetLength();
 
-	/* Inline can be requested at the callsite, which creates a local 'always inline' 
+	/* Inline can be requested at the callsite, which creates a local 'always inline'
 	version of this method to call */
 	c.[Inline]Clear();
 }
 ```
+
+### Discarded return values
 
 Methods provide some safeties to protect against discarded return values. This can be useful to ensure that errors are handled, or that methods that return modified values are not mistaken for methods that modify the value in-place. Static warnings on discarded results can be emitted by adding a [NoDiscard] attribute to the method. Cases like protecting against unhandled errors can be handled by adding a 'ReturnValueDiscarded()' method to the returned type, which the compiler will call at runtime -- this is used on the built-in `Result` type (see [Error Handling]({{< ref "errors.md" >}})).
 
@@ -182,7 +188,7 @@ static mixin Max(var a, var b)
 {
 	(a > b) ? a : b
 }
-``` 
+```
 
 ### Mixin targets
 
@@ -207,7 +213,7 @@ void Use()
 		{
 			// Allocs string in current scope
 			let localStr = AllocString!();
-	
+
 			// Allocs string in the scope of the 'while' body
 			whileStr = AllocString!:WhileBody();
 
@@ -244,7 +250,7 @@ struct Square
 		}
 	}
 
-	/* Allow 'Left' to be returned by reference, which implicitly allows setting the value 
+	/* Allow 'Left' to be returned by reference, which implicitly allows setting the value
 	through assignment but also allows it to be passed by reference to other methods */
 	ref int Left
 	{
@@ -254,9 +260,9 @@ struct Square
 		}
 	}
 
-	/* This property definition implicitly creates a member variable and the appropriate 
+	/* This property definition implicitly creates a member variable and the appropriate
 	get/set methods */
-	uint32 Color { get; set; }
+	uint32 Color { get; set; } = 0xBFBF;
 }
 ```
 
@@ -302,7 +308,7 @@ static void Main()
 
 	/* The [Friend] attribute allows us to access members which are normally hidden */
 	int32 id = button.[Friend]id;
-	/* Note that the 'friend' relationship is inverted from C++ here - the user is 
+	/* Note that the 'friend' relationship is inverted from C++ here - the user is
 	promising to be friendly rather than the defining types declaring its friends */
 }
 ```
