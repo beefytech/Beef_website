@@ -68,11 +68,17 @@ struct ArenaAlloc
 		void* data = Alloc(size, align);
 		if (type.HasDestructor)
 			MarkRequiresDeletion(data);
+		return data;
 	}
 
 	public void Free(void* ptr)
 	{
 		Internal.StdFree(ptr);
+	}
+
+	public void MarkRequiresDeletion(void* obj)
+	{
+		/* TODO: call this object's destructor when the allocator is disposed */
 	}
 }
 ```
