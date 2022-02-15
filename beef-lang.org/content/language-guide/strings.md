@@ -45,7 +45,7 @@ Console.WriteLine($"X = {GetX()} Y = {GetY()}");
 
 Beef is the only string besides a C char array that allows you to create non-small strings (> 32 bytes) entirely on the stack: `var str = scope String(1024)` constructs a String on the stack with a 1024-character internal buffer, for example. For sizing beyond the internal string buffer, you can integrate with a custom allocator by subclassing the String class and overriding the Alloc/Free methods. In C++, custom allocators for strings are provided by a template argument to `std::basic_string`, which means that a string with a custom allocator simply cannot be passed to methods expecting a `std::string` since the types no longer match. For character encoding, C/C++ does not define any encoding for characters in their strings, so it's left up to the user to handle all encoding issues. In C#, string characters are UTF16 for historic reasons, which in many ways is the "worst of both worlds" of encoding and size because the user still must deal with UTF16 surrogate pairs (a single unicode character split into two UTF16 characters), but UTF16 strings are almost always larger than their UTF8 counterparts (even when dealing solely with Asian languages).
 
-### Ease of use
+### Ease of use {#ease}
 
 The [Argument cascade operator]({{< ref "operators.md#unary" >}}) can be especially useful when working with strings. To give the user control over allocations, strings are usually passed into methods where they are modified. For the most part, these methods return void, which means that you don't miss out on any return values, though methods that return Result<T> can not be properly handled this way.
 
