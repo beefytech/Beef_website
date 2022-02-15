@@ -60,8 +60,13 @@ Code generation expands on the comptime method evaluation features, allowing for
 
 ```C#
 
-/* Constant strings can be used to inject code at comptime. This string can be generated from a comptime method. */
-Compiler.Mixin("int val = 99;");
+/* Constant strings can be used to inject code into the call site at comptime. This string can be generated from a comptime method. */
+{
+  /* In this case it's the same as just pasting the string into the code right here. */
+  Compiler.Mixin("int val = 99;");
+
+  Console.WriteLine(val);
+}
 
 /* OnCompile attribute allows for code generation */
 class ClassA
@@ -76,6 +81,22 @@ class ClassA
 			public int32 GetValB() => mB;
 			""");
 	}
+}
+
+/* This method emits a runtime scope timer into its call site. */
+[Comptime]
+public static void TimeScope(String scopeName)
+{
+	let nameHash = (uint)scopeName.GetHashCode();
+
+  /* MixinRoot emits into the root non-comptime caller, rather than into this comptime method */
+	Compiler.MixinRoot(scope $"""
+		let __timer_{nameHash} = scope System.Diagnostics.Stopwatch(true);
+		defer
+		{{
+			System.Console.WriteLine($"Scope {scopeName} took {{__timer_{nameHash}.ElapsedMilliseconds}}ms.");
+		}}
+		""");
 }
 
 /* Adding this attribute to a type will generate a 'ToString' method using comptime reflection */
@@ -120,7 +141,6 @@ struct LogAttribute : Attribute, IComptimeMethodApply
 					Logger.Log($"Error: {@return}");
 					""");
 			}
-
 		}
 	}
 }

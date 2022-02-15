@@ -8,8 +8,8 @@ for /f "tokens=1-4 delims=/ " %%i in ("%date%") do (
 )
 
 @SET SRCDIR=..\..\..\Beef
-@SET CURVER=0.43.2 (Nightly %month%/%day%/%year%)
-@SET DESTNAME=BeefSetup_0_43_2__%month%_%day%_%year%.exe
+@SET CURVER=0.43.1 (Nightly %month%/%day%/%year%)
+@SET DESTNAME=BeefSetup_0_43_1__%month%_%day%_%year%.exe
 
 PUSHD %~dp0
 
@@ -153,22 +153,6 @@ cd.
 @SET PDBSTR="C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\srcsrv\pdbstr.exe"
 
 cd ..
-@FOR %%i IN (pdb\*.pdb) DO (	
-	..\..\bin\source_index.py %%i
-	@IF !ERRORLEVEL! NEQ 0 GOTO:EOF
-)
-@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-
-%SYMSTORE% add /f dist\*.dll /s c:\BeefNightly /t Beef /compress
-@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-%SYMSTORE% add /f dist\*.exe /s c:\BeefNightly /t Beef /compress
-@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-%SYMSTORE% add /f install\bin\*.dll /s c:\BeefNightly /t Beef /compress
-@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-%SYMSTORE% add /f install\bin\*.exe /s c:\BeefNightly /t Beef /compress 
-@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-%SYMSTORE% add /f pdb\*.pdb /s c:\BeefNightly /t Beef /compress 
-@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
 :ZIP
 cd install
@@ -187,16 +171,14 @@ IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 
 copy /b dist\Stub.exe + InstallData.zip C:\BeefNightly\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
-@call ..\..\bin\sign.bat C:\BeefNightly\%DESTNAME%
-IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 copy /y C:\BeefNightly\%DESTNAME% C:\BeefNightly\BeefSetup.exe
 
 %SRCDIR%\IDE\dist\BeefBuild -run -workspace=../NightlyIndex
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
-aws s3 cp c:\BeefNightly\BeefSetup.exe s3://nightly.beeflang.org --cache-control "public, max-age=600"
+aws s3 cp c:\BeefNightly\BeefSetup.exe s3://nightly.beeflang.org
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-aws s3 cp c:\BeefNightly\index.html s3://nightly.beeflang.org --cache-control "public, max-age=600"
+aws s3 cp c:\BeefNightly\index.html s3://nightly.beeflang.org
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
 @REM size-only because the directory hash is really the 'unique' part

@@ -8,7 +8,7 @@ These following operator groups are listed from the highest priority group to th
 
 ### Primary operators
 * `x.y` - member access
-* `x..y(<method args>)` - cascading member access. Overrides result of method `y` with `x`, which is useful for chaining method calls to a common target.
+* `x..y(<method args>)` - member access cascade. Overrides result of method `y` with `x`, which is useful for chaining method calls to a common target. For example: ``string..Append("name: ").Append(name);`` Both ``Append`` calls are targeted on ``string`` even though ``Append`` returns ``void``.
 * `x?.y` - null conditional member access. Results in null if `x` is null.
 * `f(x)` - method call
 * `a[x]` - array indexing
@@ -23,12 +23,12 @@ These following operator groups are listed from the highest priority group to th
 * `(T)x` - type casts `x` to type `T`
 * `&x` - address of `x`
 * `*x` - dereference pointer `x`
-* `x(..y, <other method args>)` - argument cascade. Overrides result of method `x` with `y`, which is useful for reusing an argument.
+* `x(..y, <other method args>)` - argument cascade. Overrides result of method `x` with `y`, which is useful for reusing an argument. For example, see [string ease of use]({{< ref "strings.md#ease" >}}).
 
 #### Multiplicative operators {#binary}
 * `x * y` - multiplication
 * `x / y` - division. If `x` and `y` are integers, results in an integer truncated toward zero.
-* `x % y` - remaindier. If `x` and `y` are integers, results in the remaindier of the division `x / y`.
+* `x % y` - remainder. If `x` and `y` are integers, results in the remainder of the division `x / y`.
 
 #### Additive operators
 * `x + y` - addition
@@ -117,6 +117,8 @@ Assignments result in the new value of `x`.
 ### Params operator
 * params x - where x is a variadic parameter, will pass through those params to another variadic parameter. Where x is a delegate or function params, will expand those in place.
 
+See [Variable argument counts]({{< ref "datatypes/members.md#params" >}}) for examples.
+
 ### Range operators {#range}
 * `x...y` - creates an inclusive range from x up to including y
 * `x..<y` - creates an exclusive range from x up to but excluding y
@@ -128,7 +130,7 @@ Assignments result in the new value of `x`.
 See [Range expression]({{< ref "expressions.md#range" >}}) for examples.
 
 ### Index from end operator
-* `^x` - creates an Index for the `x`th element counting from the back (`.FromEnd`), where the last element is ^1 (^0 is equal to the count/length of the collection) 
+* `^x` - creates an Index for the `x`th element counting from the back (`.FromEnd`), where the last element is ^1 (^0 is equal to the count/length of the collection)
 
 `Index` is mostly used for indexing collections and constructing ranges.
 

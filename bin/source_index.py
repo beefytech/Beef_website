@@ -36,9 +36,10 @@ def ExtractSourceFiles(pdb_filename):
   filelist = srctool.stdout.read()
   res = srctool.wait()
 
-  if res == 0 or res == -1 or filelist.startswith("srctool: "):
-    print "Res: %d" % res
-    raise "srctool failed: " + filelist
+  if res == 0 or res == -1 or filelist.startswith("srctool: "):    
+    print "Res: %d" % res + " for " + srcToolPath + " -r " + pdb_filename
+    #raise "srctool failed: " + filelist
+    return []
   return [x for x in filelist.split('\r\n') if len(x) != 0]
 
 def ReadSourceStream(pdb_filename):
@@ -115,8 +116,8 @@ def GetActualPath(path):
   rtGetActualPath (p1, p2, ctypes.byref (p3), ctypes.byref (p4))
   return p2.value
 
-def UpdatePDB(pdb_filename, verbose=False):  
-  #print "UpdatePDB: %s" % pdb_filename
+def UpdatePDB(pdb_filename, verbose=False):
+  print "UpdatePDB: %s" % pdb_filename
 
   gitHash = ExtractGitInfo()      
   if gitHash == None:
