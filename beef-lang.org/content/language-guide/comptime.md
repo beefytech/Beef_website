@@ -145,4 +145,34 @@ struct LogAttribute : Attribute, IComptimeMethodApply
 	}
 }
 
+interface ISerializable
+{
+  public void Serialize(Serializer s);
+}
+
+/* Adding this attribute to a type will add and implement the ISerializable interface */
+struct SerializableAttribute : Attribute, IComptimeTypeApply
+{
+  [Comptime]
+  public void ApplyToType(Type type)
+  {
+    Compiler.EmitAddInterface(type, typeof(ISerializable));
+
+    Compiler.EmitTypeBody(type, """
+      public void ISerializable.Serialize(Serializer serializer)
+      {
+
+      """);
+
+    Compiler.EmitTypeBody(type, scope $"\tserializer.StartType(typeof({type.GetName(.. scope .())}));\n");
+    for (let field in type.GetFields())
+    {
+      if (!field.IsInstanceField || field.DeclaringType != type)
+        continue;
+
+      Compiler.EmitTypeBody(type, scope $"\tserializer.Store(\"{field.Name}\", {field.Name});\n");
+    }
+    Compiler.EmitTypeBody(type, "\tserializer.EndType();\n}");
+  }
+}
 ```
