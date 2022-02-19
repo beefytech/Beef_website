@@ -83,7 +83,7 @@ Extensions can also be used for inverting dependencies between projects by provi
 /* In project 'Engine' */
 class Platform
 {
-	public Texture CreateTexture();
+	public extern Texture CreateTexture();
 }
 
 /* In project 'DirectXEngine' */

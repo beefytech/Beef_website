@@ -23,7 +23,7 @@ The core of the Beef compiler is written in C++, while the IDE and command-line 
 * Platform Toolset 141 (VS2017)
 * Windows SDK 10.0.17763.0
 * CMake 3.15 or newer
-* Python 2.7
+* Python 3.6 or newer
 * Git command line tools
 
 #### Build Steps
