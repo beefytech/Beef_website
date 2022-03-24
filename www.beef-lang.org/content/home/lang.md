@@ -100,26 +100,6 @@ class Program
 </div>
 
 <!-------------------------------------------------------------------------------------->
-<div id="Type Extensions" class="Example">
-{{< /rawhtml >}}
-```C#
-// Declare List<T>.DisposeAll() for all disposable types
-namespace System.Collections
-{
-	extension List<T> where T : IDisposable
-	{
-		public void DiposeAll()
-		{
-			for (var val in this)
-				val.Dispose();
-		}
-	}
-}
-```
-{{< rawhtml >}}
-</div>
-
-<!-------------------------------------------------------------------------------------->
 <div id="Mixins" class="Example">
 {{< /rawhtml >}}
 ```C#
@@ -253,6 +233,26 @@ void Serialize(SerializeContext ctx, Object obj)
 		{
 			var m = attr.mSerializeType.GetMethod("SerializeField").Value;
 			m.Invoke(null, obj, field);
+		}
+	}
+}
+```
+{{< rawhtml >}}
+</div>
+
+<!-------------------------------------------------------------------------------------->
+<div id="Type Extensions" class="Example">
+{{< /rawhtml >}}
+```C#
+// Declare List<T>.DisposeAll() for all disposable types
+namespace System.Collections
+{
+	extension List<T> where T : IDisposable
+	{
+		public void DiposeAll()
+		{
+			for (var val in this)
+				val.Dispose();
 		}
 	}
 }
