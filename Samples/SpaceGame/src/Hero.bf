@@ -26,8 +26,8 @@ namespace SpaceGame
 			float y = mY - 41;
 			Image image = Images.sHero;
 
-			SDL.Rect srcRect = .(0, 0, image.mSurface.w, image.mSurface.h);
-			SDL.Rect destRect = .((int32)x, (int32)y, image.mSurface.w, image.mSurface.h);
+			SDL.Rect srcRect = .(0, 0, image.mWidth, image.mHeight);
+			SDL.Rect destRect = .((int32)x, (int32)y, image.mWidth, image.mHeight);
 
 			if (mIsMovingX)
 			{

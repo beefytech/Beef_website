@@ -8,7 +8,7 @@ weight = 10  # Order that this section will appear.
 #title = "Beef"
 
 # Hero image (optional). Enter filename of an image in the `static/img/` folder.
-hero_media = "Beef256.png"
+hero_media = "Beef384.png"
 
 [design.background]
   # Apply a background color, gradient, or image.
@@ -34,7 +34,7 @@ hero_media = "Beef256.png"
 #   Display link(s) by specifying a URL and label below. Icon is optional for `[cta]`.
 #   Remove a link/note by deleting a cta/note block.
 [cta]
-  url = "setup/BeefSetup_0_43_1.exe"
+  url = "setup/BeefSetup_0_43_2.exe"
   label = "Beef for Windows"
   icon_pack = "fas"
   icon = "download"
@@ -45,9 +45,16 @@ hero_media = "Beef256.png"
 
 # Note. An optional note to show underneath the links.
 [cta_note]
-  label = '<a href="docs/getting-start/building/">Build from source</a>'
+  label = '<a href="docs/getting-start/building/">Build from source</a><br><a href="https://github.com/beefytech/Beef_website/tree/master/Samples/SpaceGame/src">View example source code</a><br><a href="spacegame">Play Space Game wasm example</a>'
 +++
 
-Beef is an open source performance-oriented compiled programming language which has been built hand-in-hand with its IDE environment.
+Beef is a high-performance multi-paradigm open source programming language with a focus on developer productivity.
 
-Binaries are available for Windows, and building from source is supported on Windows, Linux, and macOS.
+### Tier 1 Platforms (IDE + Binaries)
+Windows 64 bit & 32 bit
+
+### Tier 2 Platforms (Build from source)
+Linux, macOS, Wasm
+
+### Tier 3 Platforms (Experimental)
+Android, Nintendo Switch, PS5, Xbox Series X

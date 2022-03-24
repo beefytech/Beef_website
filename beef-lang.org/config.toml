@@ -1,4 +1,4 @@
-baseURL = "http://beef-lang.org/docs/"
+baseURL = "https://beef-lang.org/docs/"
 languageCode = "en-us"
 title = "Beef Programming Language"
 theme = "docdock"

@@ -17,6 +17,7 @@ namespace SpaceGame
 		public static void Main()
 		{
 			let gameApp = scope GameApp();
+			gameApp.PreInit();
 			gameApp.Init();
 			gameApp.Run();
 		}

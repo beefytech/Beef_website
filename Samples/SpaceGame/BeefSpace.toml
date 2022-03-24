@@ -1,6 +1,7 @@
 FileVersion = 1
 Projects = {SpaceGame = {Path = "."}, SDL2 = "*"}
 Unlocked = ["SDL2"]
+ExtraPlatforms = ["wasm32"]
 
 [Workspace]
 StartupProject = "SpaceGame"

@@ -5,7 +5,7 @@ weight = 1
 
 ## Beef Overview
 
-Beef is a performance-oriented compiled programming language. The syntax and core library design derives from C#, but there are many semantic differences due to differing design goals. The language has been developed hand-in-hand with its IDE environment, and careful attention has been paid to the holistic pleasurability of developing Beef applications. The intended audience is the performance-minded developer who values simplicity, code readability, fast development iteration, and good debuggability.
+Beef is a performance-oriented statically-compiled programming language. The language and environment focuses on developer productivity, and careful attention has been paid to the holistic pleasurability of developing, debugging, and maintaining Beef applications. The intended audience is the performance-minded developer who values simplicity, code readability, fast development iteration, and good debuggability.
 
 ## Design goals
 * High performance execution

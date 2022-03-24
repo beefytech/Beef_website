@@ -38,7 +38,7 @@ namespace SpaceGame
 			sBeepHigh = Try!(Load("sounds/beep_high.wav"));
 			sBeepHighLong = Try!(Load("sounds/beep_high_long.wav"));
 			sFail = Try!(Load("sounds/fail.wav"));
-			sLaser = Try!(Load("sounds/laser01.aiff"));
+			sLaser = Try!(Load("sounds/laser01.wav"));
 			sExplode = Try!(Load("sounds/explode01.wav"));
 			return .Ok;
 		}

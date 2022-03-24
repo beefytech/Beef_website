@@ -59,7 +59,6 @@ Every comptime evaluation occurs in isolation - any static values modified durin
 Code generation expands on the comptime method evaluation features, allowing for types to be modified at certain trigger points during compilation.
 
 ```C#
-
 /* Constant strings can be used to inject code into the call site at comptime. This string can be generated from a comptime method. */
 {
   /* In this case it's the same as just pasting the string into the code right here. */
@@ -101,10 +100,10 @@ public static void TimeScope(String scopeName)
 
 /* Adding this attribute to a type will generate a 'ToString' method using comptime reflection */
 [AttributeUsage(.Types)]
-struct IFancyToString : Attribute, IComptimeTypeApply
+struct IFancyToString : Attribute, IOnTypeInit
 {
 	[Comptime]
-	public void ApplyToType(Type type)
+	public void OnTypeInit(Type type, Self* prev)
 	{
 		Compiler.EmitTypeBody(type, "public override void ToString(String str)\n{\n");
 		for (var fieldInfo in type.GetFields())
@@ -121,10 +120,10 @@ struct IFancyToString : Attribute, IComptimeTypeApply
 
 /* Adding this attribute to a method will log method entry and returned Result<T> errors */
 [AttributeUsage(.Method)]
-struct LogAttribute : Attribute, IComptimeMethodApply
+struct LogAttribute : Attribute, IOnMethodInit
 {
 	[Comptime]
-	public void ApplyToMethod(ComptimeMethodInfo method)
+	public void OnMethodInit(MethodInfo method, Self* prev)
 	{
 		String emit = scope $"Logger.Log($\"Called {method}";
 		for (var fieldIdx < method.ParamCount)
@@ -147,32 +146,57 @@ struct LogAttribute : Attribute, IComptimeMethodApply
 
 interface ISerializable
 {
-  public void Serialize(Serializer s);
+	public void Serialize(Serializer s);
 }
 
 /* Adding this attribute to a type will add and implement the ISerializable interface */
-struct SerializableAttribute : Attribute, IComptimeTypeApply
+struct SerializableAttribute : Attribute, IOnTypeInit
 {
-  [Comptime]
-  public void ApplyToType(Type type)
-  {
-    Compiler.EmitAddInterface(type, typeof(ISerializable));
+	[Comptime]
+	public void OnTypeInit(Type type, Self* prev)
+	{
+		Compiler.EmitAddInterface(type, typeof(ISerializable));
 
-    Compiler.EmitTypeBody(type, """
-      public void ISerializable.Serialize(Serializer serializer)
-      {
+		Compiler.EmitTypeBody(type, """
+			public void ISerializable.Serialize(Serializer serializer)
+			{
+			
+			""");
 
-      """);
+		Compiler.EmitTypeBody(type, scope $"\tserializer.StartType(typeof({type.GetName(.. scope .())}));\n");
+		for (let field in type.GetFields())
+		{
+			if (!field.IsInstanceField || field.DeclaringType != type)
+				continue;
 
-    Compiler.EmitTypeBody(type, scope $"\tserializer.StartType(typeof({type.GetName(.. scope .())}));\n");
-    for (let field in type.GetFields())
-    {
-      if (!field.IsInstanceField || field.DeclaringType != type)
-        continue;
-
-      Compiler.EmitTypeBody(type, scope $"\tserializer.Store(\"{field.Name}\", {field.Name});\n");
-    }
-    Compiler.EmitTypeBody(type, "\tserializer.EndType();\n}");
-  }
+			Compiler.EmitTypeBody(type, scope $"\tserializer.Store(\"{field.Name}\", {field.Name});\n");
+		}
+		Compiler.EmitTypeBody(type, "\tserializer.EndType();\n}");
+	}
 }
+
+[AttributeUsage(.Field | .StaticField)]
+struct RangedAccessorAttribute : this(int minVal, int maxVal), Attribute, IOnFieldInit
+{
+	[Comptime]
+	public void OnFieldInit(FieldInfo fieldInfo, Self* prev) mut
+	{
+		Compiler.EmitTypeBody(fieldInfo.DeclaringType, scope $"""
+			public {(fieldInfo.IsStatic ? "static" : "")} {fieldInfo.FieldType} Ranged{fieldInfo.Name}
+			{{
+				get => {fieldInfo.Name};
+				set
+				{{
+					System.Runtime.Assert((value >= {minVal}) && (value <= {maxVal}));
+					{fieldInfo.Name} = value;
+				}}
+			}}
+			""");
+	}
+}
+
+/* Creates a 'RangedVal' property wrapping 'Val' that only allows values of 10 through 20 */
+[RangedAccessor(10, 20)]
+static int Val;
+
 ```

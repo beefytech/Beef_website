@@ -12,11 +12,11 @@ columns = "1"
 
 <a name="releases"></a>
 
-## Version 0.43.1
-November 22, 2021<br>
-[Release Notes](docs/releases/ver_0_43_1/)<br>
-[Windows Installer](setup/BeefSetup_0_43_1.exe) - 120.4MB<br>
-[GitHub Tag](https://github.com/beefytech/Beef/tree/0.43.1)
+## Version 0.43.2
+March 29, 2022<br>
+[Release Notes](docs/releases/ver_0_43_2/)<br>
+[Windows Installer](setup/BeefSetup_0_43_2.exe) - 120.4MB<br>
+[GitHub Tag](https://github.com/beefytech/Beef/tree/0.43.2)
 
 ## Nightly
 Nightly releases are available if you need access to the latest features.<br>

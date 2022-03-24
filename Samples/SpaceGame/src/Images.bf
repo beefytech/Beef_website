@@ -6,7 +6,6 @@ namespace SpaceGame
 {
 	static class Images
 	{
-		public static Image sBkg;
 		public static Image sSpaceImage;
 		public static Image sExplosionImage;
 		public static Image sHero;
@@ -39,19 +38,18 @@ namespace SpaceGame
 
 		public static Result<void> Init()
 		{
-			sBkg = Try!(Load("images/space.jpg"));
-			sSpaceImage = Try!(Load("images/space.jpg"));
-			sExplosionImage = Try!(Load("images/explosion.png"));
-
 			sHero = Try!(Load("images/Ship01.png"));
 			sHeroLaser = Try!(Load("images/Bullet03.png"));
-
 			sEnemySkirmisher = Try!(Load("images/Ship02.png"));
 			sEnemyBomber = Try!(Load("images/Ship03.png"));
 			sEnemyGoliath = Try!(Load("images/Ship04.png"));
 			sEnemyLaser = Try!(Load("images/Bullet02.png"));
 			sEnemyBomb = Try!(Load("images/Bullet01.png"));
 			sEnemyPhaser = Try!(Load("images/Bullet04.png"));
+
+			sSpaceImage = Try!(Load("images/space.jpg"));
+			sExplosionImage = Try!(Load("images/explosion.png"));
+
 			return .Ok;
 		}
 	}
