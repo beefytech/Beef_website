@@ -45,7 +45,7 @@ hero_media = "Beef384.png"
 
 # Note. An optional note to show underneath the links.
 [cta_note]
-  label = '<a href="docs/getting-start/building/">Build from source</a><br><a href="https://github.com/beefytech/Beef_website/tree/master/Samples/SpaceGame/src">View example source code</a><br><a href="spacegame">Play Space Game wasm example</a>'
+  label = '<a href="docs/getting-start/building/">Build from source</a><br><a href="https://github.com/beefytech/Beef_website/tree/master/Samples/SpaceGame">View example source code</a><br><a href="spacegame">Play Space Game wasm example</a>'
 +++
 
 Beef is a high-performance multi-paradigm open source programming language with a focus on developer productivity.

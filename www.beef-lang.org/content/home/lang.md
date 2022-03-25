@@ -75,7 +75,7 @@ div.Example {
 <li>Preprocessor</li>
 <li>Guaranteed inlining</li>
 <li>Incremental compilation</li>
-<li>Build-in testing</li>
+<li>Built-in testing</li>
 </ul>
 </td>
 <td style="vertical-align: top;">
@@ -100,28 +100,76 @@ class Program
 </div>
 
 <!-------------------------------------------------------------------------------------->
-<div id="Mixins" class="Example">
+<div id="File IO and error handling" class="Example">
 {{< /rawhtml >}}
 ```C#
-static mixin Inc(var val)
+// Try! propagates file and parsing errors down the call stack
+static Result<void> Parse(StringView filePath, List<float> outValues)
 {
-    if (val == null)
-        return false;
-    (*val)++;
-}
-
-static bool Inc3(int* a, int* b, int* c)
-{
-	// "return false" from mixin is injected into the Inc3 callsite
-    Inc!(a);
-    Inc!(b);
-    Inc!(c);
-    return true;
+	var fs = scope FileStream();
+	Try!(fs.Open(filePath));
+	for (var lineResult in scope StreamReader(fs).Lines)
+	{
+		for (let elem in Try!(lineResult).Split(','))
+			outValues.Add(Try!(float.Parse(elem)));
+	}
+	return .Ok;
 }
 ```
 {{< rawhtml >}}
 </div>
 
+<!-------------------------------------------------------------------------------------->
+<div id="Tuples" class="Example">
+{{< /rawhtml >}}
+```C#
+// Method returning a tuple
+(float x, float y) GetCoords => (X, Y);
+
+var tup = GetCoords;
+if (tup != (0, 0))
+	Draw(tup.x, tup.y);
+
+// Decompose tuple
+var (x, y) = GetCoords;
+Draw(x, y);
+```
+{{< rawhtml >}}
+</div>
+
+<!-------------------------------------------------------------------------------------->
+<div id="Ranges" class="Example">
+{{< /rawhtml >}}
+```C#
+for (let i in 10...20)
+	Console.WriteLine($"Value: {i}");
+
+let range = 1..<10;
+Debug.Assert(range.Contains(3));
+
+Span<int> GetLast10(List<int> list) => list[...^10];
+```
+{{< rawhtml >}}
+</div>
+
+<!-------------------------------------------------------------------------------------->
+<div id="Strings" class="Example">
+{{< /rawhtml >}}
+```C#
+// Allocate a string with a 4096-byte internal UTF8 buffer, all on the stack
+var str = scope String(4096);
+
+// String interpolation, formatting in 'x' and 'y' values
+var str2 = scope $"x:{x} y:{y}";
+
+// Create a view into str2 without the first and last character
+StringView sv = str2[1...^1];
+
+// Get a pointer to a null-terminated C string
+char8* strPtr = str2;
+```
+{{< rawhtml >}}
+</div>
 
 <!-------------------------------------------------------------------------------------->
 <div id="Tagged unions (aka enums with payloads)" class="Example">
@@ -152,16 +200,18 @@ if (drawShape case .Square)
 </div>
 
 <!-------------------------------------------------------------------------------------->
-<div id="Ranges" class="Example">
+<div id="Local functions" class="Example">
 {{< /rawhtml >}}
 ```C#
-for (let i in 10...20)
-	Console.WriteLine($"Value: {i}");
-
-let range = 1..<10;
-Debug.Assert(range.Contains(3));
-
-Span<int> GetLast10(List<int> list) => list[...^10];
+void Draw(List<Variant> values)
+{
+	int idx = 0;
+	float NextFloat()
+	{
+		return values[idx++].Get<float>();
+	}
+	DrawCircle(NextFloat(), NextFloat(), NextFloat());
+}
 ```
 {{< rawhtml >}}
 </div>
@@ -235,6 +285,29 @@ void Serialize(SerializeContext ctx, Object obj)
 			m.Invoke(null, obj, field);
 		}
 	}
+}
+```
+{{< rawhtml >}}
+</div>
+
+<!-------------------------------------------------------------------------------------->
+<div id="Mixins" class="Example">
+{{< /rawhtml >}}
+```C#
+static mixin Inc(var val)
+{
+    if (val == null)
+        return false;
+    (*val)++;
+}
+
+static bool Inc3(int* a, int* b, int* c)
+{
+	// "return false" from mixin is injected into the Inc3 callsite
+    Inc!(a);
+    Inc!(b);
+    Inc!(c);
+    return true;
 }
 ```
 {{< rawhtml >}}
