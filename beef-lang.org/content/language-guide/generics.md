@@ -70,3 +70,13 @@ public static float GetSum<TCount>(float[TCount] vals) where TCount : const int
 	}
 }
 ```
+
+```C#
+static TTo Convert<TTo, TFrom>(TFrom val) where TTo : operator explicit TFrom
+{
+	return (TTo)val;
+}
+
+/* We use partial explicit generic args to allow inference of 'TFrom' */
+var val = Convert<int...>(1.2f);
+```

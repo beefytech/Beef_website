@@ -230,7 +230,7 @@ float* floatPtr = new float[3]*;
 ```
 
 ### Enums
-Enum types in Beef can be used to represent a collection of named integral constants.
+Enum types in Beef can be used to represent a collection of named integral constants. Unless explicitly specified, the underlying type of enums will be the smallest integer type which can hold all specified values.
 
 ```C#
 enum Direction

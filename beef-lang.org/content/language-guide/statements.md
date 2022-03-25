@@ -191,6 +191,16 @@ case 'A':
 case 'E', 'I', 'O', 'U':
 	WasVowel();
 }
+
+switch (shape)
+{
+/* Pattern match, with '?' discard */
+case .Circle(0, 0, ?):
+	HandleOriginCircle();
+case .Circle(let x, let y, let radius):
+	HandleCircle(x, y, radius);
+default:
+}
 ```
 
 Switches can be used for [pattern matching]({{<ref "pattern.md">}}) (see for further examples) for enums and tuples.

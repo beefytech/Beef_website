@@ -40,6 +40,11 @@ bool DisposeVal<T>(mut T val) where T : IDisposable
 	val.Dispose();
 }
 
+/* Methods can return 'ref' or 'readonly ref' values */
+readonly ref int Get()
+{
+	return ref mVal;
+}
 ```
 
 When it is convenient to have parameters treated as "initial values" that can be modified, there is variable shadowing functionality that semantically creates a modifiable copy of the parameter and a new shadow variable with the same name.
