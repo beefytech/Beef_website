@@ -241,7 +241,7 @@ struct Square
 	int width;
 	int height;
 
-	int Right
+	public int Right
 	{
 		get
 		{
@@ -268,6 +268,27 @@ struct Square
 	/* This property definition implicitly creates a member variable and the appropriate
 	get/set methods */
 	uint32 Color { get; set; } = 0xBFBF;
+}
+
+struct IntRef
+{
+	int* mValue;
+
+	public ref int Ref
+	{
+		get
+		{
+			return ref *mValue;
+		}
+
+		/* Without the 'ref' specifier, the set method would take an 'int' value rather than a 'ref int' */
+		set ref mut 
+		{
+			mValue = &value;
+		}
+	}
+
+	public ref int Value => ref *mValue;
 }
 ```
 
