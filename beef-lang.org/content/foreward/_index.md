@@ -5,7 +5,7 @@ weight = 1
 
 ## Beef Overview
 
-Beef is a performance-oriented statically-compiled programming language. The language and environment focuses on developer productivity, and careful attention has been paid to the holistic pleasurability of developing, debugging, and maintaining Beef applications. The intended audience is the performance-minded developer who values simplicity, code readability, fast development iteration, and good debuggability.
+Beef is a performance-oriented statically-compiled programming language. The language and environment focus on developer productivity, and careful attention has been paid to the holistic pleasurability of developing, debugging, and maintaining Beef applications. The intended audience is the performance-minded developer who values simplicity, code readability, fast development iteration, and good debuggability.
 
 ## Design goals
 * High performance execution

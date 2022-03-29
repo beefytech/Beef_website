@@ -200,7 +200,7 @@ if (drawShape case .Square)
 </div>
 
 <!-------------------------------------------------------------------------------------->
-<div id="Local functions" class="Example">
+<div id="Local methods" class="Example">
 {{< /rawhtml >}}
 ```C#
 void Draw(List<Variant> values)
