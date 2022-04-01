@@ -259,8 +259,8 @@ section strong {
 
 #navigation {
   margin-top: 3rem;
-  border-top: 1px solid #e6e6e6;
-  border-bottom: 1px solid #e6e6e6;
+  border-top: 1px solid #d4d4d4;
+  border-bottom: 1px solid #d4d4d4;
   padding: 1rem 0rem;
   display: flex;
   flex-direction: row;
@@ -273,7 +273,7 @@ section strong {
     justify-content: flex-start;
     padding-right: 0px;
     align-items: baseline;
-    color: #e5e5e5; }
+    color: #7F7F7F; }
     #navigation a i {
       font-size: 4em;
       margin: auto; }
