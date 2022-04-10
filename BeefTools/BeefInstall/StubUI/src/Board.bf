@@ -562,7 +562,7 @@ namespace BIStubUI
 				exceptionList.Add(scope:: String()..AppendF(pathInstallStr));
 			exceptionList.Add(uinstallHKeyInstallStr);
 			exceptionList.Add(beefPathEnvInstallStr);
-			using (var result = Utils.RemovedInstalledFiles(mInstallPath, exceptionList, false))
+			using (var result = Utils.RemovedInstalledFiles(mInstallPath, exceptionList, false, false))
 			{
 				if (result case .Err)
 				{
@@ -630,19 +630,34 @@ namespace BIStubUI
 
 				String destPath = scope String();
 
-				destPath.Append(mInstallPath);
-				destPath.Append("\\");
-				destPath.Append(entry.mPath);
-
-				String destDir = scope String();
-				Path.GetDirectoryPath(destPath, destDir);
-				if (Directory.CreateDirectory(destDir) case .Err)
+				bool isUserFile = false;
+				var entryPath = scope String(entry.mPath);
+				if (entryPath.StartsWith("__user/"))
 				{
-					gApp.Fail(scope String()..AppendF("Failed to create directory '{}'", destDir));
-					return;
+					isUserFile = true;
+					entryPath.Remove(0, "__user/".Length);
 				}
 
-				gApp.mExtractFunc(entry.mId, destPath);
+				destPath.Append(mInstallPath);
+				destPath.Append("\\");
+				destPath.Append(entryPath);
+
+				if ((isUserFile) && (File.Exists(destPath)))
+				{
+					// Already exists, don't overwrite
+				}
+				else
+				{
+					String destDir = scope String();
+					Path.GetDirectoryPath(destPath, destDir);
+					if (Directory.CreateDirectory(destDir) case .Err)
+					{
+						gApp.Fail(scope String()..AppendF("Failed to create directory '{}'", destDir));
+						return;
+					}
+
+					gApp.mExtractFunc(entry.mId, destPath);
+				}
 
 				handledSize += entry.mSize;
 				if (totalSize > 0)

@@ -132,7 +132,7 @@ namespace BiElevated
 								exceptionList.Add(new String(entry));
 						}
 
-						using (var result = BiUtils.Utils.RemovedInstalledFiles(beefPath, exceptionList, false))
+						using (var result = BiUtils.Utils.RemovedInstalledFiles(beefPath, exceptionList, false, false))
 						{
 							if (result case .Err(let err))
 								HandleError(err);

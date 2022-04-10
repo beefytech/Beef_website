@@ -72,7 +72,7 @@ namespace BiUninstall
 
 			bool useElevation = false;
 
-			using (var result = Utils.RemovedInstalledFiles(beefPath, null, true))
+			using (var result = Utils.RemovedInstalledFiles(beefPath, null, true, true))
 			{
 				if (result case .Err(let err))
 				{

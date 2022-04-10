@@ -356,7 +356,7 @@ namespace BiUtils
 			}
 		}
 
-		public static Result<void, Error> RemovedInstalledFiles(StringView dir, List<String> exceptionList, bool checkPermissions)
+		public static Result<void, Error> RemovedInstalledFiles(StringView dir, List<String> exceptionList, bool checkPermissions, bool removeUserFiles)
 		{
 			String listName = scope .();
 			listName.Concat(dir, @"\install.lst");
@@ -369,10 +369,17 @@ namespace BiUtils
 
 			for (int fileIdx = installedFiles.mFileList.Count - 1; fileIdx >= 0; fileIdx--)
 			{
-				let relPath = installedFiles.mFileList[fileIdx];
+				let relPath = scope String(installedFiles.mFileList[fileIdx]);
 
 				if ((exceptionList != null) && (exceptionList.Contains(relPath)))
 					continue;
+
+				if (relPath.StartsWith("__user/"))
+				{
+					if (!removeUserFiles)
+						continue;
+					relPath.Remove(0, "__user/".Length);
+				}
 
 				if (relPath.StartsWith("PATH:"))
 				{
@@ -476,7 +483,7 @@ namespace BiUtils
 
 		public static Result<void, Error> CleanupDir(StringView dir)
 		{
-			Try!(RemovedInstalledFiles(dir, null, false));
+			Try!(RemovedInstalledFiles(dir, null, false, false));
 
 			// If there are other files added then just leave them alone
 			if (DirectoryHasContent(dir))
