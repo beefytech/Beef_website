@@ -27,8 +27,6 @@ mkdir install
 IF %ERRORLEVEL% NEQ 0 GOTO FAILED
 
 :COPY
-call %SRCDIR%\bin\build_wasm.bat setup
-
 xcopy dist\BeefInstallElevated.exe install\__installer\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy dist\BeefInstallUI.dll install\__installer\
@@ -99,7 +97,7 @@ xcopy /y %SRCDIR%\IDE\dist\fonts install\bin\fonts\
 mkdir install\wasm\
 xcopy /e /y %SRCDIR%\wasm\src install\wasm\src\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-copy %SRCDIR%\wasm\build_wasm.bat install\wasm\src\
+copy %SRCDIR%\wasm\build_wasm.bat install\wasm\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 mkdir install\__user
 mkdir install\__user\bin

@@ -86,6 +86,11 @@ xcopy /e /y %SRCDIR%\IDE\dist\llvm install\bin\llvm\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy /y %SRCDIR%\IDE\dist\fonts install\bin\fonts\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+mkdir install\wasm\
+xcopy /e /y %SRCDIR%\wasm\src install\wasm\src\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+copy %SRCDIR%\wasm\build_wasm.bat install\wasm\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 mkdir install\__user
 mkdir install\__user\bin
 copy %SRCDIR%\IDE\dist\BeefConfig_install.toml install\__user\bin\BeefConfig.toml
