@@ -60,6 +60,14 @@ copy %SRCDIR%\IDE\dist\Beef*RT*.dll install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\IDE\dist\Beef*RT*.lib install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+copy %SRCDIR%\IDE\dist\TCMalloc*.dll install\bin\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+copy %SRCDIR%\IDE\dist\TCMalloc*.lib install\bin\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+copy %SRCDIR%\IDE\dist\JEMalloc*.dll install\bin\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+copy %SRCDIR%\IDE\dist\JEMalloc*.lib install\bin\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\IDE\dist\Beef*Dbg*.dll install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\IDE\dist\Beef*Dbg*.lib install\bin\
