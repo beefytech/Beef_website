@@ -27,12 +27,15 @@ These following operator groups are listed from the highest priority group to th
 
 #### Multiplicative operators {#binary}
 * `x * y` - multiplication
+* `x &* y` - multiplication with overflow checking disabled. 
 * `x / y` - division. If `x` and `y` are integers, results in an integer truncated toward zero.
 * `x % y` - remainder. If `x` and `y` are integers, results in the remainder of the division `x / y`.
 
 #### Additive operators
 * `x + y` - addition
+* `x &+ y` - addition with overflow checking disabled
 * `x - y` - subtraction
+* `x &- y` - subtraction with overflow checking disabled. Allows for subtracing two unsigned integers without resulting in a signed integer.
 
 ### Shift operators
 * `x << y` - shift bits left

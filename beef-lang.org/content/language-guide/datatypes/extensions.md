@@ -96,6 +96,25 @@ extension Platform
 }
 ```
 
+We can also use extensions to override virtual methods without requring subclassing. This has the advantage of not requiring an overload but has the downsize of dynamic dispatch.
+
+```C#
+/* In project 'Engine' */
+class Platform
+{
+	public virtual Texture CreateTexture() => null;
+}
+
+/* In project 'DirectXEngine' */
+extension Platform
+{
+	public override Texture CreateTexture()
+	{
+		return new DirectXTexture();
+	}
+}
+```
+
 ## Extension Methods
 
 Method extensions can be used to virtually add methods to existing types without modifying the original type. Extension methods are static methods, but they are called as if they are non-static methods on an extended type, or a type that conforms to a set of generic constraints. Extension methods can be preferable over type extensions when you want to limit the scope of a given method to a particular namespace or utility method, or when the method is intended to apply to a broad range of types conforming to specific generic constraints.

@@ -12,6 +12,8 @@ The Beef preprocessor is intended for conditionally including blocks of text bef
 * #elif <X> - processes the block down to the next #endif if the previous #if/#elif was false and "X" is true
 * #error <Message> - Created error at parse time
 * #if <X> - processes the block down to the next #endif if "X" is true
+* #pragma format disable - disable formatting
+* #pragma format restore - restore formatting
 * #pragma warning disable <X> - disable warning number X
 * #pragma warning restore <X> - restore warning number X
 * #undef <X> - sets the symbol value "X" to false

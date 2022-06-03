@@ -70,6 +70,14 @@ String str4 =
 	Multiline raw string literal
 	with embedded \slashes\;
 	""";
+String str = scope $$"""
+	/* The '$$' means embedded values need to be wrapped with {{ }}, allowing us to not escape { and } for normal text. */
+	/* If we used `$$$` then values would need {{{ }}} */
+	void SetDefault()
+	{
+		{{fieldName}} = default;
+	}
+	""";
 ```
 
 ## Character literals

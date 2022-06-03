@@ -1,5 +1,5 @@
 +++
-title = "Pattern matching"
+title = "Pattern Matching"
 weight=75
 +++
 
