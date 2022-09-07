@@ -34,7 +34,7 @@ hero_media = "Beef384.png"
 #   Display link(s) by specifying a URL and label below. Icon is optional for `[cta]`.
 #   Remove a link/note by deleting a cta/note block.
 [cta]
-  url = "setup/BeefSetup_0_43_3.exe"
+  url = "setup/BeefSetup_0_43_4.exe"
   label = "Beef for Windows"
   icon_pack = "fas"
   icon = "download"

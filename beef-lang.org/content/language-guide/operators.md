@@ -109,7 +109,8 @@ Assignments result in the new value of `x`.
 * `nullable(T)` - `T` if `T` is already nullable, otherwise `T?`
 * `rettype(T)` - return type of a delegate or function
 * `typeof(T)` - reflected type of type `T`
-* `offsetof(T, Tfield)` - where `Tfield` is a field of `T`, returns the offset of `Tfield` on `T`
+* `offsetof(T, field)` - byte offset of `field` in `T`
+* `nameof(T, field)` - name of `field` in `T`
 
 ### Ref operators
 * `ref x` - required for passing values into ref parameters or other values expecting `ref`

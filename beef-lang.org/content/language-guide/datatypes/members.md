@@ -21,6 +21,37 @@ class Widget
 }
 ```
 
+Anonymous field access is supported through 'using' fields. Field marked as 'using' can have their member fields accessed without qualifying them with the field's name. These have a protection level for the named field itself and different protection level for its anonymous use. With `public using private Vector2 mPosition`, for example, `mPosition` has private protection, but, through anonymous use, the field's `X` and `Y` members are publicly accessible.
+
+Anonymous field access can provide some of the same benefits of inheritance but constructed through composition.
+
+```C#
+struct Vector2
+{
+	public float X;
+	public float Y;
+}
+
+struct Entity
+{
+	/* 'mX' can be accessed directly or through 'mPosition.mX'. Note that protection is not directly specified for anonymous access, 
+	so it uses the protection (public) from the named field */
+	using public Vector2 mPosition;	
+	public int32 mHealth;
+}
+```
+
+Append fields are an optimization that allows reference type fields to have their data statically included inside the owner. This allows for the field to semantically behave as a reference type still, but without the indirection of a reference type (since the data offset is statically known) and without requiring its own separate allocation.
+
+```C#
+/* An allocation of 'User' includes data for the two members strings plus the specified space for their internal buffers */ 
+class User
+{
+	public append String mName = .(256);
+	public append String mPassword = .(32);
+}
+```
+
 ## Methods
 
 Method overloading is supported in Beef. For generic overloads, multiple versions of the same generic method are allowed if the constraints are different. If multiple generic methods match, one can be considered "better" if its contraints are a superset of another method's constraints, otherwise the overload selection is ambiguous.
@@ -34,7 +65,8 @@ bool GetInt(out int outVal)
 	return true;
 }
 
-/* 'mut' can be used for generics that may be a value type or a reference type, but we need to have a mutable reference. 'mut' will have no effect on reference types but will be treated as a 'ref' for value types. */
+/* 'mut' can be used for generics that may be a value type or a reference type, but we need to have a mutable reference. 
+'mut' will have no effect on reference types but will be treated as a 'ref' for value types. */
 bool DisposeVal<T>(mut T val) where T : IDisposable
 {
 	val.Dispose();
@@ -45,6 +77,22 @@ readonly ref int Get()
 {
 	return ref mVal;
 }
+```
+
+Methods can be invoked with argument names. Named arguments can occur in any order, and they can be mixed with normal "positional" arguments, with some restrictions.
+
+```C#
+static void Method(int a, int b, int c) {}
+
+/* Legal */
+Method(1, 2, 3);
+Method(a:1, b:2, c:3);
+Method(a:1, 2, c:3);
+Method(c:3, b:2, a:1);
+
+/* Illegal */
+Method(a:1, a:2, b:3, c:4);
+Method(b:2, 1, 3);
 ```
 
 When it is convenient to have parameters treated as "initial values" that can be modified, there is variable shadowing functionality that semantically creates a modifiable copy of the parameter and a new shadow variable with the same name.
