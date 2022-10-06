@@ -5,7 +5,7 @@ weight = 75
 
 ## Integer literals
 
-Integers can be represented as decimal, hexadecimal, octal, or binary. In addition, the seperator character `'` (single quote) can be used to seperate numbers any way the user desires.
+Integers can be represented as decimal, hexadecimal, octal, or binary. In addition, the separator character `'` (single quote) can be used to separate numbers any way the user desires.
 
 ```C#
 
