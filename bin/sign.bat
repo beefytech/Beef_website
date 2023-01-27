@@ -8,4 +8,4 @@ if EXIST "%~dp0\sign_local.bat" (
 
 :DOSIGN
 @ECHO Signing %1...
-"%BINPATH%\signtool" sign /tr http://timestamp.comodoca.com /td sha256 /fd sha256 /a %1
+"%BINPATH%\signtool" sign /tr http://timestamp.sectigo.com /td sha256 /fd sha256 /a %1
