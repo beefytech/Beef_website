@@ -1,10 +1,9 @@
 using SDL2;
 
-namespace SpaceGame
+namespace SpaceGame;
+
+class Enemy : Entity
 {
-	class Enemy : Entity
-	{
-		public int mHealth;
-		public SDL.Rect mBoundingBox;
-	}
+	public int mHealth;
+	public SDL.Rect mBoundingBox;
 }
