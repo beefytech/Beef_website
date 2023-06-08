@@ -10,16 +10,15 @@
 // Beef can detect memory leaks in real-time. Try commenting out the
 // "delete entity" line at the bottom of "GameApp.bf".
 
-namespace SpaceGame
+namespace SpaceGame;
+
+class Program
 {
-	class Program
+	public static void Main()
 	{
-		public static void Main()
-		{
-			let gameApp = scope GameApp();
-			gameApp.PreInit();
-			gameApp.Init();
-			gameApp.Run();
-		}
+		let gameApp = scope GameApp();
+		gameApp.PreInit();
+		gameApp.Init();
+		gameApp.Run();
 	}
 }
