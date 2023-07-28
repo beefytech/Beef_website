@@ -30,6 +30,10 @@ TargetDirectory = "$(WorkspaceDir)/dist"
 TargetDirectory = "$(WorkspaceDir)/dist"
 OtherLinkFlags = "$(LinkFlags) -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer"
 
+[Configs.Release.wasm32]
+TargetDirectory = "$(ProjectDir)\\dist\\"
+OtherLinkFlags = "$(LinkFlags) -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_MIXER=2 -sUSE_SDL_TTF=2 --use-preload-plugins --preload-file images --preload-file sounds -s INITIAL_MEMORY=67108864 -s ALLOW_MEMORY_GROWTH=1 -s ASSERTIONS=1 -s SAFE_HEAP=0 -s DETERMINISTIC=1"
+
 [Configs.Paranoid.Win64]
 TargetDirectory = "$(WorkspaceDir)/dist"
 
