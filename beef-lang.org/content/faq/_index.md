@@ -5,7 +5,8 @@ weight = 100
 +++
 
 #### Is there is Visual Studio Code language server extension?
-There has been interest in this, but this is not planned as an official project. If someone from the BeefLang community wishes to work on this, it may be best to start from the BeefBuild/IDE project base, as much of the project-based management is handled from this codebase. Although the IDEHelper project contains the compiler and appears to be the place to start for a language server, there is critical functionality missing.
+This is not planned as an official project, but a community made extension is available [here](https://github.com/MineGame159/Beef/tree/lsp/BeefLsp).  
+Further help by community contributers, such as making the language server work in other programs would be appreciated.
 
 #### Why is the IDE only available for Windows?
 Beef's primary initial target is game development. The majority of game development is performed on Windows, and it's critical to concentrate on making that primary development experience as good as possible.
