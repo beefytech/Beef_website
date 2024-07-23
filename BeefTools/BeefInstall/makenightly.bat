@@ -27,6 +27,12 @@ mkdir install
 IF %ERRORLEVEL% NEQ 0 GOTO FAILED
 
 :COPY
+
+%SRCDIR%\IDE\dist\BeefBuild_d -proddir=%SRCDIR%\BeefTools\BeefPerf -config=Release
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+%SRCDIR%\IDE\dist\BeefBuild_d -proddir=%SRCDIR%\BeefTools\BeefCon -config=Release
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+
 xcopy dist\BeefInstallElevated.exe install\__installer\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy dist\BeefInstallUI.dll install\__installer\
@@ -61,6 +67,8 @@ xcopy %SRCDIR%\IDE\dist\BeefBuild.exe install\bin\
 xcopy %SRCDIR%\IDE\dist\BeefBuild_d.exe install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy %SRCDIR%\IDE\dist\BeefPerf.exe install\bin\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+xcopy %SRCDIR%\IDE\dist\BeefCon.exe install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\IDE\dist\BeefDbgVis.toml install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
