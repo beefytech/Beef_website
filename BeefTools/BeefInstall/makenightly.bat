@@ -166,8 +166,8 @@ SET GITVER=%%F
 ..\..\..\bin\rcedit bin\BeefBuild_d.exe --set-version-string "ProductVersion" %GITVER%
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
-@ECHO Cleaning up old BeefNightly files
-ForFiles /p "C:\BeefNightly" /s /d -30 /c "cmd /c del @file"
+@ECHO Cleaning up old BeefNightly files (older than 90 days)
+ForFiles /p "C:\BeefNightly" /s /d -90 /c "cmd /c del @file"
 @REM Clear error in case no files were deleted
 cd.
 

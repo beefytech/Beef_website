@@ -10,11 +10,13 @@ namespace NightlyIndex
 		struct Entry
 		{
 			public String mLine;
+			public String mProductVersion;
 			public DateTime mDate;
 
-			public this(String line, DateTime date)
+			public this(String line, String productVersion, DateTime date)
 			{
 				mLine = line;
+				mProductVersion = productVersion;
 				mDate = date;
 			}
 		}
@@ -24,10 +26,11 @@ namespace NightlyIndex
 			String html = scope .();
 			html.Append(
 				"""
-					<html>
-					<center>
-					<H1>Beef Nightly Builds Archive</p></H1>
-					<H3><div id="age"></div></H3>
+				<html>
+				<center>
+				<H1>Beef Nightly Builds Archive</p></H1>
+				<H3><div id="age"></div></H3>
+
 				""");
 
 			List<Entry> lines = scope .();
@@ -58,35 +61,51 @@ namespace NightlyIndex
 
 				lines.Add(.(
 					scope:: String()..AppendF("<a href={}>BeefSetup {}</a> {:.0}MB <a href=https://github.com/beefytech/Beef/commit/{}>{}</a><br>\n", fileName, date, entry.GetFileSize() / (1024.0 * 1024.0), 
-						fileVersionInfo.ProductVersion, fileVersionInfo.ProductVersion.Substring(0, Math.Min(fileVersionInfo.ProductVersion.Length, 6))), createdTime));
+						fileVersionInfo.ProductVersion, fileVersionInfo.ProductVersion.Substring(0, Math.Min(fileVersionInfo.ProductVersion.Length, 6))),
+						scope:: .(fileVersionInfo.ProductVersion),
+						createdTime));
 
 				newestLines.Add(.(
 					scope:: String()..AppendF("{} {:.0}MB <a href=https://github.com/beefytech/Beef/commit/{}>{}</a>", date, entry.GetFileSize() / (1024.0 * 1024.0),
-						fileVersionInfo.ProductVersion, fileVersionInfo.ProductVersion.Substring(0, Math.Min(fileVersionInfo.ProductVersion.Length, 6))), createdTime));
+						fileVersionInfo.ProductVersion, fileVersionInfo.ProductVersion.Substring(0, Math.Min(fileVersionInfo.ProductVersion.Length, 6))),
+						null,
+						createdTime));
 			}
 
 			lines.Sort(scope (lhs, rhs) => rhs.mDate <=> lhs.mDate);
-			for (var line in lines)
+
+			for (int i < lines.Count)
+			{
+				var line = lines[i];
+				if ((i > 0) && (i < lines.Count - 1))
+				{
+					var nextLine = lines[i];
+					if (line.mProductVersion == nextLine.mProductVersion)
+						continue;
+				}
 				html.Append(line.mLine);
+			}
 
 			newestLines.Sort(scope (lhs, rhs) => rhs.mDate <=> lhs.mDate);
 
 			if (bestTime == default)
 				bestTime = DateTime.Now;
 
+			//DateTime timeIndexed = DateTime.UtcNow;
+
 			html.AppendF(
 				$"""
-					<script>
-						var dateLast = new Date(Date.UTC({bestTime.Year}, {bestTime.Month-1}, {bestTime.Day}, {bestTime.Hour}, {bestTime.Minute}, {bestTime.Second}, 0));
-						var dateNow = Date.now();
-						var diffMS = dateNow - dateLast 
-						var diffMin = diffMS / 1000 / 60;
-						var diffHour = diffMin / 60;
-						var fieldNameElement = document.getElementById('age');
-						fieldNameElement.innerHTML = "Newest Build Age: " + diffHour.toFixed(1) + " hours";
-					</script>
+				<script>
+					var dateLast = new Date(Date.UTC({bestTime.Year}, {bestTime.Month-1}, {bestTime.Day}, {bestTime.Hour}, {bestTime.Minute}, {bestTime.Second}, 0));
+					var dateNow = Date.now();
+					var diffMS = dateNow - dateLast 
+					var diffMin = diffMS / 1000 / 60;
+					var diffHour = diffMin / 60;
+					var fieldNameElement = document.getElementById('age');
+					fieldNameElement.innerHTML = "Newest Build Age: " + diffHour.toFixed(1) + " hours";
+				</script>
 
-					</html>
+				</html>
 				""");
 
 			File.WriteAllText(@"C:\BeefNightly\index.html", html);
