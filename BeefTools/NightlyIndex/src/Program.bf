@@ -49,7 +49,7 @@ namespace NightlyIndex
 				if (!fileName.StartsWith("BeefSetup_"))
 					continue;
 
-				var createdTime = entry.GetCreatedTimeUtc();
+				var createdTime = Math.Min(entry.GetCreatedTimeUtc(), entry.GetLastWriteTimeUtc());
 				if (createdTime > bestTime)
 					bestTime = createdTime;
 
@@ -59,9 +59,12 @@ namespace NightlyIndex
 				FileVersionInfo fileVersionInfo = scope .();
 				fileVersionInfo.GetVersionInfo(filePath).IgnoreError();
 
+				String extraStr = scope .();
+				//extraStr.AppendF(scope $" DATE:{createdTime.Month}/{createdTime.Day}/{createdTime.Year}");
+
 				lines.Add(.(
-					scope:: String()..AppendF("<a href={}>BeefSetup {}</a> {:.0}MB <a href=https://github.com/beefytech/Beef/commit/{}>{}</a><br>\n", fileName, date, entry.GetFileSize() / (1024.0 * 1024.0), 
-						fileVersionInfo.ProductVersion, fileVersionInfo.ProductVersion.Substring(0, Math.Min(fileVersionInfo.ProductVersion.Length, 6))),
+					scope:: String()..AppendF("<a href={}>BeefSetup {}</a> {:.0}MB <a href=https://github.com/beefytech/Beef/commit/{}>{}</a>{}<br>\n", fileName, date, entry.GetFileSize() / (1024.0 * 1024.0), 
+						fileVersionInfo.ProductVersion, fileVersionInfo.ProductVersion.Substring(0, Math.Min(fileVersionInfo.ProductVersion.Length, 6)), extraStr),
 						scope:: .(fileVersionInfo.ProductVersion),
 						createdTime));
 
@@ -79,14 +82,14 @@ namespace NightlyIndex
 				var line = lines[i];
 				if ((i > 0) && (i < lines.Count - 1))
 				{
-					var nextLine = lines[i];
+					var nextLine = lines[i + 1];
 					if (line.mProductVersion == nextLine.mProductVersion)
 						continue;
 				}
 				html.Append(line.mLine);
 			}
 
-			newestLines.Sort(scope (lhs, rhs) => rhs.mDate <=> lhs.mDate);
+			newestLines.Sort(scope (lhs, rhs) => lhs.mDate <=> lhs.mDate);
 
 			if (bestTime == default)
 				bestTime = DateTime.Now;
