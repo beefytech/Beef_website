@@ -39,14 +39,12 @@ The build results will be in IDE/dist
 #### Requirements
 
 * CMake 3.15 or newer
-* Python 2.7
+* LLVM-18
 * Git
 
 ### Build Steps
 
 * Build Beef with bin/build.sh
-
-This will build dependencies such as LLVM, which can take quite some time.
 
 The build results will be in IDE/dist
 
