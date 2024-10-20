@@ -115,6 +115,8 @@ xcopy /e /y %SRCDIR%\wasm\src install\wasm\src\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\wasm\build_wasm.bat install\wasm\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+copy %SRCDIR%\wasm\fetch_wasm.bat install\wasm\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 mkdir install\__user
 mkdir install\__user\bin
 copy %SRCDIR%\IDE\dist\BeefConfig_install.toml install\__user\bin\BeefConfig.toml
@@ -176,7 +178,7 @@ cd.
 @SET PDBSTR="C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\srcsrv\pdbstr.exe"
 
 cd ..
-@FOR %%i IN (pdb\*.pdb) DO (	
+@FOR %%i IN (pdb\*.pdb) DO (
 	..\..\bin\source_index.py %%i
 	@IF !ERRORLEVEL! NEQ 0 GOTO:EOF
 )
@@ -188,9 +190,9 @@ cd ..
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 %SYMSTORE% add /f install\bin\*.dll /s c:\BeefNightly /t Beef /compress
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-%SYMSTORE% add /f install\bin\*.exe /s c:\BeefNightly /t Beef /compress 
+%SYMSTORE% add /f install\bin\*.exe /s c:\BeefNightly /t Beef /compress
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-%SYMSTORE% add /f pdb\*.pdb /s c:\BeefNightly /t Beef /compress 
+%SYMSTORE% add /f pdb\*.pdb /s c:\BeefNightly /t Beef /compress
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
 :ZIP

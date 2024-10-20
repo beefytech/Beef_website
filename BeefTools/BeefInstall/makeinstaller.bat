@@ -107,6 +107,8 @@ xcopy /e /y %SRCDIR%\wasm\src install\wasm\src\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\wasm\build_wasm.bat install\wasm\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+copy %SRCDIR%\wasm\fetch_wasm.bat install\wasm\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 mkdir install\__user
 mkdir install\__user\bin
 copy %SRCDIR%\IDE\dist\BeefConfig_install.toml install\__user\bin\BeefConfig.toml
