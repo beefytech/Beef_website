@@ -121,6 +121,9 @@ mkdir install\bin\CrashDumps
 echo Minidump directory > install\bin\CrashDumps\placeholder.txt
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
+mkdir install\BeefManaged
+copy %SRCDIR%\BeefManaged\BeefManaged.toml install\BeefManaged\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy /e %SRCDIR%\BeefLibs\* install\BeefLibs\ /exclude:xexclude.txt
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 xcopy /e ..\..\Samples\* install\Samples\ /exclude:xexclude.txt
@@ -131,6 +134,8 @@ copy %SRCDIR%\bin\vswhere.exe install\bin\
 copy %SRCDIR%\bin\BfAeDebug.exe install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\bin\AeDebug.reg install\bin\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+xcopy /e /y %SRCDIR%\bin\Git install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
 @IF "%1" NEQ "rel" goto SETVER
