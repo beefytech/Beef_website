@@ -135,7 +135,7 @@ copy %SRCDIR%\bin\BfAeDebug.exe install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\bin\AeDebug.reg install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
-xcopy /e /y %SRCDIR%\bin\Git install\bin\
+xcopy /e /y %SRCDIR%\bin\Git install\bin\Git\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
 @IF "%1" NEQ "rel" goto SETVER
