@@ -137,6 +137,10 @@ xcopy /e %SRCDIR%\BeefLibs\* install\BeefLibs\ /exclude:xexclude.txt
 xcopy /e ..\..\Samples\* install\Samples\ /exclude:xexclude.txt
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
+copy %SRCDIR%\bin\curl.exe install\bin\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
+copy %SRCDIR%\bin\tar.exe install\bin\
+@IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\bin\vswhere.exe install\bin\
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 copy %SRCDIR%\bin\BfAeDebug.exe install\bin\
