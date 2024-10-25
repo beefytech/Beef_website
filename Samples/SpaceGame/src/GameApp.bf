@@ -1,6 +1,7 @@
 using System;
 using SDL2;
 using System.Collections;
+using System.Diagnostics;
 
 namespace SpaceGame;
 
@@ -196,5 +197,18 @@ class GameApp : SDLApp
 				delete entity;
 			}
 		}
+	}
+
+	// Sample tests
+	[Test]
+	public static void Test1()
+	{
+		Debug.WriteLine("Test 1");
+	}
+
+	[Test]
+	public static void Test2()
+	{
+		Test.FatalError("Test 2 Failed");
 	}
 }
