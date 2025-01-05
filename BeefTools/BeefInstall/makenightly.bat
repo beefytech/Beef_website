@@ -177,8 +177,15 @@ SET GITVER=%%F
 ..\..\..\bin\rcedit bin\BeefBuild_d.exe --set-version-string "ProductVersion" %GITVER%
 @IF !ERRORLEVEL! NEQ 0 GOTO HADERROR
 
+@ECHO Signing installed files...
+@FOR %%i IN (bin\Beef*RT64.dll) DO (
+     CALL %SRCDIR%\..\bin\sign.bat %%i
+     @IF !ERRORLEVEL! NEQ 0 GOTO:EOF
+)
+
 @ECHO Cleaning up old BeefNightly files (older than 90 days)
-ForFiles /p "C:\BeefNightly" /s /d -90 /c "cmd /c del @file"
+ForFiles /p "C:\BeefNightly" /s /d -90 /c "cmd /c del /q @file"
+ForFiles /p "C:\BeefNightly" /s /d -90 /c "cmd /c rmdir @file" 2> nul
 @REM Clear error in case no files were deleted
 cd.
 
