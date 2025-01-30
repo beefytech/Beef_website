@@ -9,7 +9,7 @@ Function pointer types can point to static methods, non-static methods with expl
 function void() funcPtr = => StaticMethod;
 funcPtr();
 /* Passed as an argument to another method */
-void UseFuncPtr(void() funcPtrB) => funcPtrB();
+void UseFuncPtr(function void() funcPtrB) => funcPtrB();
 UseFuncPtr(=> StaticMethodB);
 /* Note that 'ca' is not captured here. We could also specify 'ClassA.MemberMethod' */
 ClassA ca = new ClassA();
