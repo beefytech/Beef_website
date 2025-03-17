@@ -18,11 +18,11 @@ hero_media = "Beef384.png"
 
   # Background color.
   # color = "navy"
-  
+
   # Background gradient.
   gradient_start = "#4bb4e3"
   gradient_end = "#2b94c3"
-  
+
   # Background image.
   # image = ""  # Name of image in `static/img/`.
   # image_darken = 0.6  # Darken the image? Range 0-1 where 0 is transparent and 1 is opaque.
@@ -34,11 +34,11 @@ hero_media = "Beef384.png"
 #   Display link(s) by specifying a URL and label below. Icon is optional for `[cta]`.
 #   Remove a link/note by deleting a cta/note block.
 [cta]
-  url = "setup/BeefSetup_0_43_4.exe"
+  url = "setup/BeefSetup_0_43_5.exe"
   label = "Beef for Windows"
   icon_pack = "fas"
   icon = "download"
-  
+
 [cta_alt]
   url = "/docs"
   label = "View Documentation"

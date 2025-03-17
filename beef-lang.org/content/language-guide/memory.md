@@ -134,18 +134,19 @@ class FloatArray
 	[AllowAppend]
 	public this(int length)
 	{
-		let ptr = append float[length]*;		
+		let ptr = append float[length]*;
 		mPtr = ptr;
 		mLength = length;
 	}
 }
 
-/* Append allocations are guaranteed to occur immediately after the object's own memory (with respect to alignment). We can use this knowledge to calculate the storage location of the array rather than storing it internally */
+/* Append allocations are guaranteed to occur immediately after the object's own memory (with respect to alignment). We can use this knowledge to calculate the storage location of the array rather than storing it internally. Note the "ZeroGap" property being used here, which ensures that no classes can extend this type and add
+additional fields which would invalidate our append location assumption. */
 class FloatArray
 {
 	int mLength;
 
-	[AllowAppend]
+	[AllowAppend(ZeroGap=true)]
 	public this(int length)
 	{
 		let ptr = append float[length]*;
@@ -160,6 +161,7 @@ class FloatArray
 		}
 	}
 }
+
 ```
 
 Internally, append allocations work by creating a size-calculation function that is called before the allocation occurs. The compiler will attempt to perform constant evaluation on this function and the relevant arguments at the callsite, and can result in a fixed-sized allocation rather than a dynamic-sized one, which removed the extra call and can also be faster for some stack allocations.

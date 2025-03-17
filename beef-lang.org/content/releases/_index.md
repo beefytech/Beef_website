@@ -3,6 +3,9 @@ title = "Release Notes"
 weight = 1
 +++
 
+March 19, 2025<br>
+[Version 0.43.5](ver_0_43_5)
+
 September 7, 2022<br>
 [Version 0.43.4](ver_0_43_4)
 

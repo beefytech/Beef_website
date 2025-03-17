@@ -212,10 +212,10 @@ There are several forms of arrays supported in Beef. Array classes, sized array 
 
 ```C#
 /* Allocates a float array class */
-float[] floatArr = new float[3];  
+float[] floatArr = new float[3];
 
 /* Allocates a 2D float array class */
-float[,] floatArr2D = new float[3, 2];  
+float[,] floatArr2D = new float[3, 2];
 
 /* This is a fixed-size array, which is much like a tuple with four values */
 float[4] sizedFloatArr = .(100, 200, 300, 400);
@@ -318,6 +318,14 @@ case .Circle(let x, let y, let radius): DrawCircle(x, y, radius);
 ....
 if (drawShape case .Square)
 	Console.WriteLine("We drew a square");
+
+if (drawShape not case .Square)
+	Console.WriteLine("We did not draw a square");
+
+/* Radius will keep the value -1 if the value isn't a Circle */
+int radius = -1;
+if (drawShape case .Circle(?, ?, ref radius)) {}
+
 ```
 
 ### Nullable types

@@ -233,6 +233,24 @@ class Serializer
 }
 ```
 
+### Comptime Type Enumeration
+
+Enumerating types at comptime through `Type.Types` is disallowed, as the set of all types is not know until after compilation has fully completed. You are, however, able to enumerate through a workspace's type *declarations* at comptime. Type declarations do not include generic type instances, arrays, tuples, nullables, or other on-demand types, and they do not include information that is only known after the type is closed, such as size or a member list. Type declarations are not available at runtime, only comptime.
+
+```C#
+[Comptime]
+int GetSerializableCount()
+{
+	int count = 0;
+	for (var typeDecl in Type.TypeDeclarations)
+	{
+		if (typeDecl.HasCustomAttribute<SerializableAttribute>())
+			count++;
+	}
+	return count;
+}
+```
+
 ### Distinct Build Options
 
 Reflection information can be configured in workspaces and projects under Distinct Build Options. For example, if you need `Add` and `Remove` methods reflected for all `System.Collection.List<T>` instances, you can add a `System.Collections.List<*>` under Distinct Build Options:

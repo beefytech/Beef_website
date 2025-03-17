@@ -34,9 +34,9 @@ struct Vector2
 
 struct Entity
 {
-	/* 'mX' can be accessed directly or through 'mPosition.mX'. Note that protection is not directly specified for anonymous access, 
+	/* 'mX' can be accessed directly or through 'mPosition.mX'. Note that protection is not directly specified for anonymous access,
 	so it uses the protection (public) from the named field */
-	using public Vector2 mPosition;	
+	using public Vector2 mPosition;
 	public int32 mHealth;
 }
 ```
@@ -44,7 +44,7 @@ struct Entity
 Append fields are an optimization that allows reference type fields to have their data statically included inside the owner. This allows for the field to semantically behave as a reference type still, but without the indirection of a reference type (since the data offset is statically known) and without requiring its own separate allocation.
 
 ```C#
-/* An allocation of 'User' includes data for the two members strings plus the specified space for their internal buffers */ 
+/* An allocation of 'User' includes data for the two members strings plus the specified space for their internal buffers */
 class User
 {
 	public append String mName = .(256);
@@ -65,7 +65,7 @@ bool GetInt(out int outVal)
 	return true;
 }
 
-/* 'mut' can be used for generics that may be a value type or a reference type, but we need to have a mutable reference. 
+/* 'mut' can be used for generics that may be a value type or a reference type, but we need to have a mutable reference.
 'mut' will have no effect on reference types but will be treated as a 'ref' for value types. */
 bool DisposeVal<T>(mut T val) where T : IDisposable
 {
@@ -132,6 +132,18 @@ public static rettype(T) SafeInvoke<T>(T dlg, params T p) where T : Delegate
 		return default;
 	return dlg(params p);
 }
+```
+
+Generic tuple params allow for per-argument generic specialization. Generally speaking, comptime code generation will be employed here to create a method body which is specialized to the incoming argument types. For an advanced example, see the fast string formatting test implementation at https://github.com/beefytech/Beef/blob/master/IDEHelper/Tests/src/Params.bf
+
+```C#
+
+void HandleArgs<TArgs>(params TArgs args) where TArgs : Tuple
+{
+}
+
+HandleArgs("String", 1, 2.3f);
+
 ```
 
 Beef supports C-compatible variable arguments. This is less safe than `params` since the argument count and argument types are unknown, but it can be useful for C interop.
@@ -330,7 +342,7 @@ struct IntRef
 		}
 
 		/* Without the 'ref' specifier, the set method would take an 'int' value rather than a 'ref int' */
-		set ref mut 
+		set ref mut
 		{
 			mValue = &value;
 		}

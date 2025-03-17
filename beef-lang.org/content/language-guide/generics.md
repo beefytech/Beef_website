@@ -80,3 +80,22 @@ static TTo Convert<TTo, TFrom>(TFrom val) where TTo : operator explicit TFrom
 /* We use partial explicit generic args to allow inference of 'TFrom' */
 var val = Convert<int...>(1.2f);
 ```
+
+Generic constructors are supported.
+
+```C#
+class WriteValue
+{
+	public this<T>(T val)
+	{
+		Console.WriteLine($"Value: {val}");
+	}
+}
+
+/* Implicitly determine 'T' for constructor */
+var val = scope WriteVal(1.0f);
+
+/* Explicitly specify 'T' for constructor */
+var val = scope WriteVal.this<float>(1);
+
+```

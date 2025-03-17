@@ -8,11 +8,12 @@ weight = 60
 BeefBuild is the command-line interface counterpart of the Beef IDE.
 
 ```
-BeefBuild -workspace=samples\HelloWorld -run
+BeefBuild -workspace=samples\HelloWorld -run -args Argument1 Argument2
 ```
 
 |Argument    |Description      |
 |----|------|
+|-args|Everything after this argument is passed to the compiled program when '-run' is specified|
 |-clean|Cleans the build cache when building|
 |-config=&lt;config>|Sets the config|
 |-generate|Generates startup code for an empty project|
