@@ -12,10 +12,10 @@ columns = "1"
 
 <a name="releases"></a>
 
-## Version 0.43.5
-March 19, 2025<br>
-[Release Notes](docs/releases/ver_0_43_5/)<br>
+## Latest Stable Release
+Version 0.43.5 - March 19, 2025<br>
 [Windows Installer](setup/BeefSetup_0_43_5.exe) - 247.5MB<br>
+[Release Notes](docs/releases/ver_0_43_5/)<br>
 [GitHub Tag](https://github.com/beefytech/Beef/tree/0.43.5)
 
 ## Nightly
