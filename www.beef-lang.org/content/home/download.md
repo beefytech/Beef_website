@@ -19,6 +19,6 @@ March 19, 2025<br>
 [GitHub Tag](https://github.com/beefytech/Beef/tree/0.43.5)
 
 ## Nightly
-Nightly releases are available if you need access to the latest features.<br>
+Nightly releases contain the latest features and bug fixes, and are used by a large portion of the community.<br>
 [Latest Nightly Release for Windows](https://nightly.beeflang.org/BeefSetup.exe)<br>
 [Older Nightly Releases](https://nightly.beeflang.org/index.html)
