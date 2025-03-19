@@ -8,8 +8,8 @@ for /f "tokens=1-4 delims=/ " %%i in ("%date%") do (
 )
 
 @SET SRCDIR=..\..\..\Beef
-@SET CURVER=0.43.5 (Nightly %month%/%day%/%year%)
-@SET DESTNAME=BeefSetup_0_43_5__%month%_%day%_%year%.exe
+@SET CURVER=0.43.6 (Nightly %month%/%day%/%year%)
+@SET DESTNAME=BeefSetup_0_43_6__%month%_%day%_%year%.exe
 
 PUSHD %~dp0
 
