@@ -1,3 +1,4 @@
+#pragma warning disable 4200
 using Beefy.widgets;
 using Beefy.geom;
 using Beefy.gfx;

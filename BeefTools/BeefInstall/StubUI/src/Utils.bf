@@ -108,12 +108,10 @@ namespace BiUtils
 
 			if (allUsers)
 			{
-				writeAsExpand = false;
 				Windows.RegOpenKeyExA(Windows.HKEY_LOCAL_MACHINE, @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment", 0, regAccess, out key);
 			}
 			else
 			{
-				writeAsExpand = true;
 				Windows.RegOpenKeyExA(Windows.HKEY_CURRENT_USER, @"Environment", 0, regAccess, out key);
 			}
 			
@@ -121,7 +119,7 @@ namespace BiUtils
 				return .Err(.SetPathFailed);
 
 			String path = scope .();
-			if (key.GetValue("Path", path) case .Err)
+			if (key.GetValue("Path", path, &writeAsExpand) case .Err)
 				return .Err(.SetPathFailed);
 
 			bool found = false;
@@ -154,9 +152,10 @@ namespace BiUtils
 
 			if (action == .Add)
 			{
-				if (!path.EndsWith(";"))
+				/*if (!path.EndsWith(";"))
 					path.Append(";");
 				path.Append(binPath);
+				path.Append(";");*/
 			}
 
 			if (writeAsExpand)
@@ -213,9 +212,17 @@ namespace BiUtils
 			return .Ok(true);
 		}
 
+		[CallingConvention(.Stdcall)]
+		public static int32 SendMessageTimeoutW(Windows.HWnd hWnd, int32 msg, int wParam, int lParam, int32 flags, int32 timeout, int64* result)
+		{
+			*result = 999;
+
+			return 0;
+		}
+
 		public static void RehupEnvironment()
 		{
-			int32 result = 0;
+			int result = 0;
 			Windows.SendMessageTimeoutW(.Broadcast, Windows.WM_SETTINGCHANGE, 0, (int)(void*)"Environment".ToScopedNativeWChar!(), Windows.SMTO_ABORTIFHUNG, 2000, &result);
 		}
 

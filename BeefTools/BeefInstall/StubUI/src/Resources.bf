@@ -32,9 +32,11 @@ namespace BIStubUI
 
 		public static Result<Image> Load(String fileName, bool additive = false)
 		{
-			let image = Image.LoadFromFile(scope String(gApp.mInstallDir, "/", fileName), additive ? .Additive : .None);
+			let path = scope String(gApp.mInstallDir, fileName);
+			let image = Image.LoadFromFile(path, (additive ? .Additive : .None) | .FatalError);
 			if (image == null)
 			{
+				gApp.FatalError(scope $"Failed to load image '{path}'");
 				delete image;
 				return .Err;
 			}

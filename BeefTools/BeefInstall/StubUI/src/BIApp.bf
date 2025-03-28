@@ -179,6 +179,12 @@ namespace BIStubUI
 			if ((mBoardDelay > 0) && (--mBoardDelay == 0))
 				SetupBoard();
 		}
+
+		public void FatalError(String str)
+		{
+			Windows.MessageBoxW(default, str.ToScopedNativeWChar!(), "FATAL ERROR".ToScopedNativeWChar!(), Windows.MB_ICONHAND | Windows.MB_OK);
+			Environment.Exit(1);
+		}
 	}
 
 	static
