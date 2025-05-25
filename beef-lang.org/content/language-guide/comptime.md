@@ -100,22 +100,25 @@ public static void TimeScope(String scopeName)
 
 /* Adding this attribute to a type will generate a 'ToString' method using comptime reflection */
 [AttributeUsage(.Types)]
-struct IFancyToString : Attribute, IOnTypeInit
+struct IFancyToStringAttribute : Attribute, IOnTypeInit
 {
-	[Comptime]
-	public void OnTypeInit(Type type, Self* prev)
-	{
-		Compiler.EmitTypeBody(type, "public override void ToString(String str)\n{\n");
-		for (var fieldInfo in type.GetFields())
-		{
-			if (!fieldInfo.IsInstanceField)
-				continue;
-			if (@fieldInfo.Index > 0)
-				Compiler.EmitTypeBody(type, "\tstr.Append(\", \");\n");
-			Compiler.EmitTypeBody(type, scope $"\tstr.AppendF($\"{fieldInfo.Name}={{ {fieldInfo.Name} }}\");\n");
-		}
-		Compiler.EmitTypeBody(type, "}");
-	}
+    [Comptime]
+    public void OnTypeInit(Type type, Self* prev)
+    {
+        Compiler.EmitTypeBody(type, "public override void ToString(String str)\n{\n");
+		int strElementIdx = 0;
+        for (var fieldInfo in type.GetFields())
+        {
+            if ((!fieldInfo.IsInstanceField) ||
+				((fieldInfo.IsPrivate) && (fieldInfo.DeclaringType != type)))
+                continue;
+            if (strElementIdx > 0)
+                Compiler.EmitTypeBody(type, "\tstr.Append(\", \");\n");
+            Compiler.EmitTypeBody(type, scope $"\tstr.AppendF($\"{fieldInfo.Name}={{ {fieldInfo.Name} }}\");\n");
+			strElementIdx++;
+        }
+        Compiler.EmitTypeBody(type, "}");
+    }
 }
 
 /* Adding this attribute to a method will log method entry and returned Result<T> errors */
