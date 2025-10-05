@@ -226,7 +226,7 @@ IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 ..\..\bin\rcedit dist\Stub.exe --set-version-string "ProductVersion" %GITVER%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 
-date /T > BeefSetup_Salt.txt
+echo 1 > BeefSetup_Salt.txt
 copy /b dist\Stub.exe + InstallData.zip + BeefSetup_Salt.txt C:\BeefNightly\%DESTNAME%
 IF %ERRORLEVEL% NEQ 0 GOTO HADERROR
 @call ..\..\bin\sign.bat C:\BeefNightly\%DESTNAME%
