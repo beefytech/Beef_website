@@ -79,6 +79,24 @@ readonly ref int Get()
 }
 ```
 
+Struct instance methods that modify fields must be marked with a postfix `mut`
+specifier, since struct `this` is otherwise passed as an immutable reference.
+
+```C#
+struct Vector2
+{
+    float x, y;
+
+    /* Without 'mut', this fails with: "Cannot assign to field ... within
+    struct method ... Consider adding 'mut' specifier to this method" */
+    public void Scale(float factor) mut
+    {
+        x *= factor;
+        y *= factor;
+    }
+}
+```
+
 Methods can be invoked with argument names. Named arguments can occur in any order, and they can be mixed with normal "positional" arguments, with some restrictions.
 
 ```C#
