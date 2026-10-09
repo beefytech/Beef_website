@@ -18,7 +18,7 @@ Nightly releases contain the latest features and bug fixes, and are used by a la
 [Older Nightly Releases](https://nightly.beeflang.org/index.html)
 
 ## Stable Release
-Stable releases occur very infrequently. Your probably want the nightly build.
+Stable releases occur very infrequently. Your probably want the nightly build.<br>
 Version 0.43.5 - March 19, 2025<br>
 [Windows Installer](setup/BeefSetup_0_43_5.exe) - 247.5MB<br>
 [Release Notes](docs/releases/ver_0_43_5/)<br>
